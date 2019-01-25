@@ -14,7 +14,7 @@ class CreateProductsTable extends Migration
             $table->string('slug');
             $table->text('description');
             $table->decimal('price', 16, 2)->default(0.00);
-            $table->integer('stock')->default(0);
+            $table->integer('stock')->unsigned()->default(0);
             $table->boolean('active')->default(1);
             // $table->unique('name', 'uk_products_name');
             // $table->unique('slug', 'uk_products_slug');
