@@ -22,4 +22,5 @@ Route::group(['namespace' => 'Api', 'as' => 'api.'], function() {
     // O método apiResouce já exclui as action create e edit
     Route::apiResource('products', 'ProductController');
     Route::resource('products.categories', 'ProductCategoryController', ['only' => ['index', 'store', 'destroy']]);
+    Route::resource('categories.products', 'CategoryProductController', ['only' => ['index', 'store', 'destroy']]);
 });
