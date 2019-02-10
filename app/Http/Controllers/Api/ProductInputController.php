@@ -22,7 +22,7 @@ class ProductInputController extends Controller
         
         // Atualiza o stock do produto
         $product = $productInput->product;
-        $product->stock += $request->get('amount');
+        $product->stock += $productInput->amount;
         $product->save();
         $productInput->refresh();
         
