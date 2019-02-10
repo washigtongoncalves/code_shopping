@@ -9,6 +9,12 @@ use CodeShopping\Models\ProductInput;
 
 class ProductInputController extends Controller
 {
+    public function index() 
+    {
+        $inputs = ProductInput::with('product')->paginate();
+        return ProductInputResource::collection($inputs);
+    }
+    
     public function store(ProductInputRequest $request)
     {
         // Registra a nova entrada do produto
@@ -21,5 +27,10 @@ class ProductInputController extends Controller
         $productInput->refresh();
         
         return new ProductInputResource($productInput);
+    }
+    
+    public function show()
+    {
+        
     }
 }
