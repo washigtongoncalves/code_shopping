@@ -9,7 +9,7 @@ class ProductsTableSeeder extends Seeder
     public function run()
     {
         $categories = Category::all();
-        factory(Product::class, 500)->create()->each(function(Product $products) use($categories) {
+        factory(Product::class, 50)->create()->each(function(Product $products) use($categories) {
             $categoryId = $categories->random()->id;
             $products->categories()->attach($categoryId);
         });
