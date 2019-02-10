@@ -10,15 +10,10 @@ class ProductInputsTableSeeder extends Seeder
     {
         $products = Product::all();
         factory(ProductInput::class, 100)->make()->each(function(ProductInput $productInput) use($products) {
-            
             // Vincula um produto aleatório a uma nova entrada
             $product = $products->random();
             $productInput->product_id = $product->id;
             $productInput->save();
-            
-            // Incrementa o estoque do produto
-            $product->stock += $productInput->amount;
-            $product->save();
         });
     }
 }
