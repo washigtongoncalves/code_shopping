@@ -10,7 +10,10 @@ use CodeShopping\Models\ProductPhoto;
 
 class ProductPhotosTableSeeder extends Seeder
 {
-    // Atributo para armazenar uma coleção de nomes de arquivos armazenados dentro do diretório $fakerPhotosPath
+    /** 
+     * Atributo para armazenar uma coleção de nomes de arquivos 
+     * armazenados dentro do diretório $fakerPhotosPath
+     */
     private $allFakersPhotos;
     
     // Diretório com as imagens fakes
@@ -75,6 +78,7 @@ class ProductPhotosTableSeeder extends Seeder
             $photoFile->getRealPath(),
             str_random(16) . '.' . $photoFile->getExtension()   
         );
+        ProductPhoto::uploadFiles($productId, [$uploadFile]);
         return $uploadFile->hashName();
     }
 }
