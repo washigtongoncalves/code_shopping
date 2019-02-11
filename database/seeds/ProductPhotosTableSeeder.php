@@ -1,13 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Collection;
+use Illuminate\Http\UploadedFile;
 use CodeShopping\Models\Product;
 use CodeShopping\Models\ProductPhoto;
 
 class ProductPhotosTableSeeder extends Seeder
 {
+    // Atributo para armazenar uma coleção de nomes de arquivos armazenados dentro do diretório $fakerPhotosPath
+    private $allFakersPhotos;
+    
+    // Diretório com as imagens fakes
+    private $fakerPhotosPath = 'app/faker/product_photos';
+    
     public function run()
     {
+       $this->allFakersPhotos = $this->getFakerPhotos();
        $this->deleteAllPhotosInProductsPath();
        $self = $this;
        $products = Product::all();
@@ -15,6 +26,12 @@ class ProductPhotosTableSeeder extends Seeder
            $self->createPhotoDir($product);
            $self->createPhotosModels($product);
        });
+    }
+    
+    private function getFakerPhotos() : Collection
+    {
+        $path = storage_path($this->fakerPhotosPath);
+        return collect(\File::allFiles($path));
     }
     
     private function deleteAllPhotosInProductsPath()
@@ -38,9 +55,26 @@ class ProductPhotosTableSeeder extends Seeder
     
     private function createPhotoModel(Product $product)
     {
-        ProductPhoto::create([
+        $photo = ProductPhoto::create([
             'product_id' => $product->id,
             'file_name'  => 'img.jpg'
         ]);
+        $this->generatePhoto($photo);
+    }
+    
+    private function generatePhoto(ProductPhoto $photo) 
+    {
+        $photo->file_name = $this->uploadPhoto($photo->product_id);
+        $photo->save();
+    }
+    
+    private function uploadPhoto(int $productId) : string
+    {
+        $photoFile  = $this->allFakersPhotos->random();
+        $uploadFile = new UploadedFile(
+            $photoFile->getRealPath(),
+            str_random(16) . '.' . $photoFile->getExtension()   
+        );
+        return $uploadFile->hashName();
     }
 }
