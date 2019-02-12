@@ -12,7 +12,7 @@ class ProductPhotoController extends Controller
 {
     public function index(Product $product)
     {
-        return new ProductPhotoResource($product);
+        return ProductPhotoResource::collection($product->photos);
     }
 
     public function store(Request $request)
@@ -25,7 +25,7 @@ class ProductPhotoController extends Controller
         if ($product->id !== $photo->product_id) {
             abort(404);
         }
-        return $photo;
+        return new ProductPhotoResource($photo);
     }
 
     public function update(Request $request, ProductPhoto $photo)

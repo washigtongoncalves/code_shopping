@@ -9,8 +9,11 @@ class ProductPhotoResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'product' => new ProductResource($this->resource),
-            'photos'  => PhotoResource::collection($this->resource->photos)
+            'id'         => $this->id,
+            'product'    => new ProductResource($this->resource->product),
+            'photo_url'  => $this->photo_url,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at
         ];
     }
 }
