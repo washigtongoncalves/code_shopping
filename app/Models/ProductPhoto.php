@@ -33,4 +33,9 @@ class ProductPhoto extends Model
         $dir = self::DIR_PRODUCTS;
         return "{$dir}/{$productId}";
     }
+    
+    public function photo()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }

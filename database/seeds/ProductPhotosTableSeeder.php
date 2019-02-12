@@ -21,8 +21,12 @@ class ProductPhotosTableSeeder extends Seeder
     
     public function run()
     {
+       // Retorna uma coleção com as imagens fakes que serão utilizadas na seeder
        $this->allFakersPhotos = $this->getFakerPhotos();
+       
+       // Remove todos os arquivos e pastas que estão armazenadas na pasta public/products
        $this->deleteAllPhotosInProductsPath();
+       
        $self = $this;
        $products = Product::all();
        $products->each(function(Product $product) use($self) {
