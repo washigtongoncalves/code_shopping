@@ -3,6 +3,7 @@
 namespace CodeShopping\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
 
 class ProductPhoto extends Model
 {
@@ -26,6 +27,25 @@ class ProductPhoto extends Model
                 'disk' => 'public'
             ]);
         }
+    }
+    
+    public static function createWithPhotosFiles(int $productId, array $files) : Collection 
+    {
+        self::uploadFiles($productId, $files);
+        $photos = self::createPhotosModels($productId, $files);
+        return new Collection($photos);
+    }
+    
+    private static function createPhotosModels(int $productId, array $files) : array 
+    {
+        $photos = [];
+        foreach ($files as $file) {
+            $photos[] = self::create([
+                'file_name'  => $file->hashName(),
+                'product_id' => $productId
+            ]);
+        }
+        return $photos;
     }
    
     public static function photosDir(int $productId)
