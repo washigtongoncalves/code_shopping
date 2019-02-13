@@ -35,8 +35,12 @@ class ProductPhotoController extends Controller
         //
     }
 
-    public function destroy(ProductPhoto $photo)
+    public function destroy(Product $product, ProductPhoto $photo)
     {
-        //
+        if ($product->id !== $photo->product_id) {
+            abort(404);
+        }
+        $photo->deleteWithPhotoFile();
+        return response([], 204);
     }
 }

@@ -39,7 +39,7 @@ class ProductPhoto extends Model
             \DB::commit();
             return new Collection($photos);
         } catch(Exception $e) {
-            $this->deleteFiles($productId, $files);
+            self::deleteFiles($productId, $files);
             \DB::rollBack();
             throw $e;
         }
@@ -50,9 +50,14 @@ class ProductPhoto extends Model
         $path = self::photosPath($productId);
         foreach ($files as $file) {
             $photoPath = "{$path}/{$file->hashName()}";
-            if (file_exists($photoPath)) {
-                \File::delete($photoPath);
-            }
+            self::deleteFile($photoPath);
+        }
+    }
+    
+    public static function deleteFile(string $photoPath)
+    {
+        if (file_exists($photoPath)) {
+            \File::delete($photoPath);
         }
     }
     
@@ -83,5 +88,26 @@ class ProductPhoto extends Model
     {
         $path = self::photosDir($this->product_id);
         return asset("/storage/{$path}/{$this->file_name}");
+    }
+    
+    public function getPhotoPathAttribute() : string
+    {
+        $path = self::photosPath($this->product_id);
+        $photoPath = "{$path}/{$this->file_name}";
+        return $photoPath;    
+    }
+    
+    public function deleteWithPhotoFile() : bool
+    {
+        try {
+            \DB::beginTransaction();
+            $this->delete();
+            self::deleteFile($this->photo_path);
+            \DB::commit();
+            return true;
+        } catch(Exception $e) {
+            \DB::rollBack();
+            throw $e;
+        }
     }
 }
