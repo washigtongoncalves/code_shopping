@@ -4,6 +4,7 @@ namespace CodeShopping\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
+use Exception;
 
 class ProductPhoto extends Model
 {
@@ -31,9 +32,28 @@ class ProductPhoto extends Model
     
     public static function createWithPhotosFiles(int $productId, array $files) : Collection 
     {
-        self::uploadFiles($productId, $files);
-        $photos = self::createPhotosModels($productId, $files);
-        return new Collection($photos);
+        try {
+            self::uploadFiles($productId, $files);
+            \DB::beginTransaction();
+            $photos = self::createPhotosModels($productId, $files);
+            \DB::commit();
+            return new Collection($photos);
+        } catch(Exception $e) {
+            $this->deleteFiles($productId, $files);
+            \DB::rollBack();
+            throw $e;
+        }
+    }
+    
+    private static function deleteFiles(int $productId, array $files) 
+    {
+        $path = self::photosPath($productId);
+        foreach ($files as $file) {
+            $photoPath = "{$path}/{$file->hashName()}";
+            if (file_exists($photoPath)) {
+                \File::delete($photoPath);
+            }
+        }
     }
     
     private static function createPhotosModels(int $productId, array $files) : array 
