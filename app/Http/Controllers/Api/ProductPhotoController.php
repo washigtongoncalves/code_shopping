@@ -2,6 +2,7 @@
 
 namespace CodeShopping\Http\Controllers\Api;
 
+use Illuminate\Support\Facades\Request;
 use CodeShopping\Http\Controllers\Controller;
 use CodeShopping\Models\Product;
 use CodeShopping\Models\ProductPhoto;
@@ -30,9 +31,12 @@ class ProductPhotoController extends Controller
         return new ProductPhotoResource($photo);
     }
 
-    public function update(Request $request, ProductPhoto $photo)
+    public function update(Request $request, Product $product, ProductPhoto $photo)
     {
-        //
+        if ($product->id !== $photo->product_id) {
+            abort(404);
+        }
+        return ['opa'];
     }
 
     public function destroy(Product $product, ProductPhoto $photo)
