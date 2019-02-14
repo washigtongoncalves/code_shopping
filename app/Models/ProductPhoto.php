@@ -4,6 +4,7 @@ namespace CodeShopping\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\UploadedFile;
 use Exception;
 
 class ProductPhoto extends Model
@@ -109,5 +110,32 @@ class ProductPhoto extends Model
             \DB::rollBack();
             throw $e;
         }
+    }
+    
+    public function updatePhotoFile(UploadedFile $file) : bool
+    {
+        try {
+            
+            // Salva o novo arquivo no storage
+            self::uploadFiles($this->product_id, [$file]);
+            
+            \DB::beginTransaction();
+            
+            // Atualiza o nome do arquivo
+            $oldPath = $this->photo_path;
+            $this->file_name = $file->hashName();
+            $this->save();
+            
+            // Remove o arquivo antigo
+            self::deleteFile($oldPath);
+            \DB::commit();
+            
+        } catch (Exception $e) {
+            self::deleteFiles($this->product_id, [$file]);
+            \DB::rollBack();
+            throw $e;
+        }
+        
+        return true;
     }
 }

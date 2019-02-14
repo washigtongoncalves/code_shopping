@@ -2,13 +2,13 @@
 
 namespace CodeShopping\Http\Controllers\Api;
 
-use Illuminate\Support\Facades\Request;
 use CodeShopping\Http\Controllers\Controller;
 use CodeShopping\Models\Product;
 use CodeShopping\Models\ProductPhoto;
 use CodeShopping\Http\Resources\ProductPhotoCollection;
 use CodeShopping\Http\Resources\ProductPhotoResource;
 use CodeShopping\Http\Requests\ProductPhotoRequest;
+use CodeShopping\Http\Requests\ProductPhotoUpdateRequest;
 
 class ProductPhotoController extends Controller
 {
@@ -31,12 +31,18 @@ class ProductPhotoController extends Controller
         return new ProductPhotoResource($photo);
     }
 
-    public function update(Request $request, Product $product, ProductPhoto $photo)
+    /*
+     *  Para edição da imagem não use o método PUT, pois o PHP não suporta envio 
+     *  de arquivos com método PUT, use o POST, e adicione o parâmetro _method=PUT 
+     *  como parâmetro da requisição.
+     */
+    public function update(ProductPhotoUpdateRequest $request, Product $product, ProductPhoto $photo)
     {
         if ($product->id !== $photo->product_id) {
             abort(404);
         }
-        return ['opa'];
+        $photo->updatePhotoFile($request->photo);
+        return new ProductPhotoResource($photo);
     }
 
     public function destroy(Product $product, ProductPhoto $photo)
