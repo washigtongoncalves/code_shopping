@@ -25,9 +25,7 @@ class ProductPhotoController extends Controller
 
     public function show(Product $product, ProductPhoto $photo)
     {
-        if ($product->id !== $photo->product_id) {
-            abort(404);
-        }
+        $this->assertProductPhoto($product, $photo);
         return new ProductPhotoResource($photo);
     }
 
@@ -38,19 +36,22 @@ class ProductPhotoController extends Controller
      */
     public function update(ProductPhotoUpdateRequest $request, Product $product, ProductPhoto $photo)
     {
-        if ($product->id !== $photo->product_id) {
-            abort(404);
-        }
+        $this->assertProductPhoto($product, $photo);
         $photo->updatePhotoFile($request->photo);
         return new ProductPhotoResource($photo);
     }
 
     public function destroy(Product $product, ProductPhoto $photo)
     {
+        $this->assertProductPhoto($product, $photo);
+        $photo->deleteWithPhotoFile();
+        return response([], 204);
+    }
+    
+    private function assertProductPhoto(Product $product, ProductPhoto $photo)
+    {
         if ($product->id !== $photo->product_id) {
             abort(404);
         }
-        $photo->deleteWithPhotoFile();
-        return response([], 204);
     }
 }
