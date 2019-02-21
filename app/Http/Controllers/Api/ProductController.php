@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    use Traits\ShowTrashedRowIfRequestedTrait;
+    use Traits\OnlyTrashedIfRequestedTrait;
     
     public function index(Request $request)
     {

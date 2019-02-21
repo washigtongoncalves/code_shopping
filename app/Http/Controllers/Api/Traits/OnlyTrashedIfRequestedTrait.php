@@ -5,7 +5,7 @@ namespace CodeShopping\Http\Controllers\Api\Traits;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 
-trait ShowTrashedRowIfRequestedTrait 
+trait OnlyTrashedIfRequestedTrait 
 {
     public function onlyTrashedIfRequested(Request $request, Builder $query)
     {
