@@ -6,16 +6,16 @@ use CodeShopping\Http\Requests\ProductRequest;
 use CodeShopping\Http\Controllers\Controller;
 use CodeShopping\Models\Product;
 use CodeShopping\Http\Resources\ProductResource;
-use Illuminate\Http\Request;
+use CodeShopping\Traits\OnlyTrashedIfRequestedTrait;
 
 class ProductController extends Controller
 {
-    use Traits\OnlyTrashedIfRequestedTrait;
+    use OnlyTrashedIfRequestedTrait;
     
-    public function index(Request $request)
+    public function index()
     {
         $query = Product::query();
-        $query = $this->onlyTrashedIfRequested($request, $query);
+        $query = $this->onlyTrashedIfRequested($query);
         $products = $query->paginate(10);
         return ProductResource::collection($products);
     }

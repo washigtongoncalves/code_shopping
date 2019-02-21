@@ -6,10 +6,12 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use CodeShopping\Models\Category;
 use CodeShopping\Models\Product;
-use Illuminate\Database\Eloquent\Builder;
+use CodeShopping\Traits\OnlyTrashedIfRequestedTrait;
 
 class RouteServiceProvider extends ServiceProvider
 {
+    use OnlyTrashedIfRequestedTrait;
+    
     /**
      * This namespace is applied to your controller routes.
      *
@@ -38,14 +40,6 @@ class RouteServiceProvider extends ServiceProvider
             $collection = $this->onlyTrashedIfRequested($query)->whereId($value)->orWhere('slug', $value)->get();
             return $collection->first();
         });
-    }
-    
-    private function onlyTrashedIfRequested(Builder $query)
-    {
-        if (\Request::get('trashed') == 1) {
-            $query = $query->onlyTrashed();
-        }
-        return $query;
     }
 
     /**
