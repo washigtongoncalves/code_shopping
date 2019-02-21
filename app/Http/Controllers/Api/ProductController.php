@@ -7,10 +7,11 @@ use CodeShopping\Http\Controllers\Controller;
 use CodeShopping\Models\Product;
 use CodeShopping\Http\Resources\ProductResource;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Builder;
 
 class ProductController extends Controller
 {
+    use Traits\ShowTrashedRowIfRequestedTrait;
+    
     public function index(Request $request)
     {
         $query = Product::query();
@@ -42,13 +43,5 @@ class ProductController extends Controller
     {
         $product->delete();
         return response([], 204);
-    }
-    
-    private function onlyTrashedIfRequested(Request $request, Builder $query)
-    {
-        if ($request->get('trashed') == 1) {
-            $query = $query->onlyTrashed();
-        }
-        return $query;
     }
 }
