@@ -44,4 +44,10 @@ class ProductController extends Controller
         $product->delete();
         return response([], 204);
     }
+    
+    public function restore(Product $product) 
+    {
+        $product->restore();
+        return response()->json([], 204);
+    }
 }
