@@ -7,6 +7,7 @@ use CodeShopping\Http\Resources\UserResource;
 use CodeShopping\Models\User;
 use CodeShopping\Traits\OnlyTrashedIfRequestedTrait;
 use CodeShopping\Http\Requests\{UserStoreRequest, UserUpdateRequest};
+use CodeShopping\Events\UserCreatedEvent;
 
 class UserController extends Controller
 {
@@ -24,6 +25,7 @@ class UserController extends Controller
     {
         $user = User::create($request->all());
         $user->refresh();
+        event(new UserCreatedEvent($user));
         return new UserResource($user);
     }
 
