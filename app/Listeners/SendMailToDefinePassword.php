@@ -3,6 +3,7 @@
 namespace CodeShopping\Listeners;
 
 use CodeShopping\Events\UserCreatedEvent;
+use CodeShopping\Notifications\MyResetPasswordNotification;
 
 class SendMailToDefinePassword
 {
@@ -10,6 +11,11 @@ class SendMailToDefinePassword
     {
         $user = $event->getUser();
         $token = \Password::broker()->createToken($user);
-        $user->sendPasswordResetNotification($token);
+        
+        // Default email notification
+        // $user->sendPasswordResetNotification($token);
+        
+        // Custom email notification
+        $user->notify(new MyResetPasswordNotification($token));
     }
 }
