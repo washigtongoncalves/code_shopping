@@ -27,6 +27,7 @@ Route::group(['namespace' => 'Api', 'as' => 'api.'], function() {
     Route::resource('categories.products', 'CategoryProductController', ['only' => ['index', 'store', 'destroy']]);
     Route::resource('inputs' , 'ProductInputController' , ['only' => ['index', 'store', 'show']]);
     Route::resource('outputs', 'ProductOutputController', ['only' => ['index', 'store', 'show']]);
+    Route::post('login', 'AuthController@login')->name('login');
     Route::patch('users/{user}/restore', 'UserController@restore')->name('users.restore');
     Route::apiResource('users', 'UserController');
 });
