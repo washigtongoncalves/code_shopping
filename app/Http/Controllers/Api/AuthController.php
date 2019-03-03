@@ -5,6 +5,8 @@ namespace CodeShopping\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use CodeShopping\Http\Controllers\Controller;
+use CodeShopping\Models\User;
+use CodeShopping\Http\Resources\UserResource;
 
 class AuthController extends Controller
 {
@@ -24,5 +26,11 @@ class AuthController extends Controller
     {
         \Auth::guard('api')->logout();
         return response()->json([], 204);
+    }
+    
+    public function me()
+    {
+        $user = \Auth::guard('api')->user();
+        return new UserResource($user);
     }
 }
