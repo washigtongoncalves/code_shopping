@@ -11,6 +11,15 @@ export class LoginComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit() {}
+  
+  public meClicou($event: MouseEvent)
+  {
+      console.log($event);
+  }
+  
+  public digitou($event: KeyboardEvent) 
+  {
+      console.log($event.key);
   }
 }
