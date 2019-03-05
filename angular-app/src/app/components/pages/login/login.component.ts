@@ -1,24 +1,27 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
- 
+export class LoginComponent implements OnInit 
+{ 
   private credentials = {
       email : '',
       password : ''
-  }
+  };
+  private api = 'http://localhost:8000/api';
   
-  constructor() { }
-
+  constructor(private http: HttpClient) { }
   ngOnInit() {}
   
   public submit()
   {
-      console.log(this.credentials);
+      this.http
+          .post(this.api + '/login', this.credentials)
+          .subscribe((data) => console.log(data));
       return false;
   }
 }
