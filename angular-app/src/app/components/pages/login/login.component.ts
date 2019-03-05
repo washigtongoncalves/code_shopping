@@ -16,8 +16,9 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {}
   
-  public mostra()
+  public submit()
   {
       console.log(this.credentials);
+      return false;
   }
 }

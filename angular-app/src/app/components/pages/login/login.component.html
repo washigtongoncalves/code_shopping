@@ -1,4 +1,4 @@
-<form class="form-signin">
+<form class="form-signin" (submit)="submit()">
   <h1 class="h3 mb-3 font-weight-normal">
       Code Shopping - Login
   </h1>
@@ -21,8 +21,7 @@
          class="form-control" 
          placeholder="Digite sua senha" 
          required>
-  <button class="btn btn-lg btn-primary btn-block" type="button" (click)="mostra()">
+  <button class="btn btn-lg btn-primary btn-block" type="submit">
       Entrar
   </button>
-  {{ credentials | json }}
 </form>
