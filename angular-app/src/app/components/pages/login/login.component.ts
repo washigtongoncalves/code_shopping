@@ -21,16 +21,9 @@ export class LoginComponent
   {
       this.http
           .post<any>(this.api + '/login', this.credentials)
-          .subscribe((data) => { 
-            const token = data.token;
+          .subscribe((data) => {
+            localStorage.setItem('token', data.token); 
             this.router.navigate(['categories/list']);
-//            this.http
-//                .get<any>(this.api + '/categories', {
-//                    headers : {
-//                       'Authorization' : `Bearer ${token}`
-//                    }
-//                })
-//                .subscribe((data) => console.log(data));
           });
       return false;
   }
