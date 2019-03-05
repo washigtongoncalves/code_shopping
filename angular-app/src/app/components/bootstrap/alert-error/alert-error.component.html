@@ -1,4 +1,4 @@
-<div class="alert alert-danger" *ngIf="show">
+<div class="alert alert-danger" *ngIf="_show">
     <i class="fas fa-exclamation-triangle" *ngIf="showIcon"></i>&nbsp;
     <ng-content></ng-content>
     <button type="button" class="close" aria-label="Close" *ngIf="showBtnClose" (click)="hide()">

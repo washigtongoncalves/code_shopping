@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'alert-error',
@@ -7,16 +7,24 @@ import { Component, Input } from '@angular/core';
 })
 export class AlertErrorComponent 
 {
-  @Input()
-  public show: boolean = false;
-  
   @Input('show-btn-close')
-  public showBtnClose: boolean = true;
+  showBtnClose: boolean = true;
   
   @Input('show-icon')
-  public showIcon: boolean = true;
+  showIcon: boolean = true;
   
+  @Output()
+  showChange: EventEmitter<boolean> = new EventEmitter<boolean>();  
+  _show: boolean = false;
+    
   constructor() { }
+  
+  @Input()
+  set show(value: boolean)
+  {
+      this._show = value;
+      this.showChange.emit(value); 
+  }
   
   hide()
   {
