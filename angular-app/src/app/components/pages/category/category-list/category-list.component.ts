@@ -35,6 +35,10 @@ export class CategoryListComponent implements OnInit
                'Authorization' : `Bearer ${token}`
             }
         })
-        .subscribe((response) => this.categories = response.data);
+        .subscribe((response) => {
+//            response.data[0].active = false;
+//            response.data[2].active = false;
+            this.categories = response.data;
+        });
   }
 }
