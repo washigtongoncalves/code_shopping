@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class CategoryListComponent implements OnInit
 {
   private api = 'http://localhost:8000/api';
-  public categories: Array<any> = [];
+  public categories: Array<{id:number,name:string,active:boolean,created_at:{date:string}}> = [];
   
   constructor(private http: HttpClient) { }
   
@@ -22,11 +22,12 @@ export class CategoryListComponent implements OnInit
   {
     const token = localStorage.getItem('token');
     this.http
-        .get<Array<any>>(this.api + '/categories', {
+        .get<{data:Array<{id:number,name:string,active:boolean,created_at:{date:string}}>}>
+        (this.api + '/categories', {
             headers : {
                'Authorization' : `Bearer ${token}`
             }
         })
-        .subscribe((data) => this.categories = data);
+        .subscribe((response) => this.categories = response.data);
   }
 }
