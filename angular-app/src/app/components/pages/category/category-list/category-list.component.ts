@@ -1,6 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+interface iCategory 
+{
+    id: number,
+    name: string,
+    active: boolean,
+    created_at: { date: string }
+}
+
 @Component({
   selector: 'app-category-list',
   templateUrl: './category-list.component.html',
@@ -9,7 +17,7 @@ import { HttpClient } from '@angular/common/http';
 export class CategoryListComponent implements OnInit
 {
   private api = 'http://localhost:8000/api';
-  public categories: Array<{id:number,name:string,active:boolean,created_at:{date:string}}> = [];
+  public categories: Array<iCategory> = [];
   
   constructor(private http: HttpClient) { }
   
@@ -22,8 +30,7 @@ export class CategoryListComponent implements OnInit
   {
     const token = localStorage.getItem('token');
     this.http
-        .get<{data:Array<{id:number,name:string,active:boolean,created_at:{date:string}}>}>
-        (this.api + '/categories', {
+        .get<{data: Array<iCategory>}>(this.api + '/categories', {
             headers : {
                'Authorization' : `Bearer ${token}`
             }
