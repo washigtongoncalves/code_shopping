@@ -13,7 +13,7 @@ class CorsMiddleware
             // Libera o request para qualquer origem
             header('Access-Control-Allow-Origin: *');
             // Libera o uso do header Content-Type
-            header('Access-Control-Allow-Headers: Content-Type');
+            header('Access-Control-Allow-Headers: Content-Type, Authorization');
         }
         return $next($request);
     }
