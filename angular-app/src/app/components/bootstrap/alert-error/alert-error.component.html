@@ -1,7 +1,7 @@
-<div class="alert alert-danger">
-    <i class="fas fa-exclamation-triangle"></i>&nbsp;
+<div class="alert alert-danger" *ngIf="show">
+    <i class="fas fa-exclamation-triangle" *ngIf="showIcon"></i>&nbsp;
     <ng-content></ng-content>
-    <button type="button" class="close" aria-label="Close">
+    <button type="button" class="close" aria-label="Close" *ngIf="showBtnClose" (click)="hide()">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>

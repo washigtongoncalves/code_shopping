@@ -2,7 +2,7 @@
   <h1 class="h3 mb-3 font-weight-normal">
       Code Shopping - Login
   </h1>
-  <alert-error *ngIf="showMessageError">
+  <alert-error [show]="showMessageError" [show-btn-close]="true" [show-icon]="true">
       Credenciais inválidas
   </alert-error>
   <label for="email" class="sr-only">
