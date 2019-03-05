@@ -7,19 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
  
-  protected email : String = 'admin@user.com';
-
+  private credentials = {
+      email : '',
+      password : ''
+  }
+  
   constructor() { }
 
   ngOnInit() {}
   
-  public meClicou($event: MouseEvent)
+  public mostra()
   {
-      console.log($event);
-  }
-  
-  public digitou($event: KeyboardEvent) 
-  {
-      console.log($event.key);
+      console.log(this.credentials);
   }
 }
