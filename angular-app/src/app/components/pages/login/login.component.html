@@ -2,6 +2,9 @@
   <h1 class="h3 mb-3 font-weight-normal">
       Code Shopping - Login
   </h1>
+  <div class="alert alert-danger" *ngIf="showMessageError">
+      <i class="fas fa-exclamation-triangle"></i>&nbsp;Credenciais inválidas
+  </div>
   <label for="email" class="sr-only">
       E-mail
   </label>

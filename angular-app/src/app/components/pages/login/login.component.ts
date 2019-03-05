@@ -14,6 +14,7 @@ export class LoginComponent
       password : 'secret'
   };
   private api = 'http://localhost:8000/api';
+  public showMessageError: boolean = false;
   
   constructor(private http: HttpClient, private router : Router) { }
   
@@ -22,9 +23,11 @@ export class LoginComponent
       this.http
           .post<any>(this.api + '/login', this.credentials)
           .subscribe((data) => {
-            localStorage.setItem('token', data.token); 
-            this.router.navigate(['categories/list']);
-          });
+                localStorage.setItem('token', data.token); 
+                this.router.navigate(['categories/list']);
+            }, 
+            (response) => this.showMessageError = true
+          );
       return false;
   }
 }
