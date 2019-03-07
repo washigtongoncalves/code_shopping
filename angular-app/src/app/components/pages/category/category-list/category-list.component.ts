@@ -60,7 +60,7 @@ export class CategoryListComponent implements OnInit
           })
           .subscribe(() => {
               this.getCategories();
-              $('#exampleModel').modal('hide');
+              $("#exampleModal").modal('hide');
           });
   }
 }
