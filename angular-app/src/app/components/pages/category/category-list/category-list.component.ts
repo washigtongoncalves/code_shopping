@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+// Necessário para o Typescript não exibir erro na hora de compilar,
+// pois ele não conhece a variável do jQuery por padrão
+declare let $;
+
 interface iCategory 
 {
     id: number,
@@ -17,28 +21,46 @@ interface iCategory
 export class CategoryListComponent implements OnInit
 {
   private api = 'http://localhost:8000/api';
+  private token: string;
   public categories: Array<iCategory> = [];
+  public category = {
+      name: ''  
+  };
   
   constructor(private http: HttpClient) { }
   
   ngOnInit()
   {
+      this.token = localStorage.getItem('token');
       this.getCategories();
   }
   
   public getCategories()
   {
-    const token = localStorage.getItem('token');
-    this.http
-        .get<{data: Array<iCategory>}>(this.api + '/categories', {
-            headers : {
-               'Authorization' : `Bearer ${token}`
-            }
-        })
-        .subscribe((response) => {
-//            response.data[0].active = false;
-//            response.data[2].active = false;
-            this.categories = response.data;
-        });
+      const token = this.token;  
+      this.http
+          .get<{data: Array<iCategory>}>(this.api + '/categories', {
+              headers : {
+                 'Authorization' : `Bearer ${token}`
+              }
+          })
+          .subscribe((response) => {
+              this.categories = response.data;
+          });
+  }
+  
+  submit()
+  {
+      const token = this.token;
+      this.http
+          .post(this.api + '/categories', this.category, {
+              headers : {
+                 'Authorization' : `Bearer ${token}`
+              }
+          })
+          .subscribe(() => {
+              this.getCategories();
+              $('#exampleModel').modal('hide');
+          });
   }
 }
