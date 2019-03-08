@@ -1,9 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
-// Necessário para o Typescript não exibir erro na hora de compilar,
-// pois ele não conhece a variável do jQuery por padrão
-declare let $;
+import { ModalComponent } from '../../../bootstrap/modal/modal.component';
 
 interface iCategory 
 {
@@ -23,9 +20,10 @@ export class CategoryListComponent implements OnInit
   private api = 'http://localhost:8000/api';
   private token: string;
   public categories: Array<iCategory> = [];
-  public category = {
-      name: ''  
-  };
+  public category = { name: '' };
+  
+  @ViewChild(ModalComponent)
+  private modal: ModalComponent;
   
   constructor(private http: HttpClient) { }
   
@@ -35,7 +33,7 @@ export class CategoryListComponent implements OnInit
       this.getCategories();
   }
   
-  public getCategories()
+  getCategories()
   {
       const token = this.token;  
       this.http
@@ -60,7 +58,12 @@ export class CategoryListComponent implements OnInit
           })
           .subscribe(() => {
               this.getCategories();
-              $("#exampleModal").modal('hide');
+              this.modal.hide();
           });
+  }
+  
+  showModal()
+  {
+      this.modal.show();
   }
 }
