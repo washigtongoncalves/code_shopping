@@ -12,7 +12,16 @@ declare let $;
 export class ModalComponent implements OnInit 
 {
   @Output()  
-  onHide: EventEmitter<Event> = new EventEmitter<Event>();
+  onShowModal: EventEmitter<Event> = new EventEmitter<Event>();
+  
+  @Output()  
+  onShownModal: EventEmitter<Event> = new EventEmitter<Event>();
+  
+  @Output()  
+  onHideModal: EventEmitter<Event> = new EventEmitter<Event>();
+  
+  @Output()  
+  onHiddenModal: EventEmitter<Event> = new EventEmitter<Event>();
       
   constructor(private element: ElementRef) { }
   
@@ -22,7 +31,12 @@ export class ModalComponent implements OnInit
       jQueryElement.find('[modal-title]').addClass('modal-title');
       jQueryElement.find('[modal-body]').addClass('modal-body');
       jQueryElement.find('[modal-footer]').addClass('modal-footer');
-      jQueryElement.on('hidden.bs.modal', (e) => this.onHide.emit(e));
+      
+      // Eventos do component Modal do Bootstrap
+      jQueryElement.on('show.bs.modal'  , (e) => this.onShowModal.emit(e));
+      jQueryElement.on('shown.bs.modal' , (e) => this.onShownModal.emit(e));
+      jQueryElement.on('hide.bs.modal'  , (e) => this.onHideModal.emit(e));
+      jQueryElement.on('hidden.bs.modal', (e) => this.onHiddenModal.emit(e));
   }
 
   hide()

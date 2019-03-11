@@ -62,13 +62,33 @@ export class CategoryListComponent implements OnInit
           });
   }
   
-  hideModal($event: Event)
-  {
-      console.log($event);
-  }
-  
   showModal()
   {
       this.modal.show();
+  }
+  
+  // Eventos do componente de Modal
+  onShowModal($event: Event)
+  {
+      console.log('Show Modal Event');
+      console.log($event);
+  }
+  
+  onShownModal($event: Event)
+  {
+      console.log('Shown Modal Event');
+      console.log($event);
+  }
+  
+  onHiddenModal($event: Event)
+  {
+      console.log('Hidden Modal Event');
+      console.log($event);
+  }
+  
+  onHideModal($event: Event)
+  {
+      console.log('Hide Modal Event');
+      console.log($event);
   }
 }

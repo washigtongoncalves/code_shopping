@@ -31,7 +31,11 @@
     </table>
 </div>
 <form (submit)="submit()">  
-    <modal (onHide)="hideModal($event)">
+    <modal 
+        (onShowModal)="onShowModal($event)" 
+        (onShownModal)="onShownModal($event)" 
+        (onHideModal)="onHideModal($event)" 
+        (onHiddenModal)="onHiddenModal($event)">
         <h5 modal-title>
             Nova categoria
         </h5>
