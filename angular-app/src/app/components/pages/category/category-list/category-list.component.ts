@@ -62,6 +62,11 @@ export class CategoryListComponent implements OnInit
           });
   }
   
+  hideModal($event: Event)
+  {
+      console.log($event);
+  }
+  
   showModal()
   {
       this.modal.show();
