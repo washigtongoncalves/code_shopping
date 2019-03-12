@@ -4,7 +4,7 @@
         <thead>
             <tr>
                 <td colspan="5">
-                    <button class="btn btn-primary" data-toggle="modal" (click)="showModalInsert()">
+                    <button class="btn btn-primary" (click)="showModalInsert()">
                         Nova categoria
                     </button>
                 </td>
@@ -25,12 +25,15 @@
                     <i class="fas" [ngClass]="{'fa-check': category.active, 'fa-times': !category.active}"></i>
                 </td>
                 <td>{{category.created_at.date | date: 'dd/MM/yyyy'}}</td>
-                <td>Editar | Excluir</td>
+                <td>
+                    <a href="javascript:void(0)" (click)="showModalEdit(category)">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    | Excluir
+                </td>
             </tr>
         </tbody>
     </table>
 </div>
-<category-new-modal 
-    (onSuccess)="onInsertSuccess($event)" 
-    (onError)="onInsertError($event)">
-</category-new-modal>
+<category-new-modal (onSuccess)="onInsertSuccess($event)" (onError)="onInsertError($event)"></category-new-modal>
+<category-edit-modal (onSuccess)="onEditSuccess($event)" (onError)="onEditError($event)"></category-edit-modal>

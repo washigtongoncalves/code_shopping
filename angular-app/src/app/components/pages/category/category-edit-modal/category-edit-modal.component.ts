@@ -2,16 +2,25 @@ import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/cor
 import { ModalComponent } from '../../../bootstrap/modal/modal.component';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
+interface iCategory
+{
+    id: number, 
+    name: string
+}
+
 @Component({
-  selector: 'category-new-modal',
-  templateUrl: './category-new-modal.component.html',
-  styleUrls: ['./category-new-modal.component.css']
+  selector: 'category-edit-modal',
+  templateUrl: './category-edit-modal.component.html',
+  styleUrls: ['./category-edit-modal.component.css']
 })
-export class CategoryNewModalComponent implements OnInit 
+export class CategoryEditModalComponent implements OnInit
 {
   private api = 'http://localhost:8000/api';
   private token: string;
-  public category = { name: '' };
+  private category: iCategory = {
+      id: null, 
+      name: null
+  };
   
   @ViewChild(ModalComponent)
   private modal: ModalComponent;
@@ -21,7 +30,7 @@ export class CategoryNewModalComponent implements OnInit
   
   @Output() 
   onError: EventEmitter<HttpErrorResponse> = new EventEmitter<HttpErrorResponse>();
-  
+
   constructor(private http: HttpClient) { }
   
   ngOnInit()
@@ -39,7 +48,7 @@ export class CategoryNewModalComponent implements OnInit
       };
       let error = (err) => this.onError.emit(err);
       this.http
-          .post(this.api + '/categories', this.category, {
+          .put(`${this.api}/categories/${this.category.id}`, this.category, {
               headers : {
                  'Authorization' : `Bearer ${token}`
               }
@@ -47,8 +56,10 @@ export class CategoryNewModalComponent implements OnInit
           .subscribe(success, error);
   }
   
-  showModal()
+  showModal(category: iCategory)
   {
+      this.category.id = category.id;
+      this.category.name = category.name;
       this.modal.show();
   }
   
@@ -60,25 +71,25 @@ export class CategoryNewModalComponent implements OnInit
   // Eventos do componente de Modal
   onShowModal($event: Event)
   {
-      console.log('Show New Modal Event');
+      console.log('Show Edit Modal Event');
       console.log($event);
   }
   
   onShownModal($event: Event)
   {
-      console.log('Shown New Modal Event');
+      console.log('Shown Edit Modal Event');
       console.log($event);
   }
   
   onHiddenModal($event: Event)
   {
-      console.log('Hidden New Modal Event');
+      console.log('Hidden Edit Modal Event');
       console.log($event);
   }
   
   onHideModal($event: Event)
   {
-      console.log('Hide New Modal Event');
+      console.log('Hide Edit Modal Event');
       console.log($event);
   }
 }
