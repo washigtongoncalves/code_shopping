@@ -1,0 +1,32 @@
+<form (submit)="submit()">  
+    <modal 
+        (onShowModal)="onShowModal($event)" 
+        (onShownModal)="onShownModal($event)" 
+        (onHideModal)="onHideModal($event)" 
+        (onHiddenModal)="onHiddenModal($event)">
+        <h5 modal-title>
+            Nova categoria
+        </h5>
+        <div modal-body>
+            <div class="form-group">
+                <label for="name">Nome</label>
+                <input type="text" 
+                       name="category.name" 
+                       id="name" 
+                       class="form-control" 
+                       required 
+                       placeholder="Informe um nome para a nova categoria"
+                       [(ngModel)]="category.name">
+            </div>
+        </div>
+        <div modal-footer>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                Fechar
+            </button>
+            &nbsp;
+            <button type="submit" class="btn btn-primary">
+                Incluir
+            </button>
+        </div>
+    </modal>
+</form>
