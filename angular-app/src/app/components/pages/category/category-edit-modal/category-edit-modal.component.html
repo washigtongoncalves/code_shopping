@@ -18,6 +18,17 @@
                        placeholder="Informe um nome para a categoria"
                        [(ngModel)]="category.name">
             </div>
+            <div class="form-group form-check">
+                <input type="checkbox" 
+                       name="active" 
+                       id="active"
+                       class="form-check-input"
+                       required 
+                       [(ngModel)]="category.active">
+                <label for="active">
+                    Ativo?
+                </label>
+            </div>
         </div>
         <div modal-footer>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">

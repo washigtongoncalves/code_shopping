@@ -11,7 +11,10 @@ export class CategoryNewModalComponent implements OnInit
 {
   private api = 'http://localhost:8000/api';
   private token: string;
-  public category = { name: '' };
+  public category = { 
+      name: '',
+      active: true 
+  };
   
   @ViewChild(ModalComponent)
   private modal: ModalComponent;

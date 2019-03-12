@@ -5,7 +5,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 interface iCategory
 {
     id: number, 
-    name: string
+    name: string,
+    active?: boolean
 }
 
 @Component({
@@ -19,7 +20,8 @@ export class CategoryEditModalComponent implements OnInit
   private token: string;
   private category: iCategory = {
       id: null, 
-      name: null
+      name: null,
+      active: true
   };
   
   @ViewChild(ModalComponent)
@@ -60,6 +62,7 @@ export class CategoryEditModalComponent implements OnInit
   {
       this.category.id = category.id;
       this.category.name = category.name;
+      this.category.active = category.active;
       this.modal.show();
   }
   
