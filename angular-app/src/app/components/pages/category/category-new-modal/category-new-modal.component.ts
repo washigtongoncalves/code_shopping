@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { ModalComponent } from '../../../bootstrap/modal/modal.component';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'category-new-modal',
@@ -16,6 +16,12 @@ export class CategoryNewModalComponent implements OnInit
   @ViewChild(ModalComponent)
   private modal: ModalComponent;
   
+  @Output() 
+  onSuccess: EventEmitter<any> = new EventEmitter<any>();
+  
+  @Output() 
+  onError: EventEmitter<HttpErrorResponse> = new EventEmitter<HttpErrorResponse>();
+  
   constructor(private http: HttpClient) { }
   
   ngOnInit()
@@ -26,21 +32,29 @@ export class CategoryNewModalComponent implements OnInit
   submit()
   {
       const token = this.token;
+      
+      let success = (category) => {
+          this.onSuccess.emit(category);
+          this.modal.hide();
+      };
+      let error = (err) => this.onError.emit(err);
       this.http
           .post(this.api + '/categories', this.category, {
               headers : {
                  'Authorization' : `Bearer ${token}`
               }
           })
-          .subscribe(() => {
-              // this.getCategories();
-              this.modal.hide();
-          });
+          .subscribe(success, error);
   }
   
   showModal()
   {
       this.modal.show();
+  }
+  
+  hideModal()
+  {
+      this.modal.hide();
   }
   
   // Eventos do componente de Modal

@@ -30,4 +30,7 @@
         </tbody>
     </table>
 </div>
-<category-new-modal></category-new-modal>
+<category-new-modal 
+    (onSuccess)="onInsertSuccess($event)" 
+    (onError)="onInsertError($event)">
+</category-new-modal>

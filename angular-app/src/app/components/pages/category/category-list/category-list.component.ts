@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { CategoryNewModalComponent } from '../category-new-modal/category-new-modal.component';
 
 interface iCategory 
@@ -49,5 +49,22 @@ export class CategoryListComponent implements OnInit
   showModalInsert()
   {
       this.categoryNewModal.showModal();
+  }
+  
+  hideModalInsert()
+  {
+      this.categoryNewModal.hideModal();
+  }
+  
+  onInsertSuccess($event: Event)
+  {
+      this.getCategories();
+      this.hideModalInsert();
+      console.log($event);
+  }
+  
+  onInsertError($event: HttpErrorResponse)
+  {
+      console.log($event);
   }
 }
