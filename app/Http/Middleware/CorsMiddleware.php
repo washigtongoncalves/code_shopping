@@ -14,6 +14,8 @@ class CorsMiddleware
             header('Access-Control-Allow-Origin: *');
             // Libera o uso do header Content-Type
             header('Access-Control-Allow-Headers: Content-Type, Authorization');
+            // Libera o uso dos seguintes métodos HTTP
+            header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE');
         }
         return $next($request);
     }
