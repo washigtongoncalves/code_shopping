@@ -1,4 +1,4 @@
-export interface iCategory 
+export interface CategoryInterface 
 {
     id: number,
     name: string,
