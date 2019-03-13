@@ -1,16 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { CategoryNewModalComponent } from '../category-new-modal/category-new-modal.component';
 import { CategoryEditModalComponent } from '../category-edit-modal/category-edit-modal.component';
 import { CategoryDeleteModalComponent } from '../category-delete-modal/category-delete-modal.component';
-
-interface iCategory 
-{
-    id: number,
-    name: string,
-    active?: boolean,
-    created_at?: { date: string }
-}
+import { CategoryHttpService } from 'src/app/services/http/category-http.service';
+import { CategoryInterface } from 'src/app/interfaces/category.interface';
 
 @Component({
   selector: 'category-list',
@@ -19,9 +13,7 @@ interface iCategory
 })
 export class CategoryListComponent implements OnInit
 {
-  private api = 'http://localhost:8000/api';
-  private token: string;
-  public categories: Array<iCategory> = [];
+  public categories: Array<CategoryInterface> = [];
   
   @ViewChild(CategoryNewModalComponent)
   categoryNewModal: CategoryNewModalComponent;
@@ -32,23 +24,17 @@ export class CategoryListComponent implements OnInit
   @ViewChild(CategoryDeleteModalComponent)
   categoryDeleteModal: CategoryDeleteModalComponent;
   
-  constructor(private http: HttpClient) { }
+  constructor(private categoryHttp: CategoryHttpService) { }
   
   ngOnInit()
   {
-      this.token = localStorage.getItem('token');
       this.getCategories();
   }
   
   getCategories()
   {
-      const token = this.token;  
-      this.http
-          .get<{data: Array<iCategory>}>(this.api + '/categories', {
-              headers : {
-                 'Authorization' : `Bearer ${token}`
-              }
-          })
+      this.categoryHttp
+          .list()
           .subscribe((response) => {
               this.categories = response.data;
           });
@@ -64,7 +50,7 @@ export class CategoryListComponent implements OnInit
       this.categoryNewModal.hideModal();
   }
   
-  showModalEdit(category: iCategory)
+  showModalEdit(category: CategoryInterface)
   {
       this.categoryEditModal.showModal(category);
   }
@@ -74,7 +60,7 @@ export class CategoryListComponent implements OnInit
       this.categoryEditModal.hideModal();
   }
   
-  showModalDelete(category: iCategory)
+  showModalDelete(category: CategoryInterface)
   {
       this.categoryDeleteModal.showModal(category);
   }

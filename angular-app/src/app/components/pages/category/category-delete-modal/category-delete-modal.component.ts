@@ -1,25 +1,17 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
 import { ModalComponent } from '../../../bootstrap/modal/modal.component';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-
-interface iCategory 
-{
-    id: number,
-    name: string,
-    active?: boolean,
-    created_at?: { date: string }
-}
+import { HttpErrorResponse } from '@angular/common/http';
+import { CategoryInterface } from 'src/app/interfaces/category.interface';
+import { CategoryHttpService } from 'src/app/services/http/category-http.service';
 
 @Component({
   selector: 'category-delete-modal',
   templateUrl: './category-delete-modal.component.html',
   styleUrls: ['./category-delete-modal.component.css']
 })
-export class CategoryDeleteModalComponent implements OnInit 
+export class CategoryDeleteModalComponent 
 {
-  private api = 'http://localhost:8000/api';
-  private token: string;
-  private category: iCategory;
+  private category: CategoryInterface;
     
   @ViewChild(ModalComponent)
   private modal: ModalComponent;
@@ -30,32 +22,21 @@ export class CategoryDeleteModalComponent implements OnInit
   @Output() 
   onError: EventEmitter<HttpErrorResponse> = new EventEmitter<HttpErrorResponse>();
 
-  constructor(private http: HttpClient) { }
+  constructor(private categoryHttp: CategoryHttpService) { }
 
-  ngOnInit() 
-  {
-      this.token = localStorage.getItem('token');    
-  }
-  
   destroy()
   {
-      const token = this.token;
-      
       let success = (category) => {
           this.onSuccess.emit(category);
           this.modal.hide();
       };
       let error = (err) => this.onError.emit(err);
-      this.http
-          .delete(`${this.api}/categories/${this.category.id}`, {
-              headers : {
-                 'Authorization' : `Bearer ${token}`
-              }
-          })
+      this.categoryHttp
+          .destroy(this.category)
           .subscribe(success, error);
   }
   
-  showModal(category: iCategory)
+  showModal(category: CategoryInterface)
   {
       this.category = category;
       this.modal.show();

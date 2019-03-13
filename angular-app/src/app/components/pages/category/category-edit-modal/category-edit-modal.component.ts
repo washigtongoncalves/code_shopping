@@ -1,24 +1,17 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
 import { ModalComponent } from '../../../bootstrap/modal/modal.component';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-
-interface iCategory
-{
-    id: number, 
-    name: string,
-    active?: boolean
-}
+import { HttpErrorResponse } from '@angular/common/http';
+import { CategoryInterface } from 'src/app/interfaces/category.interface';
+import { CategoryHttpService } from 'src/app/services/http/category-http.service';
 
 @Component({
   selector: 'category-edit-modal',
   templateUrl: './category-edit-modal.component.html',
   styleUrls: ['./category-edit-modal.component.css']
 })
-export class CategoryEditModalComponent implements OnInit
+export class CategoryEditModalComponent
 {
-  private api = 'http://localhost:8000/api';
-  private token: string;
-  private category: iCategory = {
+  private category: CategoryInterface = {
       id: null, 
       name: null,
       active: true
@@ -33,32 +26,21 @@ export class CategoryEditModalComponent implements OnInit
   @Output() 
   onError: EventEmitter<HttpErrorResponse> = new EventEmitter<HttpErrorResponse>();
 
-  constructor(private http: HttpClient) { }
-  
-  ngOnInit()
-  {
-      this.token = localStorage.getItem('token');
-  }
+  constructor(private categoryHttp: CategoryHttpService) { }
   
   submit()
   {
-      const token = this.token;
-      
       let success = (category) => {
           this.onSuccess.emit(category);
           this.modal.hide();
       };
       let error = (err) => this.onError.emit(err);
-      this.http
-          .put(`${this.api}/categories/${this.category.id}`, this.category, {
-              headers : {
-                 'Authorization' : `Bearer ${token}`
-              }
-          })
+      this.categoryHttp
+          .update(this.category)
           .subscribe(success, error);
   }
   
-  showModal(category: iCategory)
+  showModal(category: CategoryInterface)
   {
       this.category.id = category.id;
       this.category.name = category.name;
