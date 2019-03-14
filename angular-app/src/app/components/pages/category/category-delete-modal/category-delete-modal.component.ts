@@ -26,13 +26,13 @@ export class CategoryDeleteModalComponent
 
   destroy()
   {
-      let success = (category) => {
-          this.onSuccess.emit(category);
+      let success = () => {
+          this.onSuccess.emit();
           this.modal.hide();
       };
       let error = (err) => this.onError.emit(err);
       this.categoryHttp
-          .destroy(this.category)
+          .destroy(this.category.id)
           .subscribe(success, error);
   }
   

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CategoryInterface } from 'src/app/interfaces/category.interface';
+import { Observable } from 'rxjs/internal/Observable';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +21,7 @@ export class CategoryHttpService
         };
     }
 
-    list()
+    list(): Observable<{ data: Array<CategoryInterface> }>
     {
         return this.http.get<{ data: Array<CategoryInterface> }>(
             this.getUrl(), 
@@ -27,36 +29,38 @@ export class CategoryHttpService
         );
     }
 
-    get(categoryId: number)
+    get(categoryId: number): Observable<CategoryInterface>
     {
-        return this.http.get<{ data: Array<CategoryInterface> }>(
+        return this.http.get<{ data: CategoryInterface }>(
             this.getUrl() + `/${categoryId}`, 
             { headers : this.getHeaders() }
+        ).pipe(
+            map(response => response.data)
         );
     }
 
-    create(category: CategoryInterface)
+    create(category: CategoryInterface): Observable<CategoryInterface>
     {
-        return this.http.post(
+        return this.http.post<CategoryInterface>(
             this.getUrl(), 
             category, 
             { headers : this.getHeaders() }
         );
     }
 
-    update(category: CategoryInterface)
+    update(category: CategoryInterface): Observable<CategoryInterface>
     {
-        return this.http.put(
+        return this.http.put<CategoryInterface>(
             this.getUrl() + `/${category.id}`, 
             category, 
             { headers : this.getHeaders() }
         );
     }
 
-    destroy(category: CategoryInterface)
+    destroy(categoryId: number): Observable<void>
     {
-        return this.http.delete(
-            this.getUrl() + `/${category.id}`, 
+        return this.http.delete<void>(
+            this.getUrl() + `/${categoryId}`, 
             { headers : this.getHeaders() }
         );
     }

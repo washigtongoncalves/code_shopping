@@ -12,9 +12,8 @@ import { CategoryHttpService } from 'src/app/services/http/category-http.service
 export class CategoryEditModalComponent
 {
   private category: CategoryInterface = {
-      id: null, 
-      name: null,
-      active: true
+      'name': '',
+      'active': true
   };
   
   @ViewChild(ModalComponent)

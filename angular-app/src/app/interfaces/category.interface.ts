@@ -1,6 +1,6 @@
 export interface CategoryInterface 
 {
-    readonly id?: number;
+    id?: number;
     name: string;
     active?: boolean;
     readonly slug?: string;

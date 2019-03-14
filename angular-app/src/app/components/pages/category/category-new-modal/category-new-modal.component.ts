@@ -12,9 +12,8 @@ import { CategoryInterface } from 'src/app/interfaces/category.interface';
 export class CategoryNewModalComponent 
 {
   public category: CategoryInterface = {
-      id: null, 
-      name: '',
-      active: true 
+      'name': '',
+      'active' : true
   };
   
   @ViewChild(ModalComponent)
