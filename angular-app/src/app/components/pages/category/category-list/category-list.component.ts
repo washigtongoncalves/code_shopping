@@ -4,6 +4,7 @@ import { CategoryNewModalComponent } from '../category-new-modal/category-new-mo
 import { CategoryEditModalComponent } from '../category-edit-modal/category-edit-modal.component';
 import { CategoryDeleteModalComponent } from '../category-delete-modal/category-delete-modal.component';
 import { CategoryHttpService } from 'src/app/services/http/category-http.service';
+import { NotifyMessageService } from 'src/app/services/notify-message.service';
 import { CategoryInterface } from 'src/app/interfaces/category.interface';
 
 @Component({
@@ -24,7 +25,7 @@ export class CategoryListComponent implements OnInit
   @ViewChild(CategoryDeleteModalComponent)
   categoryDeleteModal: CategoryDeleteModalComponent;
   
-  constructor(private categoryHttp: CategoryHttpService) { }
+  constructor(private categoryHttp: CategoryHttpService, private notify: NotifyMessageService) { }
   
   ngOnInit()
   {
@@ -74,41 +75,35 @@ export class CategoryListComponent implements OnInit
   {
       this.getCategories();
       this.hideModalInsert();
-      console.log('Insert Success');
-      console.log($event);
+      this.notify.success('Categoria cadastrada com sucesso!');
   }
   
   onInsertError($event: HttpErrorResponse)
   {
-      console.log('Insert Error');
-      console.log($event);
+      this.notify.error('Ocorreu um erro ao cadastrar a categoria!');
   }
   
   onEditSuccess($event: Event)
   {
       this.getCategories();
       this.hideModalEdit();
-      console.log('Edit Success');
-      console.log($event);
+      this.notify.success('Categoria atualizada com sucesso!');
   }
   
   onEditError($event: HttpErrorResponse)
   {
-      console.log('Edit Error');
-      console.log($event);
+       this.notify.error('Ocorreu um erro ao editar a categoria!');
   }
   
   onDeleteSuccess($event: Event)
   {
       this.getCategories();
       this.hideModalDelete();
-      console.log('Delete Success');
-      console.log($event);
+      this.notify.success('Categoria excluída com sucesso!');
   }
   
   onDeleteError($event: HttpErrorResponse)
   {
-      console.log('Delete Error');
-      console.log($event);
+      this.notify.error('Ocorreu um erro ao tentar excluir a categoria!');
   }
 }
