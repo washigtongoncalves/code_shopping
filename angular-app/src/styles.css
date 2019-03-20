@@ -203,6 +203,14 @@ textarea.no-resize {
   resize: none;
 }
 
+.text-right {
+  text-align: right;
+}
+
+.text-center {
+  text-align: center;
+}
+
 /* No more tables */
 @media only screen and (max-width: 800px) {
     

@@ -33,6 +33,15 @@ export class ProductHttpService {
         );
     }
 
+    get(productId: number): Observable<ProductInterface> {
+        return this.http.get<{ data: ProductInterface }>(
+            this.getUrl() + `/${productId}`,
+            { headers : this.getHeaders() }
+        ).pipe(
+            map(response => response.data)
+        );
+    }
+
     create(product: ProductInterface): Observable<ProductInterface> {
         return this.http.post<ProductInterface>(
             this.getUrl(),
