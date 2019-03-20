@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms/';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 
+import { NgxPaginationModule } from 'ngx-pagination';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/pages/login/login.component';
@@ -36,7 +38,8 @@ const routes : Routes = [
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    RouterModule.forRoot(routes, { enableTracing: true })
+    RouterModule.forRoot(routes, { enableTracing: true }),
+    NgxPaginationModule
   ],
   providers: [],
   bootstrap: [AppComponent]

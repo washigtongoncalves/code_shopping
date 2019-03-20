@@ -25,6 +25,8 @@ export class CategoryListComponent implements OnInit
   
   @ViewChild(CategoryDeleteModalComponent)
   categoryDeleteModal: CategoryDeleteModalComponent;
+
+  protected page: number = 1;
   
   constructor(
       private categoryHttp: CategoryHttpService, 
