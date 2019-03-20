@@ -1,0 +1,62 @@
+<form (submit)="submit()">  
+    <modal 
+        (onShowModal)="onShowModal($event)" 
+        (onShownModal)="onShownModal($event)" 
+        (onHideModal)="onHideModal($event)" 
+        (onHiddenModal)="onHiddenModal($event)">
+        <h5 modal-title>
+            Editar produto
+        </h5>
+        <div modal-body>
+            <div class="form-group">
+                <label for="name">Nome</label>
+                <input type="text" 
+                       name="product.name" 
+                       id="name" 
+                       class="form-control" 
+                       required 
+                       [(ngModel)]="product.name">
+            </div>
+            <div class="form-group">
+                <label for="description">Descrição</label>
+                <textarea 
+                        name="product.description" 
+                        id="description" 
+                        class="form-control no-resize" 
+                        required 
+                        [(ngModel)]="product.description">
+                </textarea>
+            </div>
+            <div class="form-group">
+                <label for="price">Preço</label>
+                <input type="number" 
+                        name="product.price" 
+                        id="price" 
+                        class="form-control" 
+                        required 
+                        [(ngModel)]="product.price"
+                        step="0.01">
+            </div>
+            <div class="form-group form-check">
+                <input type="checkbox" 
+                       name="active" 
+                       id="active"
+                       class="form-check-input"
+                       required 
+                       [(ngModel)]="product.active">
+                <label for="active">
+                    Ativo?
+                </label>
+            </div>
+        </div>
+        <div modal-footer>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                Fechar
+            </button>
+            &nbsp;
+            <button type="submit" class="btn btn-primary">
+                Editar
+            </button>
+        </div>
+    </modal>
+</form>

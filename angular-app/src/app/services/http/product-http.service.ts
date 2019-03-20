@@ -41,6 +41,14 @@ export class ProductHttpService {
         );
     }
 
+    update(product: ProductInterface): Observable<ProductInterface> {
+        return this.http.put<ProductInterface>(
+            this.getUrl() + `/${product.id}`,
+            product,
+            { headers : this.getHeaders() }
+        );
+    }
+
     destroy(productId: number): Observable<void> {
         return this.http.delete<void>(
             this.getUrl() + `/${productId}`,

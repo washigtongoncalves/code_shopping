@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProductNewModalComponent } from '../product-new-modal/product-new-modal.component';
-// import { ProductEditModalComponent } from '../product-edit-modal/product-edit-modal.component';
+import { ProductEditModalComponent } from '../product-edit-modal/product-edit-modal.component';
 import { ProductDeleteModalComponent } from '../product-delete-modal/product-delete-modal.component';
 import { ProductHttpService } from 'src/app/services/http/product-http.service';
 import { ProductInterface } from 'src/app/interfaces/product.interface';
 import { ProductInsertService } from './product-insert.service';
-// import { ProductEditService } from './product-edit.service';
+import { ProductEditService } from './product-edit.service';
 import { ProductDeleteService } from './product-delete.service';
 
 @Component({
@@ -26,8 +26,8 @@ export class ProductListComponent implements OnInit {
   @ViewChild(ProductNewModalComponent)
   productNewModal: ProductNewModalComponent;
 
-  // @ViewChild(ProductEditModalComponent)
-  // productEditModal: ProductEditModalComponent;
+  @ViewChild(ProductEditModalComponent)
+  productEditModal: ProductEditModalComponent;
 
   @ViewChild(ProductDeleteModalComponent)
   productDeleteModal: ProductDeleteModalComponent;
@@ -35,11 +35,11 @@ export class ProductListComponent implements OnInit {
   constructor(
     private productHttp: ProductHttpService,
     protected productInsertService: ProductInsertService,
-    // protected productEditService: ProductEditService,
+    protected productEditService: ProductEditService,
     protected productDeleteService: ProductDeleteService
   ) {
     this.productInsertService.productListComponent = this;
-    // this.productEditService.productListComponent = this;
+    this.productEditService.productListComponent = this;
     this.productDeleteService.productListComponent = this;
   }
 

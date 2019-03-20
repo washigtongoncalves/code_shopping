@@ -16,10 +16,11 @@ import { CategoryNewModalComponent } from './components/pages/category/category-
 import { CategoryEditModalComponent } from './components/pages/category/category-edit-modal/category-edit-modal.component';
 import { CategoryDeleteModalComponent } from './components/pages/category/category-delete-modal/category-delete-modal.component';
 import { ProductNewModalComponent } from './components/pages/product/product-new-modal/product-new-modal.component';
+import { ProductEditModalComponent } from './components/pages/product/product-edit-modal/product-edit-modal.component';
 import { ProductDeleteModalComponent } from './components/pages/product/product-delete-modal/product-delete-modal.component';
 import { ProductListComponent } from './components/pages/product/product-list/product-list.component';
 
-const routes : Routes = [
+const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'categories/list', component: CategoryListComponent },
     { path: 'products/list', component: ProductListComponent },
@@ -37,6 +38,7 @@ const routes : Routes = [
     CategoryEditModalComponent,
     CategoryDeleteModalComponent,
     ProductNewModalComponent,
+    ProductEditModalComponent,
     ProductDeleteModalComponent,
     ProductListComponent
   ],
