@@ -33,6 +33,14 @@ export class ProductHttpService {
         );
     }
 
+    create(product: ProductInterface): Observable<ProductInterface> {
+        return this.http.post<ProductInterface>(
+            this.getUrl(),
+            product,
+            { headers : this.getHeaders() }
+        );
+    }
+
     getUrl() {
         return this.url;
     }

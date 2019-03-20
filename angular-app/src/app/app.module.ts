@@ -15,6 +15,7 @@ import { ModalComponent } from './components/bootstrap/modal/modal.component';
 import { CategoryNewModalComponent } from './components/pages/category/category-new-modal/category-new-modal.component';
 import { CategoryEditModalComponent } from './components/pages/category/category-edit-modal/category-edit-modal.component';
 import { CategoryDeleteModalComponent } from './components/pages/category/category-delete-modal/category-delete-modal.component';
+import { ProductNewModalComponent } from './components/pages/product/product-new-modal/product-new-modal.component';
 import { ProductListComponent } from './components/pages/product/product-list/product-list.component';
 
 const routes : Routes = [
@@ -34,6 +35,7 @@ const routes : Routes = [
     CategoryNewModalComponent,
     CategoryEditModalComponent,
     CategoryDeleteModalComponent,
+    ProductNewModalComponent,
     ProductListComponent
   ],
   imports: [

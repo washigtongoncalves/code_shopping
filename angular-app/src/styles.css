@@ -198,3 +198,7 @@
   display: none;
 }
 
+/* App custom style */
+textarea.no-resize {
+  resize: none;
+}
