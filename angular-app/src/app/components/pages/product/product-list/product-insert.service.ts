@@ -8,6 +8,7 @@ import { ProductListComponent } from './product-list.component';
 })
 export class ProductInsertService {
 
+    // tslint:disable-next-line:variable-name
     private _productListComponent: ProductListComponent;
 
     constructor(private notify: NotifyMessageService) { }
