@@ -37,7 +37,7 @@ export class CategoryEditModalComponent {
     };
     const error = (err) => this.onError.emit(err);
     this.categoryHttp
-        .update(this.category)
+        .update(this.category.id, this.category)
         .subscribe(success, error);
   }
 

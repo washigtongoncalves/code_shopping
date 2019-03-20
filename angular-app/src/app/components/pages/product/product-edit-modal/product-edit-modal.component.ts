@@ -39,7 +39,7 @@ export class ProductEditModalComponent {
     };
     const error = (err) => this.onError.emit(err);
     this.productHttp
-        .update(this.product)
+        .update(this.product.id, this.product)
         .subscribe(success, error);
   }
 
