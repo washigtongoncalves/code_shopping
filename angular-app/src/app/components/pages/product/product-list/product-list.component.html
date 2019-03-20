@@ -3,7 +3,7 @@
   <table class="table table-striped table-hover">
       <thead>
           <tr>
-              <td colspan="5">
+              <td colspan="7">
                   <button class="btn btn-primary" (click)="productInsertService.showModalInsert()">
                       Novo produto
                   </button>
@@ -11,7 +11,9 @@
           </tr>
           <tr>
               <th style="width: 5%">ID</th>
-              <th style="width: 50%">Nome</th>
+              <th style="width: 30%">Nome</th>
+              <th style="width: 10%">Estoque</th>
+              <th style="width: 10%">Preço</th>
               <th style="width: 10%">Ativo?</th>
               <th style="width: 10%">Criado em</th>
               <th style="width: 25%">Ações</th>
@@ -20,7 +22,9 @@
       <tbody>
             <tr *ngFor="let product of products | paginate: pagination">
                 <td>{{product.id}}</td>
-                <td>{{product.name}}</td>
+                <td [title]="product.description">{{product.name}}</td>
+                <td>{{product.stock}}</td>
+                <td>{{product.price}}</td>
                 <td>
                     <i class="fas" [ngClass]="{'fa-check': product.active, 'fa-times': !product.active}"></i>
                 </td>
