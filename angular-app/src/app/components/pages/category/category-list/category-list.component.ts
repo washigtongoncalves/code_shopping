@@ -26,7 +26,11 @@ export class CategoryListComponent implements OnInit
   @ViewChild(CategoryDeleteModalComponent)
   categoryDeleteModal: CategoryDeleteModalComponent;
 
-  protected page: number = 1;
+  public pagination = { 
+      currentPage: 1,
+      totalItems: 0,
+      itemsPerPage: 5
+  }
   
   constructor(
       private categoryHttp: CategoryHttpService, 
@@ -47,9 +51,17 @@ export class CategoryListComponent implements OnInit
   getCategories()
   {
       this.categoryHttp
-          .list()
+          .list(this.pagination.currentPage)
           .subscribe((response) => {
               this.categories = response.data;
+              this.pagination.totalItems = response.meta.total;
+              this.pagination.itemsPerPage = response.meta.per_page;
           });
-  }      
+  }  
+  
+  pageChange(page: number)
+  {
+       this.pagination.currentPage = page;
+       this.getCategories();
+  }
 }

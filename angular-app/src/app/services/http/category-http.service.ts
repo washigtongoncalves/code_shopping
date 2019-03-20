@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { CategoryInterface } from 'src/app/interfaces/category.interface';
+import { MetaPaginationInterface } from 'src/app/interfaces/meta-pagination.interface';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
 
@@ -21,11 +22,16 @@ export class CategoryHttpService
         };
     }
 
-    list(): Observable<{ data: Array<CategoryInterface> }>
+    list(page: number): Observable<{ data: Array<CategoryInterface>, meta: MetaPaginationInterface }>
     {
-        return this.http.get<{ data: Array<CategoryInterface> }>(
+        const params = new HttpParams({
+            fromObject: {
+                page: page + "" // necessário fazer o cast para string para evitar mensagens de erro 
+            }
+        });
+        return this.http.get<{ data: Array<CategoryInterface>, meta: MetaPaginationInterface }>(
             this.getUrl(), 
-            { headers : this.getHeaders() }
+            { params, headers : this.getHeaders() }
         );
     }
 

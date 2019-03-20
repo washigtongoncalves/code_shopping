@@ -18,7 +18,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let category of categories | paginate: { itemsPerPage: 5, currentPage: page }">
+            <tr *ngFor="let category of categories | paginate: pagination">
                 <td>{{category.id}}</td>
                 <td>{{category.name}}</td>
                 <td>
@@ -38,7 +38,7 @@
         </tbody>
     </table>
     <pagination-controls 
-        (pageChange)="page = $event"
+        (pageChange)="pageChange($event)"
         nextLabel="Próximo"
         previousLabel="Anterior">
     </pagination-controls>
