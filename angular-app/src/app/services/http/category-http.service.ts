@@ -8,17 +8,17 @@ import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class CategoryHttpService 
+export class CategoryHttpService
 {
     private url = 'http://localhost:8000/api/categories';
     private token: string;
     private headers;
 
-    constructor(private http: HttpClient) 
-    { 
+    constructor(private http: HttpClient)
+    {
         this.token = localStorage.getItem('token');
         this.headers = {
-            'Authorization' : `Bearer ${this.token}`
+            Authorization : `Bearer ${this.token}`
         };
     }
 
@@ -30,7 +30,7 @@ export class CategoryHttpService
             }
         });
         return this.http.get<{ data: Array<CategoryInterface>, meta: MetaPaginationInterface }>(
-            this.getUrl(), 
+            this.getUrl(),
             { params, headers : this.getHeaders() }
         );
     }
@@ -38,7 +38,7 @@ export class CategoryHttpService
     get(categoryId: number): Observable<CategoryInterface>
     {
         return this.http.get<{ data: CategoryInterface }>(
-            this.getUrl() + `/${categoryId}`, 
+            this.getUrl() + `/${categoryId}`,
             { headers : this.getHeaders() }
         ).pipe(
             map(response => response.data)
@@ -48,8 +48,8 @@ export class CategoryHttpService
     create(category: CategoryInterface): Observable<CategoryInterface>
     {
         return this.http.post<CategoryInterface>(
-            this.getUrl(), 
-            category, 
+            this.getUrl(),
+            category,
             { headers : this.getHeaders() }
         );
     }
@@ -57,8 +57,8 @@ export class CategoryHttpService
     update(category: CategoryInterface): Observable<CategoryInterface>
     {
         return this.http.put<CategoryInterface>(
-            this.getUrl() + `/${category.id}`, 
-            category, 
+            this.getUrl() + `/${category.id}`,
+            category,
             { headers : this.getHeaders() }
         );
     }
@@ -66,7 +66,7 @@ export class CategoryHttpService
     destroy(categoryId: number): Observable<void>
     {
         return this.http.delete<void>(
-            this.getUrl() + `/${categoryId}`, 
+            this.getUrl() + `/${categoryId}`,
             { headers : this.getHeaders() }
         );
     }
