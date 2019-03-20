@@ -31,7 +31,7 @@
                     {{product.stock}}
                 </td>
                 <td data-title="Preço: " class="text-right">
-                    {{product.price}}
+                    R$ {{product.price | numberFormatBr}}
                 </td>
                 <td data-title="Status: " class="text-center">
                     <i class="fas" [ngClass]="{'fa-check': product.active, 'fa-times': !product.active}"></i>
