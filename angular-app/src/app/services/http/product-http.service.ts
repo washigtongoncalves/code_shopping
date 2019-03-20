@@ -41,6 +41,13 @@ export class ProductHttpService {
         );
     }
 
+    destroy(productId: number): Observable<void> {
+        return this.http.delete<void>(
+            this.getUrl() + `/${productId}`,
+            { headers : this.getHeaders() }
+        );
+    }
+
     getUrl() {
         return this.url;
     }
