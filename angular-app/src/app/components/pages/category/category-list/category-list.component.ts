@@ -29,7 +29,7 @@ export class CategoryListComponent implements OnInit
   public pagination = { 
       currentPage: 1,
       totalItems: 0,
-      itemsPerPage: 5
+      itemsPerPage: 15
   }
   
   constructor(
