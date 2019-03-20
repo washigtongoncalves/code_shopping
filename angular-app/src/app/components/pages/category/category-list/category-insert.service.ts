@@ -6,36 +6,32 @@ import { CategoryListComponent } from './category-list.component';
 @Injectable({
     providedIn: 'root'
 })
-export class CategoryInsertService 
-{
+export class CategoryInsertService {
+
+    // tslint:disable-next-line:variable-name
     private _categoryListComponent: CategoryListComponent;
 
     constructor(private notify: NotifyMessageService) { }
 
-    set categoryListComponent(value: CategoryListComponent)
-    {
+    set categoryListComponent(value: CategoryListComponent) {
         this._categoryListComponent = value;
     }
 
-    showModalInsert()
-    {
+    showModalInsert() {
         this._categoryListComponent.categoryNewModal.showModal();
     }
-    
-    hideModalInsert()
-    {
+
+    hideModalInsert() {
         this._categoryListComponent.categoryNewModal.hideModal();
     }
 
-    onInsertSuccess($event: Event)
-    {
+    onInsertSuccess($event: Event) {
         this._categoryListComponent.getCategories();
         this.hideModalInsert();
         this.notify.success('Categoria cadastrada com sucesso!');
     }
-    
-    onInsertError($event: HttpErrorResponse)
-    {
+
+    onInsertError($event: HttpErrorResponse) {
         this.notify.error('Ocorreu um erro ao cadastrar a categoria!');
     }
 }

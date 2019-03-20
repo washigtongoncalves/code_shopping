@@ -7,36 +7,32 @@ import { CategoryListComponent } from './category-list.component';
 @Injectable({
     providedIn: 'root'
 })
-export class CategoryDeleteService 
-{
+export class CategoryDeleteService {
+
+    // tslint:disable-next-line:variable-name
     private _categoryListComponent: CategoryListComponent;
 
     constructor(private notify: NotifyMessageService) { }
 
-    set categoryListComponent(value: CategoryListComponent)
-    {
+    set categoryListComponent(value: CategoryListComponent) {
         this._categoryListComponent = value;
     }
 
-    showModalDelete(category: CategoryInterface)
-    {
+    showModalDelete(category: CategoryInterface) {
         this._categoryListComponent.categoryDeleteModal.showModal(category);
     }
-    
-    hideModalDelete()
-    {
+
+    hideModalDelete() {
         this._categoryListComponent.categoryDeleteModal.hideModal();
     }
-    
-    onDeleteSuccess($event: Event)
-    {
+
+    onDeleteSuccess($event: Event) {
         this._categoryListComponent.getCategories();
         this.hideModalDelete();
         this.notify.success('Categoria excluída com sucesso!');
     }
-    
-    onDeleteError($event: HttpErrorResponse)
-    {
+
+    onDeleteError($event: HttpErrorResponse) {
         this.notify.error('Ocorreu um erro ao tentar excluir a categoria!');
-    }  
+    }
 }

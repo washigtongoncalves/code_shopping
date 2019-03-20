@@ -7,36 +7,32 @@ import { CategoryListComponent } from './category-list.component';
 @Injectable({
     providedIn: 'root'
 })
-export class CategoryEditService 
-{
+export class CategoryEditService {
+
+    // tslint:disable-next-line:variable-name
     private _categoryListComponent: CategoryListComponent;
 
     constructor(private notify: NotifyMessageService) { }
 
-    set categoryListComponent(value: CategoryListComponent)
-    {
+    set categoryListComponent(value: CategoryListComponent) {
         this._categoryListComponent = value;
     }
 
-    showModalEdit(category: CategoryInterface)
-    {
+    showModalEdit(category: CategoryInterface) {
         this._categoryListComponent.categoryEditModal.showModal(category);
     }
-    
-    hideModalEdit()
-    {
+
+    hideModalEdit() {
         this._categoryListComponent.categoryEditModal.hideModal();
     }
 
-    onEditSuccess($event: Event)
-    {
+    onEditSuccess($event: Event) {
         this._categoryListComponent.getCategories();
         this.hideModalEdit();
         this.notify.success('Categoria atualizada com sucesso!');
     }
-    
-    onEditError($event: HttpErrorResponse)
-    {
+
+    onEditError($event: HttpErrorResponse) {
          this.notify.error('Ocorreu um erro ao editar a categoria!');
-    }  
+    }
 }

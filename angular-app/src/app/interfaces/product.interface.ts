@@ -1,5 +1,4 @@
-export interface ProductInterface
-{
+export interface ProductInterface {
     id?: number;
     name: string;
     description?: string;
@@ -9,8 +8,8 @@ export interface ProductInterface
     active?: boolean;
     readonly created_at?: {
         date: string
-    },
+    };
     readonly updated_at?: {
         date: string
-    }
+    };
 }

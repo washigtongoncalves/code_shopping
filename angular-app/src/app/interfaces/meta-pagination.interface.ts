@@ -1,5 +1,4 @@
-export interface MetaPaginationInterface 
-{
+export interface MetaPaginationInterface {
     readonly current_page: number;
     readonly from: number;
     readonly last_page: number;

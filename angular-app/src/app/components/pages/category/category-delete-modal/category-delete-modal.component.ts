@@ -5,69 +5,65 @@ import { CategoryInterface } from 'src/app/interfaces/category.interface';
 import { CategoryHttpService } from 'src/app/services/http/category-http.service';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'category-delete-modal',
   templateUrl: './category-delete-modal.component.html',
   styleUrls: ['./category-delete-modal.component.css']
 })
-export class CategoryDeleteModalComponent 
-{
+export class CategoryDeleteModalComponent {
+
   private category: CategoryInterface;
-    
+
   @ViewChild(ModalComponent)
   private modal: ModalComponent;
-  
-  @Output() 
+
+  // tslint:disable-next-line:no-output-on-prefix
+  @Output()
   onSuccess: EventEmitter<any> = new EventEmitter<any>();
-  
-  @Output() 
+
+  // tslint:disable-next-line:no-output-on-prefix
+  @Output()
   onError: EventEmitter<HttpErrorResponse> = new EventEmitter<HttpErrorResponse>();
 
   constructor(private categoryHttp: CategoryHttpService) { }
 
-  destroy()
-  {
-      let success = () => {
+  destroy() {
+      const success = () => {
           this.onSuccess.emit();
           this.modal.hide();
       };
-      let error = (err) => this.onError.emit(err);
+      const error = (err) => this.onError.emit(err);
       this.categoryHttp
           .destroy(this.category.id)
           .subscribe(success, error);
   }
-  
-  showModal(category: CategoryInterface)
-  {
+
+  showModal(category: CategoryInterface) {
       this.category = category;
       this.modal.show();
   }
-  
-  hideModal()
-  {
+
+  hideModal() {
       this.modal.hide();
   }
-  
+
   // Eventos do componente de Modal
-  onShowModal($event: Event)
-  {
+  onShowModal($event: Event) {
       console.log('Show Delete Modal Event');
       console.log($event);
   }
-  
-  onShownModal($event: Event)
-  {
+
+  onShownModal($event: Event) {
       console.log('Shown Delete Modal Event');
       console.log($event);
   }
-  
-  onHiddenModal($event: Event)
-  {
+
+  onHiddenModal($event: Event) {
       console.log('Hidden Delete Modal Event');
       console.log($event);
   }
-  
-  onHideModal($event: Event)
-  {
+
+  onHideModal($event: Event) {
       console.log('Hide Delete Modal Event');
       console.log($event);
   }

@@ -9,59 +9,57 @@ import { CategoryEditService } from './category-edit.service';
 import { CategoryDeleteService } from './category-delete.service';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'category-list',
   templateUrl: './category-list.component.html',
   styleUrls: ['./category-list.component.css']
 })
-export class CategoryListComponent implements OnInit
-{
+export class CategoryListComponent implements OnInit {
+
   public categories: Array<CategoryInterface> = [];
-  
+
   @ViewChild(CategoryNewModalComponent)
   categoryNewModal: CategoryNewModalComponent;
-  
+
   @ViewChild(CategoryEditModalComponent)
   categoryEditModal: CategoryEditModalComponent;
-  
+
   @ViewChild(CategoryDeleteModalComponent)
   categoryDeleteModal: CategoryDeleteModalComponent;
 
-  public pagination = { 
+  public pagination = {
       currentPage: 1,
       totalItems: 0,
       itemsPerPage: 15
-  }
-  
+  };
+
   constructor(
       private categoryHttp: CategoryHttpService, 
       protected categoryInsertService: CategoryInsertService,
       protected categoryEditService: CategoryEditService,
       protected categoryDeleteService: CategoryDeleteService,
-  ) { 
-      this.categoryInsertService.categoryListComponent = this;
-      this.categoryEditService.categoryListComponent = this;
-      this.categoryDeleteService.categoryListComponent = this;
+  ) {
+    this.categoryInsertService.categoryListComponent = this;
+    this.categoryEditService.categoryListComponent = this;
+    this.categoryDeleteService.categoryListComponent = this;
   }
-  
-  ngOnInit()
-  {
-      this.getCategories();
+
+  ngOnInit() {
+    this.getCategories();
   }
-  
-  getCategories()
-  {
-      this.categoryHttp
-          .list(this.pagination.currentPage)
-          .subscribe((response) => {
-              this.categories = response.data;
-              this.pagination.totalItems = response.meta.total;
-              this.pagination.itemsPerPage = response.meta.per_page;
-          });
-  }  
-  
-  pageChange(page: number)
-  {
-       this.pagination.currentPage = page;
-       this.getCategories();
+
+  getCategories() {
+    this.categoryHttp
+        .list(this.pagination.currentPage)
+        .subscribe((response) => {
+            this.categories = response.data;
+            this.pagination.totalItems = response.meta.total;
+            this.pagination.itemsPerPage = response.meta.per_page;
+        });
+  }
+
+  pageChange(page: number) {
+    this.pagination.currentPage = page;
+    this.getCategories();
   }
 }

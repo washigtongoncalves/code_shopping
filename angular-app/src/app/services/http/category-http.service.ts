@@ -8,25 +8,23 @@ import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class CategoryHttpService
-{
+export class CategoryHttpService {
+
     private url = 'http://localhost:8000/api/categories';
     private token: string;
     private headers;
 
-    constructor(private http: HttpClient)
-    {
+    constructor(private http: HttpClient) {
         this.token = localStorage.getItem('token');
         this.headers = {
             Authorization : `Bearer ${this.token}`
         };
     }
 
-    list(page: number): Observable<{ data: Array<CategoryInterface>, meta: MetaPaginationInterface }>
-    {
+    list(page: number): Observable<{ data: Array<CategoryInterface>, meta: MetaPaginationInterface }> {
         const params = new HttpParams({
             fromObject: {
-                page: page + "" // necessário fazer o cast para string para evitar mensagens de erro 
+                page: page + '' // necessário fazer o cast para string para evitar mensagens de erro
             }
         });
         return this.http.get<{ data: Array<CategoryInterface>, meta: MetaPaginationInterface }>(
@@ -35,8 +33,7 @@ export class CategoryHttpService
         );
     }
 
-    get(categoryId: number): Observable<CategoryInterface>
-    {
+    get(categoryId: number): Observable<CategoryInterface> {
         return this.http.get<{ data: CategoryInterface }>(
             this.getUrl() + `/${categoryId}`,
             { headers : this.getHeaders() }
@@ -45,8 +42,7 @@ export class CategoryHttpService
         );
     }
 
-    create(category: CategoryInterface): Observable<CategoryInterface>
-    {
+    create(category: CategoryInterface): Observable<CategoryInterface> {
         return this.http.post<CategoryInterface>(
             this.getUrl(),
             category,
@@ -54,8 +50,7 @@ export class CategoryHttpService
         );
     }
 
-    update(category: CategoryInterface): Observable<CategoryInterface>
-    {
+    update(category: CategoryInterface): Observable<CategoryInterface> {
         return this.http.put<CategoryInterface>(
             this.getUrl() + `/${category.id}`,
             category,
@@ -63,21 +58,18 @@ export class CategoryHttpService
         );
     }
 
-    destroy(categoryId: number): Observable<void>
-    {
+    destroy(categoryId: number): Observable<void> {
         return this.http.delete<void>(
             this.getUrl() + `/${categoryId}`,
             { headers : this.getHeaders() }
         );
     }
 
-    getUrl()
-    {
+    getUrl() {
         return this.url;
     }
 
-    getHeaders()
-    {
+    getHeaders() {
         return this.headers;
     }
 }

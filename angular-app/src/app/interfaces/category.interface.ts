@@ -1,5 +1,4 @@
-export interface CategoryInterface 
-{
+export interface CategoryInterface {
     id?: number;
     name: string;
     active?: boolean;
