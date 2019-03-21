@@ -1,0 +1,19 @@
+<form (submit)="submit()">  
+    <modal>
+        <h5 modal-title>
+            Restaurar produto
+        </h5>
+        <div modal-body>
+            Deseja restaurar o produto {{product?.name}}?
+        </div>
+        <div modal-footer>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                Fechar
+            </button>
+            &nbsp;
+            <button type="submit" class="btn btn-primary">
+                Restaurar
+            </button>
+        </div>
+    </modal>
+</form>

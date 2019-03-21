@@ -18,6 +18,7 @@ import { CategoryDeleteModalComponent } from './components/pages/category/catego
 import { ProductNewModalComponent } from './components/pages/product/product-new-modal/product-new-modal.component';
 import { ProductEditModalComponent } from './components/pages/product/product-edit-modal/product-edit-modal.component';
 import { ProductDeleteModalComponent } from './components/pages/product/product-delete-modal/product-delete-modal.component';
+import { ProductRestoreModalComponent } from './components/pages/product/product-restore-modal/product-restore-modal.component';
 import { ProductListComponent } from './components/pages/product/product-list/product-list.component';
 import { NumberFormatBrPipe } from './pipes/number-format-br.pipe';
 
@@ -41,6 +42,7 @@ const routes: Routes = [
     ProductNewModalComponent,
     ProductEditModalComponent,
     ProductDeleteModalComponent,
+    ProductRestoreModalComponent,
     ProductListComponent,
     NumberFormatBrPipe
   ],
