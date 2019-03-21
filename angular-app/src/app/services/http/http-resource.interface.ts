@@ -7,6 +7,7 @@ export interface HttpResourceInterface<T> {
     create(data: T): Observable<T>;
     update(id: number, data: T): Observable<T>;
     destroy(id: number): Observable<any>;
+    restore(id: number): Observable<any>;
     getUrl(): string;
     getHeaders();
 }
