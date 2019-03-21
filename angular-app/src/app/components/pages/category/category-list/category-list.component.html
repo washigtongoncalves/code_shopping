@@ -41,6 +41,11 @@
                     </a>
                 </td>
             </tr>
+            <tr *ngIf="!categories.length">
+                <td colspan="5">
+                    Nada a exibir por enquanto :(
+                </td>
+            </tr>
         </tbody>
     </table>
     <pagination-controls 
