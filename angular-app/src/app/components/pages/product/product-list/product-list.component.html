@@ -13,8 +13,7 @@
                        id="active"
                        required 
                        [(ngModel)]="onlyTrashed"
-                       (change)="getProducts()"
-                       >
+                       (change)="getProducts()">
                   <label for="active">
                     &nbsp;Somente excluídos?
                   </label>
@@ -61,8 +60,8 @@
                         </a>
                     </span>
                     <span *ngIf="onlyTrashed">
-                        <a href="javascript:void(0)" (click)="productRestoreService.showModalRestore(product)">
-                            Restaurar
+                        <a href="javascript:void(0)" (click)="productRestoreService.showModalRestore(product)" title="Restaurar produto">
+                            <i class="fas fa-thumbs-up"></i>
                         </a>
                     </span>
                 </td>
