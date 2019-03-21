@@ -73,13 +73,16 @@
             </tr>
       </tbody>
   </table>
-  <pagination-controls 
+</div>
+<hr>
+<div style="text-align: right;">
+    <pagination-controls 
         (pageChange)="pageChange($event)"
         nextLabel="Próximo"
         previousLabel="Anterior"
         autoHide=true
         responsive=true>
-  </pagination-controls>
+    </pagination-controls>
 </div>
 <product-new-modal 
     (onSuccess)="productInsertService.onInsertSuccess($event)" 
