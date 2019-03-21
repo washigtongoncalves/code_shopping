@@ -65,12 +65,9 @@ export abstract class HttpResourceAbstract<T> implements HttpResourceInterface<T
 
     restore(id: number): Observable<any> {
         return this.http.patch<any>(
-            this.getUrl() + `/${id}/restore`,
+            this.getUrl() + `/${id}/restore?trashed=1`,
             {},
-            { 
-                headers: this.getHeaders(),
-                params: { trashed: 1 } // Necessário para restaurar na API
-            }
+            { headers: this.getHeaders() }
         );
     }
 
