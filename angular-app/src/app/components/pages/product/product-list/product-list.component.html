@@ -22,11 +22,23 @@
           <tr>
               <th style="width: 5%">ID</th>
               <th style="width: 45%">Nome</th>
-              <th style="width: 10%" class="text-right">Estoque</th>
-              <th style="width: 10%" class="text-right">Preço</th>
-              <th style="width: 10%" class="text-center">Ativo?</th>
-              <th style="width: 10%" class="text-center">Criado em</th>
-              <th style="width: 10%" class="text-center">Ações</th>
+              <th style="width: 10%">Ativo?</th>
+              <th style="width: 10%">Criado em</th>
+              <th style="width: 10%">
+                <span class="float-lg-right float-xl-right">
+                    Estoque
+                </span>
+              </th>
+              <th style="width: 10%">
+                <span class="float-lg-right float-xl-right">
+                    Preço
+                </span>
+              </th>
+              <th style="width: 10%">
+                <span class="float-lg-right float-xl-right">
+                    Ações
+                </span>
+              </th>
           </tr>
       </thead>
       <tbody>
@@ -37,20 +49,24 @@
                 <td data-title="Nome: " [title]="product.description">
                     {{product.name}}
                 </td>
-                <td data-title="Estoque: " class="text-right">
-                    {{product.stock}}
-                </td>
-                <td data-title="Preço: " class="text-right">
-                    R$ {{product.price | numberFormatBr}}
-                </td>
-                <td data-title="Status: " class="text-center">
+                <td data-title="Ativo: ">
                     <i class="fas" [ngClass]="{'fa-check': product.active, 'fa-times': !product.active}"></i>
                 </td>
-                <td data-title="Criado em: " class="text-center">
+                <td data-title="Criado em: ">
                     {{product.created_at.date | date: 'dd/MM/yyyy'}}
                 </td>
-                <td data-title="Ações: " class="text-center">
-                    <span *ngIf="!onlyTrashed">
+                <td data-title="Estoque: ">
+                    <span class="float-lg-right float-xl-right">
+                        {{product.stock}}
+                    </span>
+                </td>
+                <td data-title="Preço: ">
+                    <span class="float-lg-right float-xl-right">
+                        R${{product.price | numberFormatBr}}
+                    </span>
+                </td>
+                <td data-title="Ações: ">
+                    <span class="float-lg-right float-xl-right" *ngIf="!onlyTrashed">
                         <a href="javascript:void(0)" (click)="productEditService.showModalEdit(product)">
                             <i class="fas fa-edit"></i>
                         </a>
@@ -59,7 +75,7 @@
                             <i class="fas fa-trash-alt"></i>
                         </a>
                     </span>
-                    <span *ngIf="onlyTrashed">
+                    <span class="float-lg-right float-xl-right" *ngIf="onlyTrashed">
                         <a href="javascript:void(0)" (click)="productRestoreService.showModalRestore(product)" title="Restaurar produto">
                             <i class="fas fa-thumbs-up"></i>
                         </a>

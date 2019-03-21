@@ -12,9 +12,9 @@
             <tr>
                 <th style="width: 5%">ID</th>
                 <th style="width: 50%">Nome</th>
-                <th style="width: 15%" class="text-center">Ativa?</th>
-                <th style="width: 15%" class="text-center">Criada em</th>
-                <th style="width: 15%" class="text-center">Ações</th>
+                <th style="width: 15%">Ativa?</th>
+                <th style="width: 15%">Criada em</th>
+                <th style="width: 15%">Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -25,13 +25,13 @@
                 <td data-title="Nome:">
                     {{category.name}}
                 </td>
-                <td data-title="Ativa:" class="text-center">
+                <td data-title="Ativa:">
                     <i class="fas" [ngClass]="{'fa-check': category.active, 'fa-times': !category.active}"></i>
                 </td>
-                <td data-title="Criada em:" class="text-center">
+                <td data-title="Criada em:">
                     {{category.created_at.date | date: 'dd/MM/yyyy'}}
                 </td>
-                <td data-title="Ações: " class="text-center">
+                <td data-title="Ações: ">
                     <a href="javascript:void(0)" (click)="categoryEditService.showModalEdit(category)">
                         <i class="fas fa-edit"></i>
                     </a>
