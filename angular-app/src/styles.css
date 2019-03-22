@@ -211,6 +211,11 @@ textarea.no-resize {
   text-align: center;
 }
 
+i.fas.fa-trash-alt 
+{
+    color: red;
+}
+
 /* No more tables */
 @media only screen and (max-width: 800px) {
     
