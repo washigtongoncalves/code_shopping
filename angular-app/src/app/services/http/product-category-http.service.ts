@@ -9,7 +9,7 @@ import { ProductCategoryInterface } from '../../interfaces/product-category.inte
 })
 export class ProductCategoryHttpService {
 
-  protected url = 'http://localhost:8000/api';
+  protected baseUrl = 'http://localhost:8000/api';
   protected token: string;
   protected headers;
   protected http: HttpClient;
@@ -23,9 +23,8 @@ export class ProductCategoryHttpService {
   }
 
   list(productId: number): Observable<ProductCategoryInterface> {
-    const listUrl = `${this.url}/products/${productId}/categories/`;
     return this.http.get<{ data: ProductCategoryInterface }>(
-      listUrl,
+      this.getUrl(productId),
       { headers : this.getHeaders() }
     ).pipe(
       map((response) => response.data)
@@ -33,9 +32,8 @@ export class ProductCategoryHttpService {
   }
 
   create(productId: number, categoriesIds: Array<number>): Observable<ProductCategoryInterface> {
-    const createUrl = `${this.url}/products/${productId}/categories/`;
     return this.http.post<{ data: ProductCategoryInterface }>(
-      createUrl,
+      this.getUrl(productId),
       { categories: categoriesIds },
       { headers : this.getHeaders() }
     ).pipe(
@@ -44,11 +42,18 @@ export class ProductCategoryHttpService {
   }
 
   destroy(productId: number, categoryId: number): Observable<any> {
-    const destroyUrl = `${this.url}/products/${productId}/categories/${categoryId}`;
     return this.http.delete<any>(
-        destroyUrl,
+        this.getUrl(productId, categoryId),
         { headers: this.getHeaders() }
     );
+  }
+
+  getUrl(productId: number, categoryId?: number): string {
+    let url = `${this.baseUrl}/products/${productId}/categories/`;
+    if (categoryId) {
+      url += categoryId;
+    }
+    return url;
   }
 
   getHeaders() {
