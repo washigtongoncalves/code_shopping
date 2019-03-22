@@ -30,8 +30,8 @@ export class ProductCategoryDeleteModalComponent {
   constructor(private productCategoryHttp: ProductCategoryHttpService) { }
 
   destroy() {
-    const success = (productCategories) => {
-        this.onSuccess.emit(productCategories);
+    const success = () => {
+        this.onSuccess.emit();
         this.modal.hide();
     };
     const error = (err) => this.onError.emit(err);
