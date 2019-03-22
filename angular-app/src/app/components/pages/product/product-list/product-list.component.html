@@ -71,16 +71,21 @@
                 </td>
                 <td data-title="Ações: ">
                     <span class="float-lg-right float-xl-right" *ngIf="!onlyTrashed">
-                        <a href="javascript:void(0)" (click)="productEditService.showModalEdit(product)">
-                            <i class="fas fa-edit"></i>
+                        <a href="javascript:void(0)" 
+                           (click)="productEditService.showModalEdit(product)"
+                           title="Editar o produto {{product.name}}">
+                           <i class="fas fa-edit"></i>
                         </a>
                         &nbsp;
-                        <a href="javascript:void(0)" (click)="productDeleteService.showModalDelete(product)">
-                            <i class="fas fa-trash-alt"></i>
+                        <a [routerLink]="['/products', product.id, 'categories', 'list']" 
+                           title="Configurar categorias vinculadas ao produto {{product.name}}">
+                           <i class="fas fa-box-open"></i>
                         </a>
                         &nbsp;
-                        <a [routerLink]="['/products', product.id, 'categories', 'list']">
-                            Categorias
+                        <a href="javascript:void(0)" 
+                           (click)="productDeleteService.showModalDelete(product)"
+                           title="Excluir o produto {{product.name}}">
+                           <i class="fas fa-trash-alt"></i>
                         </a>
                     </span>
                     <span class="float-lg-right float-xl-right" *ngIf="onlyTrashed">
