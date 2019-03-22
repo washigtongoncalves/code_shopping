@@ -18,6 +18,7 @@ class CreateCategoriesTable extends Migration
             $table->string('name');
             $table->string('slug');
             $table->boolean('active')->default(1);
+            // $table->unique('name', 'uk_categories_name');
             $table->timestamps();
         });
     }
