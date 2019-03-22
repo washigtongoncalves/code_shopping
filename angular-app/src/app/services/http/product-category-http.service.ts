@@ -2,13 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ProductInterface } from '../../interfaces/product.interface';
-import { CategoryInterface } from '../../interfaces/category.interface';
-
-interface ProductCategoryInterface {
-  product: ProductInterface; 
-  categories: Array<CategoryInterface>; 
-}
+import { ProductCategoryInterface } from '../../interfaces/product-category.interface';
 
 @Injectable({
   providedIn: 'root'
