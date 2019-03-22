@@ -22,19 +22,25 @@ export abstract class HttpResourceAbstract<T> implements HttpResourceInterface<T
     list(page: number, onlyTrashed: boolean = false): Observable<{ data: Array<T>, meta: MetaPaginationInterface }> {
         const params = new HttpParams({
             fromObject: {
-                page: page + '' // necessário fazer o cast para string para evitar mensagens de erro
+                page: page + '', // necessário fazer o cast para string para evitar mensagens de erro
+                trashed: (onlyTrashed ? 1 : 0) + ''
             }
         });
         return this.http.get<{ data: Array<T>, meta: MetaPaginationInterface }>(
-            this.getUrl() + `/?trashed=` + (onlyTrashed ? 1 : 0),
+            this.getUrl(),
             { params, headers : this.getHeaders() }
         );
     }
 
     get(id: number, onlyTrashed: boolean = false): Observable<T> {
+        const params = new HttpParams({
+            fromObject: {
+                trashed: (onlyTrashed ? 1 : 0) + ''
+            }
+        });
         return this.http.get<{ data: T }>(
-            this.getUrl() + `/${id}?trashed=` + (onlyTrashed ? 1 : 0),
-            { headers : this.getHeaders() }
+            this.getUrl() + `/${id}`,
+            { params, headers : this.getHeaders() }
         ).pipe(
             map(response => response.data)
         );
@@ -64,10 +70,15 @@ export abstract class HttpResourceAbstract<T> implements HttpResourceInterface<T
     }
 
     restore(id: number): Observable<any> {
+        const params = new HttpParams({
+            fromObject: {
+                trashed: '1'
+            }
+        });
         return this.http.patch<any>(
-            this.getUrl() + `/${id}/restore?trashed=1`,
+            this.getUrl() + `/${id}/restore`,
             {},
-            { headers: this.getHeaders() }
+            { params, headers: this.getHeaders() }
         );
     }
 
