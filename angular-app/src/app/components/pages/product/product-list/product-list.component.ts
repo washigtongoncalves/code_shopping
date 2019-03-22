@@ -24,7 +24,7 @@ export class ProductListComponent implements OnInit {
     totalItems: 0,
     itemsPerPage: 15
   };
-  public onlyTrashed: boolean = false;
+  public trashed: boolean;
 
   @ViewChild(ProductNewModalComponent)
   productNewModal: ProductNewModalComponent;
@@ -57,7 +57,7 @@ export class ProductListComponent implements OnInit {
 
   getProducts() {
     this.productHttp
-        .list(this.pagination.currentPage, this.onlyTrashed)
+        .list({ page: this.pagination.currentPage, trashed: this.trashed })
         .subscribe((response) => {
             this.products = response.data;
             this.pagination.totalItems = response.meta.total;

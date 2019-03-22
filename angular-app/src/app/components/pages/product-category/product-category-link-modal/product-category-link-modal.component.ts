@@ -40,7 +40,7 @@ export class ProductCategoryLinkModalComponent implements OnInit {
 
   getAllCategories() {
     this.categoryHttp
-        .list(1)
+        .list({ all: true })
         .subscribe(response => this.categories = response.data);
   }
 

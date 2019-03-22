@@ -16,7 +16,7 @@
                        name="active" 
                        id="active"
                        required 
-                       [(ngModel)]="onlyTrashed"
+                       [(ngModel)]="trashed"
                        (change)="getProducts()">
                   <label for="active">
                     &nbsp;Somente excluídos?
@@ -70,7 +70,7 @@
                     </span>
                 </td>
                 <td data-title="Ações: ">
-                    <span class="float-lg-right float-xl-right" *ngIf="!onlyTrashed">
+                    <span class="float-lg-right float-xl-right" *ngIf="!trashed">
                         <a href="javascript:void(0)" 
                            (click)="productEditService.showModalEdit(product)"
                            title="Editar o produto {{product.name}}">
@@ -88,7 +88,7 @@
                            <i class="fas fa-trash-alt"></i>
                         </a>
                     </span>
-                    <span class="float-lg-right float-xl-right" *ngIf="onlyTrashed">
+                    <span class="float-lg-right float-xl-right" *ngIf="trashed">
                         <a href="javascript:void(0)" (click)="productRestoreService.showModalRestore(product)" title="Restaurar produto">
                             <i class="fas fa-thumbs-up"></i>
                         </a>

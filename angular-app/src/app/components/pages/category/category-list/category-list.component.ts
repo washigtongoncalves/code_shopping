@@ -50,7 +50,7 @@ export class CategoryListComponent implements OnInit {
 
   getCategories() {
     this.categoryHttp
-        .list(this.pagination.currentPage)
+        .list({ page: this.pagination.currentPage })
         .subscribe((response) => {
             this.categories = response.data;
             this.pagination.totalItems = response.meta.total;
