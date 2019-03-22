@@ -1,10 +1,10 @@
 <div class="row" id="no-more-tables">
-  <h3>Categorias do produto {{product?.name}}</h3>
+  <h3>Categorias do produto {{productCategories?.product.name}}</h3>
   <table class="table table-striped table-hover table-sm">
       <thead>
           <tr>
               <td colspan="5">
-                    <button class="btn btn-primary" (click)="productCategoryLinkService.showModalLink()">
+                    <button class="btn btn-primary" (click)="productCategoryLinkService.showModalLink(productCategories)">
                         Vincular
                     </button>
                     &nbsp;
@@ -22,7 +22,7 @@
           </tr>
       </thead>
       <tbody>
-          <tr *ngFor="let category of productCategories">
+          <tr *ngFor="let category of productCategories?.categories">
               <td data-title="ID:">
                   {{category.id}}
               </td>
@@ -41,7 +41,7 @@
                   </a>
               </td>
           </tr>
-          <tr *ngIf="!productCategories?.length">
+          <tr *ngIf="!productCategories?.categories.length">
               <td colspan="5">
                   Nada a exibir por enquanto :(
               </td>
@@ -49,3 +49,7 @@
       </tbody>
   </table>
 </div>
+<product-category-link-modal 
+    (onSuccess)="productCategoryLinkService.onLinkSuccess($event)" 
+    (onError)="productCategoryLinkService.onLinkError($event)">
+</product-category-link-modal>

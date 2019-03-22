@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ProductHttpService } from 'src/app/services/http/product-http.service';
 import { ProductCategoryHttpService } from 'src/app/services/http/product-category-http.service';
-import { ProductInterface } from 'src/app/interfaces/product.interface';
-import { CategoryInterface } from 'src/app/interfaces/category.interface';
-import { CategoryHttpService } from 'src/app/services/http/category-http.service';
+import { ProductCategoryLinkModalComponent } from '../product-category-link-modal/product-category-link-modal.component';
+import { ProductCategoryLinkService } from './product-category-link.service';
+import { ProductCategoryInterface } from '../../../../interfaces/product-category.interface';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'product-category-list',
   templateUrl: './product-category-list.component.html',
   styleUrls: ['./product-category-list.component.css']
@@ -14,42 +14,29 @@ import { CategoryHttpService } from 'src/app/services/http/category-http.service
 export class ProductCategoryListComponent implements OnInit {
 
   productId: number;
-  product: ProductInterface;
-  productCategories: Array<CategoryInterface>;
-  categories: Array<CategoryInterface>;
-  categoriesIds: Array<number> = [];
+  productCategories: ProductCategoryInterface;
+
+  @ViewChild(ProductCategoryLinkModalComponent)
+  productCategoryLinkModal: ProductCategoryLinkModalComponent;
 
   constructor(
     private route: ActivatedRoute,
-    private productHttp: ProductHttpService,
     private productCategoryHttp: ProductCategoryHttpService,
-    private categoryHttp: CategoryHttpService
-  ) { }
+    private productCategoryLinkService: ProductCategoryLinkService
+  ) {
+    this.productCategoryLinkService.productCategoryListComponent = this;
+  }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.productId = params.product;
-      this.getProduct();
-      this.getCategories();
       this.getProductCategories();
     });
-  }
-
-  getProduct() {
-    this.productHttp
-        .get(this.productId)
-        .subscribe(product => this.product = product);
-  }
-
-  getCategories() {
-    this.categoryHttp
-        .list(1)
-        .subscribe((response) => this.categories = response.data);
   }
 
   getProductCategories() {
     this.productCategoryHttp
         .list(this.productId)
-        .subscribe(response => this.productCategories = response.categories); 
+        .subscribe(response => this.productCategories = response);
   }
 }

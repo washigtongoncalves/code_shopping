@@ -22,6 +22,7 @@ import { ProductRestoreModalComponent } from './components/pages/product/product
 import { ProductListComponent } from './components/pages/product/product-list/product-list.component';
 import { NumberFormatBrPipe } from './pipes/number-format-br.pipe';
 import { ProductCategoryListComponent } from './components/pages/product-category/product-category-list/product-category-list.component';
+// tslint:disable-next-line:max-line-length
 import { ProductCategoryLinkModalComponent } from './components/pages/product-category/product-category-link-modal/product-category-link-modal.component';
 
 const routes: Routes = [

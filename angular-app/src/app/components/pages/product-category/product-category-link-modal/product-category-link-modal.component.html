@@ -1,13 +1,23 @@
-<form class="form-inline">
-    <div class="col-auto">
-        <label>Categorias</label>
-        <select name="categories[]" class="form-control" multiple [(ngModel)]="categoriesIds">
-            <option *ngFor="let category of categories" [ngValue]="category.id">
-                {{category.name}}
-            </option>
-        </select>
-    </div>
-    <button class="btn btn-primary" type="submit">
-        Vincular
-    </button>
+<form (submit)="submit()">  
+    <modal>
+        <h5 modal-title>
+            Vincular categorias ao produto {{productCategories?.product.name}} 
+        </h5>
+        <div modal-body>
+            <select name="categories[]" multiple class="form-control" [(ngModel)]="categoriesIds">
+               <option *ngFor="let category of categories" [ngValue]="category.id">
+                   {{category.name}}
+               </option>
+            </select>
+        </div>
+        <div modal-footer>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                Fechar
+            </button>
+            &nbsp;
+            <button type="submit" class="btn btn-primary">
+                Vincular
+            </button>
+        </div>
+    </modal>
 </form>
