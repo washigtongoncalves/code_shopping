@@ -32,6 +32,17 @@ export class ProductCategoryHttpService {
     );
   }
 
+  create(productId: number, categoriesIds: Array<number>): Observable<ProductCategoryInterface> {
+    const createUrl = `${this.url}/products/${productId}/categories/`;
+    return this.http.post<{ data: ProductCategoryInterface }>(
+      createUrl,
+      { categories: categoriesIds },
+      { headers : this.getHeaders() }
+    ).pipe(
+      map((response) => response.data)
+    );
+  }
+
   getHeaders() {
     return this.headers;
   }

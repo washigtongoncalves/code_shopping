@@ -30,7 +30,7 @@ export class ProductCategoryLinkModalComponent implements OnInit {
   onError: EventEmitter<HttpErrorResponse> = new EventEmitter<HttpErrorResponse>();
 
   constructor(
-    private producCategorytHttp: ProductCategoryHttpService,
+    private productCategoryHttp: ProductCategoryHttpService,
     private categoryHttp: CategoryHttpService
   ) { }
 
@@ -45,14 +45,25 @@ export class ProductCategoryLinkModalComponent implements OnInit {
   }
 
   submit() {
-    // const success = (category) => {
-    //    this.onSuccess.emit(category);
-    //    this.modal.hide();
-    // };
-    // const error = (err) => this.onError.emit(err);
-    // this.productHttp
-    //    .restore(this.product.id)
-    //    .subscribe(success, error);
+    const success = (productCategories) => {
+        this.onSuccess.emit(productCategories);
+        this.modal.hide();
+    };
+    const error = (err) => this.onError.emit(err);
+    this.productCategoryHttp
+        .create(this.productCategories.product.id, this.mergeCategories())
+        .subscribe(success, error);
+  }
+
+  private mergeCategories(): Array<number> {
+    // Categorias já vinculadas
+    const oldCategoriesIds = this.productCategories.categories.map((category) => category.id);
+    // Categorias que o usuário quer vincular
+    const newCategoriesIds = this.categoriesIds.filter(category => {
+      // Elimina categorias que já estão vinculadas ao produto
+      return oldCategoriesIds.indexOf(category) === -1;
+    });
+    return oldCategoriesIds.concat(newCategoriesIds);
   }
 
   showModal(productCategories: ProductCategoryInterface) {
