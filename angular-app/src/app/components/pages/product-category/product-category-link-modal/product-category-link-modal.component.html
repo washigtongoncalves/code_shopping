@@ -1,0 +1,13 @@
+<form class="form-inline">
+    <div class="col-auto">
+        <label>Categorias</label>
+        <select name="categories[]" class="form-control" multiple [(ngModel)]="categoriesIds">
+            <option *ngFor="let category of categories" [ngValue]="category.id">
+                {{category.name}}
+            </option>
+        </select>
+    </div>
+    <button class="btn btn-primary" type="submit">
+        Vincular
+    </button>
+</form>
