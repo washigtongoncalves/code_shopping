@@ -1,5 +1,5 @@
 export interface SearchParamsInterface {
     page?: number;
-    trashed?: number;
+    trashed?: any;
     all?: any;
 }
