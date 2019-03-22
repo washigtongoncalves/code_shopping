@@ -2,6 +2,7 @@
 
 namespace CodeShopping\Http\Controllers\Api;
 
+use Illuminate\Http\Request;
 use CodeShopping\Http\Requests\ProductRequest;
 use CodeShopping\Http\Controllers\Controller;
 use CodeShopping\Models\Product;
@@ -12,11 +13,11 @@ class ProductController extends Controller
 {
     use OnlyTrashedIfRequestedTrait;
     
-    public function index()
+    public function index(Request $request)
     {
         $query = Product::query();
         $query = $this->onlyTrashedIfRequested($query);
-        $products = $query->paginate(20);
+        $products = $request->has('all') ? $query->get() : $query->paginate(20);
         return ProductResource::collection($products);
     }
 
