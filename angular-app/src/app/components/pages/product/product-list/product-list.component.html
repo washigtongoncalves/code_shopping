@@ -12,14 +12,13 @@
                       Categorias
                   </a>
                   &nbsp;
-                  <input type="checkbox" 
-                       name="active" 
-                       id="active"
-                       required 
-                       [(ngModel)]="trashed"
-                       (change)="getProducts()">
-                  <label for="active">
-                    &nbsp;Somente excluídos?
+                  <label>
+                    <input type="checkbox" 
+                        name="active" 
+                        required 
+                        [(ngModel)]="trashed"
+                        (change)="getProducts()">
+                        &nbsp;Somente excluídos?
                   </label>
               </td>
           </tr>
