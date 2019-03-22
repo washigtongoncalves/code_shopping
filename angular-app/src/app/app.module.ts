@@ -21,10 +21,12 @@ import { ProductDeleteModalComponent } from './components/pages/product/product-
 import { ProductRestoreModalComponent } from './components/pages/product/product-restore-modal/product-restore-modal.component';
 import { ProductListComponent } from './components/pages/product/product-list/product-list.component';
 import { NumberFormatBrPipe } from './pipes/number-format-br.pipe';
+import { ProductCategoryListComponent } from './components/pages/product-category/product-category-list/product-category-list.component';
 
 const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'categories/list', component: CategoryListComponent },
+    { path: 'products/:product/categories/list', component: ProductCategoryListComponent },
     { path: 'products/list', component: ProductListComponent },
     { path: '', redirectTo: '/login', pathMatch: 'full' }, // Rota padrão
 ];
@@ -44,7 +46,8 @@ const routes: Routes = [
     ProductDeleteModalComponent,
     ProductRestoreModalComponent,
     ProductListComponent,
-    NumberFormatBrPipe
+    NumberFormatBrPipe,
+    ProductCategoryListComponent
   ],
   imports: [
     BrowserModule,
