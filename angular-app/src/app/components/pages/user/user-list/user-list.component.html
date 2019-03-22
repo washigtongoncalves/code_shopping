@@ -1,0 +1,81 @@
+<div class="row" id="no-more-tables">
+  <h3>Listagem de Usuários</h3>
+  <table class="table table-striped table-hover table-sm">
+    <thead>
+        <tr>
+            <td colspan="4">
+                <button class="btn btn-primary" (click)="userInsertService.showModalInsert()">
+                    Novo usuário
+                </button>
+                &nbsp;
+                <label>
+                  <input type="checkbox" 
+                      name="active" 
+                      required 
+                      [(ngModel)]="trashed"
+                      (change)="getUsers()">
+                      &nbsp;Somente excluídos?
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 5%">ID</th>
+            <th style="width: 55%">Nome</th>
+            <th style="width: 20%">Criado em</th>
+            <th style="width: 20%">
+              <span class="float-lg-right float-xl-right">
+                  Ações
+              </span>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of users | paginate: pagination">
+            <td data-title="ID: ">
+                {{user.id}}
+            </td>
+            <td data-title="Nome: ">
+                {{user.name}}
+            </td>
+            <td data-title="Criado em: ">
+                {{user.created_at.date | date: 'dd/MM/yyyy'}}
+            </td>
+            <td data-title="Ações: ">
+                <span class="float-lg-right float-xl-right" *ngIf="!trashed">
+                    <a href="javascript:void(0)" 
+                       (click)="userEditService.showModalEdit(user)"
+                       title="Editar o usuário {{user.name}}">
+                       <i class="fas fa-edit"></i>
+                    </a>
+                    &nbsp;
+                    <a href="javascript:void(0)" 
+                       (click)="userDeleteService.showModalDelete(user)"
+                       title="Excluir o usuário {{user.name}}">
+                       <i class="fas fa-trash-alt"></i>
+                    </a>
+                </span>
+                <span class="float-lg-right float-xl-right" *ngIf="trashed">
+                    <a href="javascript:void(0)" (click)="userRestoreService.showModalRestore(user)" title="Restaurar produto">
+                        <i class="fas fa-thumbs-up"></i>
+                    </a>
+                </span>
+            </td>
+        </tr>
+        <tr *ngIf="!users.length">
+            <td colspan="4">
+                Nada a exibir por enquanto :(
+            </td>
+        </tr>
+    </tbody>
+  </table>
+</div>
+<hr>
+<div style="text-align: right;">
+    <pagination-controls 
+        (pageChange)="pageChange($event)"
+        nextLabel="Próximo"
+        previousLabel="Anterior"
+        autoHide=true
+        responsive=true>
+    </pagination-controls>
+</div>

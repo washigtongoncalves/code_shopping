@@ -26,9 +26,11 @@ import { ProductCategoryListComponent } from './components/pages/product-categor
 import { ProductCategoryLinkModalComponent } from './components/pages/product-category/product-category-link-modal/product-category-link-modal.component';
 // tslint:disable-next-line:max-line-length
 import { ProductCategoryDeleteModalComponent } from './components/pages/product-category/product-category-delete-modal/product-category-delete-modal.component';
+import { UserListComponent } from './components/pages/user/user-list/user-list.component';
 
 const routes: Routes = [
     { path: 'login', component: LoginComponent },
+    { path: 'users/list', component: UserListComponent },
     { path: 'categories/list', component: CategoryListComponent },
     { path: 'products/:product/categories/list', component: ProductCategoryListComponent },
     { path: 'products/list', component: ProductListComponent },
@@ -53,7 +55,8 @@ const routes: Routes = [
     NumberFormatBrPipe,
     ProductCategoryListComponent,
     ProductCategoryLinkModalComponent,
-    ProductCategoryDeleteModalComponent
+    ProductCategoryDeleteModalComponent,
+    UserListComponent
   ],
   imports: [
     BrowserModule,
