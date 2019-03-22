@@ -2,6 +2,7 @@
 
 namespace CodeShopping\Http\Controllers\Api;
 
+use Illuminate\Http\Request;
 use CodeShopping\Models\Category;
 use CodeShopping\Http\Controllers\Controller;
 use CodeShopping\Http\Requests\CategoryRequest;
@@ -9,9 +10,10 @@ use CodeShopping\Http\Resources\CategoryResource;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-       return CategoryResource::collection(Category::paginate(15));
+       $categories = $request->has('all') ? Category::all() : Category::paginate(15);
+       return CategoryResource::collection($categories);
     }
 
     public function store(CategoryRequest $request)
