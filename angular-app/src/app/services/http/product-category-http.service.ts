@@ -43,6 +43,14 @@ export class ProductCategoryHttpService {
     );
   }
 
+  destroy(productId: number, categoryId: number): Observable<any> {
+    const destroyUrl = `${this.url}/products/${productId}/categories/${categoryId}`;
+    return this.http.delete<any>(
+        destroyUrl,
+        { headers: this.getHeaders() }
+    );
+  }
+
   getHeaders() {
     return this.headers;
   }

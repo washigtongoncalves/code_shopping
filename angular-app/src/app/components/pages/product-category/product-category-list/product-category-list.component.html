@@ -36,7 +36,7 @@
                   {{category.created_at.date | date: 'dd/MM/yyyy'}}
               </td>
               <td data-title="Ações: ">
-                  <a href="javascript:void(0)">
+                  <a href="javascript:void(0)" (click)="productCategoryDeleteService.showModalDelete(productCategories.product, category)">
                       <i class="fas fa-trash-alt"></i>
                   </a>
               </td>
@@ -53,3 +53,7 @@
     (onSuccess)="productCategoryLinkService.onLinkSuccess($event)" 
     (onError)="productCategoryLinkService.onLinkError($event)">
 </product-category-link-modal>
+<product-category-delete-modal 
+    (onSuccess)="productCategoryDeleteService.onDeleteSuccess($event)" 
+    (onError)="productCategoryDeleteService.onDeleteError($event)">
+</product-category-delete-modal>

@@ -1,0 +1,17 @@
+<modal>
+    <h5 modal-title>
+        Desvincular categoria
+    </h5>
+    <div modal-body>
+        Deseja desvincular a categoria {{category?.name}} do produto {{product?.name}}?
+    </div>
+    <div modal-footer>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Fechar
+        </button>
+        &nbsp;
+        <button type="button" class="btn btn-danger" (click)="destroy()">
+            Desvincular
+        </button>
+    </div>
+</modal>

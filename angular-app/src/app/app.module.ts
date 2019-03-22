@@ -24,6 +24,8 @@ import { NumberFormatBrPipe } from './pipes/number-format-br.pipe';
 import { ProductCategoryListComponent } from './components/pages/product-category/product-category-list/product-category-list.component';
 // tslint:disable-next-line:max-line-length
 import { ProductCategoryLinkModalComponent } from './components/pages/product-category/product-category-link-modal/product-category-link-modal.component';
+// tslint:disable-next-line:max-line-length
+import { ProductCategoryDeleteModalComponent } from './components/pages/product-category/product-category-delete-modal/product-category-delete-modal.component';
 
 const routes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -50,7 +52,8 @@ const routes: Routes = [
     ProductListComponent,
     NumberFormatBrPipe,
     ProductCategoryListComponent,
-    ProductCategoryLinkModalComponent
+    ProductCategoryLinkModalComponent,
+    ProductCategoryDeleteModalComponent
   ],
   imports: [
     BrowserModule,
