@@ -28,6 +28,7 @@ import { ProductCategoryLinkModalComponent } from './components/pages/product-ca
 import { ProductCategoryDeleteModalComponent } from './components/pages/product-category/product-category-delete-modal/product-category-delete-modal.component';
 import { UserListComponent } from './components/pages/user/user-list/user-list.component';
 import { UserDeleteModalComponent } from './components/pages/user/user-delete-modal/user-delete-modal.component';
+import { UserRestoreModalComponent } from './components/pages/user/user-restore-modal/user-restore-modal.component';
 
 const routes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -58,7 +59,8 @@ const routes: Routes = [
     ProductCategoryLinkModalComponent,
     ProductCategoryDeleteModalComponent,
     UserListComponent,
-    UserDeleteModalComponent
+    UserDeleteModalComponent,
+    UserRestoreModalComponent
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserDeleteModalComponent } from '../user-delete-modal/user-delete-modal.component';
+import { UserRestoreModalComponent } from '../user-restore-modal/user-restore-modal.component';
 import { UserDeleteService } from './user-delete.service';
+import { UserRestoreService } from './user-restore.service';
 import { UserHttpService } from '../../../../services/http/user-http.service';
 import { UserInterface } from 'src/app/interfaces/user.interface';
 
@@ -14,6 +16,9 @@ export class UserListComponent implements OnInit {
   @ViewChild(UserDeleteModalComponent)
   userDeleteModal: UserDeleteModalComponent;
 
+  @ViewChild(UserRestoreModalComponent)
+  userRestoreModal: UserRestoreModalComponent;
+
   public users: Array<UserInterface> = [];
   public pagination = {
     currentPage: 1,
@@ -24,9 +29,11 @@ export class UserListComponent implements OnInit {
 
   constructor(
     private userHttp: UserHttpService,
-    protected userDeleteService: UserDeleteService
+    protected userDeleteService: UserDeleteService,
+    protected userRestoreService: UserRestoreService
   ) { 
     this.userDeleteService.userListComponent = this;
+    this.userRestoreService.userListComponent = this;
   }
 
   ngOnInit() {

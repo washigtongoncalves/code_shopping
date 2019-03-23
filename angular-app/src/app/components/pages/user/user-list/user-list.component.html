@@ -43,7 +43,7 @@
                 {{user.created_at.date | date: 'dd/MM/yyyy'}}
             </td>
             <td data-title="Ações: ">
-                <span *ngIf="!trashed">
+                <span *ngIf="!trashed && user.id != 1">
                     <a href="javascript:void(0)" 
                        (click)="userEditService.showModalEdit(user)"
                        title="Editar o usuário {{user.name}}">
@@ -57,7 +57,7 @@
                     </a>
                 </span>
                 <span *ngIf="trashed">
-                    <a href="javascript:void(0)" (click)="userRestoreService.showModalRestore(user)" title="Restaurar produto">
+                    <a href="javascript:void(0)" (click)="userRestoreService.showModalRestore(user)" title="Restaurar usuário">
                         <i class="fas fa-thumbs-up"></i>
                     </a>
                 </span>
@@ -85,3 +85,7 @@
     (onSuccess)="userDeleteService.onDeleteSuccess($event)" 
     (onError)="userDeleteService.onDeleteError($event)">
 </user-delete-modal>
+<user-restore-modal 
+    (onSuccess)="userRestoreService.onRestoreSuccess($event)" 
+    (onError)="usertRestoreService.onRestoreError($event)">
+</user-restore-modal>
