@@ -85,6 +85,10 @@
     (onSuccess)="userInsertService.onInsertSuccess($event)" 
     (onError)="userInsertService.onInsertError($event)">
 </user-new-modal>
+<user-edit-modal 
+    (onSuccess)="userEditService.onEditSuccess($event)" 
+    (onError)="userEditService.onEditError($event)">
+</user-edit-modal>
 <user-delete-modal 
     (onSuccess)="userDeleteService.onDeleteSuccess($event)" 
     (onError)="userDeleteService.onDeleteError($event)">

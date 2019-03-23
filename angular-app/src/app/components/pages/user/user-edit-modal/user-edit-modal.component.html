@@ -1,0 +1,41 @@
+<form (submit)="submit()" autocomplete="off">  
+    <modal>
+        <h5 modal-title>
+            Editar usuário
+        </h5>
+        <div modal-body>
+            <div class="form-group">
+                <label for="name">Nome</label>
+                <input type="text" 
+                       name="user.name" 
+                       class="form-control" 
+                       required 
+                       placeholder="Informe um nome para o usuário"
+                       [(ngModel)]="user.name">
+            </div>
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input type="password" 
+                        name="user.password" 
+                        class="form-control" 
+                        [(ngModel)]="user.password">
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirmar senha</label>
+                <input type="password" 
+                        name="confirmPassword" 
+                        class="form-control"
+                        [(ngModel)]="confirmPassword">
+            </div>
+        </div>
+        <div modal-footer>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                Fechar
+            </button>
+            &nbsp;
+            <button type="submit" class="btn btn-primary" *ngIf="user.password == confirmPassword">
+                Salvar
+            </button>
+        </div>
+    </modal>
+</form>

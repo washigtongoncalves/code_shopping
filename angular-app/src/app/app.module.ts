@@ -28,6 +28,7 @@ import { ProductCategoryLinkModalComponent } from './components/pages/product-ca
 import { ProductCategoryDeleteModalComponent } from './components/pages/product-category/product-category-delete-modal/product-category-delete-modal.component';
 import { UserListComponent } from './components/pages/user/user-list/user-list.component';
 import { UserNewModalComponent } from './components/pages/user/user-new-modal/user-new-modal.component';
+import { UserEditModalComponent } from './components/pages/user/user-edit-modal/user-edit-modal.component';
 import { UserDeleteModalComponent } from './components/pages/user/user-delete-modal/user-delete-modal.component';
 import { UserRestoreModalComponent } from './components/pages/user/user-restore-modal/user-restore-modal.component';
 
@@ -61,6 +62,7 @@ const routes: Routes = [
     ProductCategoryDeleteModalComponent,
     UserListComponent,
     UserNewModalComponent,
+    UserEditModalComponent,
     UserDeleteModalComponent,
     UserRestoreModalComponent
   ],

@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserNewModalComponent } from '../user-new-modal/user-new-modal.component';
+import { UserEditModalComponent } from '../user-edit-modal/user-edit-modal.component';
 import { UserDeleteModalComponent } from '../user-delete-modal/user-delete-modal.component';
 import { UserRestoreModalComponent } from '../user-restore-modal/user-restore-modal.component';
 import { UserInsertService } from './user-insert.service';
+import { UserEditService } from './user-edit.service';
 import { UserDeleteService } from './user-delete.service';
 import { UserRestoreService } from './user-restore.service';
 import { UserHttpService } from '../../../../services/http/user-http.service';
@@ -17,6 +19,9 @@ export class UserListComponent implements OnInit {
 
   @ViewChild(UserNewModalComponent)
   userNewModal: UserNewModalComponent;
+
+  @ViewChild(UserEditModalComponent)
+  userEditModal: UserEditModalComponent;
 
   @ViewChild(UserDeleteModalComponent)
   userDeleteModal: UserDeleteModalComponent;
@@ -35,10 +40,12 @@ export class UserListComponent implements OnInit {
   constructor(
     private userHttp: UserHttpService,
     protected userInsertService: UserInsertService,
+    protected userEditService: UserEditService,
     protected userDeleteService: UserDeleteService,
     protected userRestoreService: UserRestoreService
   ) {
-    this.userInsertService.userListComponent = this; 
+    this.userInsertService.userListComponent = this;
+    this.userEditService.userListComponent = this; 
     this.userDeleteService.userListComponent = this;
     this.userRestoreService.userListComponent = this;
   }
