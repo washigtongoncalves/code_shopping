@@ -1,0 +1,58 @@
+<form (submit)="submit()" autocomplete="off">  
+    <modal>
+        <h5 modal-title>
+            Novo usuário
+        </h5>
+        <div modal-body>
+            <div class="form-group">
+                <label for="name">Nome</label>
+                <input type="text" 
+                       name="user.name" 
+                       id="name" 
+                       class="form-control" 
+                       required 
+                       placeholder="Informe um nome para o novo usuário"
+                       [(ngModel)]="user.name">
+            </div>
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" 
+                        name="user.email" 
+                        id="email" 
+                        class="form-control" 
+                        required 
+                        placeholder="Informe um e-mail para o novo usuário"
+                        [(ngModel)]="user.email">
+            </div>
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input type="password" 
+                        name="user.password" 
+                        id="password" 
+                        class="form-control" 
+                        placeholder="Informe uma senha para o novo usuário"
+                        required 
+                        [(ngModel)]="user.password">
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirmar senha</label>
+                <input type="password" 
+                        name="confirmPassword" 
+                        id="confirmPassword" 
+                        class="form-control"
+                        placeholder="Confirme a senha" 
+                        required 
+                        [(ngModel)]="confirmPassword">
+            </div>
+        </div>
+        <div modal-footer>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                Fechar
+            </button>
+            &nbsp;
+            <button type="submit" class="btn btn-primary" *ngIf="user.password == confirmPassword">
+                Cadastrar
+            </button>
+        </div>
+    </modal>
+</form>

@@ -81,6 +81,10 @@
         responsive=true>
     </pagination-controls>
 </div>
+<user-new-modal 
+    (onSuccess)="userInsertService.onInsertSuccess($event)" 
+    (onError)="userInsertService.onInsertError($event)">
+</user-new-modal>
 <user-delete-modal 
     (onSuccess)="userDeleteService.onDeleteSuccess($event)" 
     (onError)="userDeleteService.onDeleteError($event)">
