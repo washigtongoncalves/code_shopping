@@ -81,3 +81,7 @@
         responsive=true>
     </pagination-controls>
 </div>
+<user-delete-modal 
+    (onSuccess)="userDeleteService.onDeleteSuccess($event)" 
+    (onError)="userDeleteService.onDeleteError($event)">
+</user-delete-modal>

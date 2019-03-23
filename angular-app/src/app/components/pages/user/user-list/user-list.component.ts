@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { UserDeleteModalComponent } from '../user-delete-modal/user-delete-modal.component';
+import { UserDeleteService } from './user-delete.service';
 import { UserHttpService } from '../../../../services/http/user-http.service';
 import { UserInterface } from 'src/app/interfaces/user.interface';
 
@@ -9,6 +11,9 @@ import { UserInterface } from 'src/app/interfaces/user.interface';
 })
 export class UserListComponent implements OnInit {
 
+  @ViewChild(UserDeleteModalComponent)
+  userDeleteModal: UserDeleteModalComponent;
+
   public users: Array<UserInterface> = [];
   public pagination = {
     currentPage: 1,
@@ -17,7 +22,12 @@ export class UserListComponent implements OnInit {
   };
   public trashed: boolean;
 
-  constructor(private userHttp: UserHttpService) { }
+  constructor(
+    private userHttp: UserHttpService,
+    protected userDeleteService: UserDeleteService
+  ) { 
+    this.userDeleteService.userListComponent = this;
+  }
 
   ngOnInit() {
     this.getUsers();
