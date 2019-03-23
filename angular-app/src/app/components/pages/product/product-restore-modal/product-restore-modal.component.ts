@@ -31,8 +31,8 @@ export class ProductRestoreModalComponent {
   constructor(private productHttp: ProductHttpService) { }
 
   submit() {
-    const success = (category) => {
-        this.onSuccess.emit(category);
+    const success = (product) => {
+        this.onSuccess.emit(product);
         this.modal.hide();
     };
     const error = (err) => this.onError.emit(err);
