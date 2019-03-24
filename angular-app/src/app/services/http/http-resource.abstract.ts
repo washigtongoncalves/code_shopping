@@ -5,6 +5,7 @@ import { HttpResourceInterface } from './http-resource.interface';
 import { MetaPaginationInterface } from '../../interfaces/meta-pagination.interface';
 import { SearchParamsInterface } from '../../interfaces/search-params.interface';
 import { SearchParamsBuilder } from '../../interfaces/search-params-builder.class';
+import { AuthService } from 'src/app/services/auth.service';
 
 export abstract class HttpResourceAbstract<T> implements HttpResourceInterface<T> {
 
@@ -12,10 +13,12 @@ export abstract class HttpResourceAbstract<T> implements HttpResourceInterface<T
     protected token: string;
     protected headers;
     protected http: HttpClient;
+    protected authService: AuthService;
 
-    constructor(http: HttpClient) {
+    constructor(http: HttpClient, authService: AuthService) {
         this.http = http;
-        this.token = localStorage.getItem('token');
+        this.authService = authService;
+        this.token = this.authService.getToken();
         this.headers = {
             Authorization : `Bearer ${this.token}`
         };

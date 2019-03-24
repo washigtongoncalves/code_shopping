@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ProductCategoryInterface } from '../../interfaces/product-category.interface';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +13,9 @@ export class ProductCategoryHttpService {
   protected baseUrl = 'http://localhost:8000/api';
   protected token: string;
   protected headers;
-  protected http: HttpClient;
-
-  constructor(http: HttpClient) {
-      this.http = http;
-      this.token = localStorage.getItem('token');
+  
+  constructor(private http: HttpClient, private authService: AuthService) {
+      this.token = this.authService.getToken();
       this.headers = {
           Authorization : `Bearer ${this.token}`
       };

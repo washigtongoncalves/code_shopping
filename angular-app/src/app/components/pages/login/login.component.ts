@@ -22,9 +22,8 @@ export class LoginComponent {
     private router: Router
   ) { }
 
-  public submit() {
+  public submit(event) {
     const success = (data) => {
-      localStorage.setItem('token', data.token);
       this.router.navigate(['categories/list']);
     };
     const error = (response) => this.showMessageError = true;
