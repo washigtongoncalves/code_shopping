@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import pace from 'pace';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,9 @@ import pace from 'pace';
 })
 export class AppComponent implements OnInit {
 
-    title = 'angular-app';
+    title = 'Code Shopping';
+
+    constructor(public authService: AuthService) {}
 
     ngOnInit() {
         pace.start({
