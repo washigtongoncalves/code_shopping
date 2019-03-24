@@ -11,20 +11,15 @@ import { AuthService } from 'src/app/services/auth.service';
 export class ProductCategoryHttpService {
 
   protected baseUrl = 'http://localhost:8000/api';
-  protected token: string;
-  protected headers;
   
-  constructor(private http: HttpClient, private authService: AuthService) {
-      this.token = this.authService.getToken();
-      this.headers = {
-          Authorization : `Bearer ${this.token}`
-      };
-  }
+  constructor(
+    private http: HttpClient, 
+    private authService: AuthService
+  ) {}
 
   list(productId: number): Observable<ProductCategoryInterface> {
     return this.http.get<{ data: ProductCategoryInterface }>(
-      this.getUrl(productId),
-      { headers : this.getHeaders() }
+      this.getUrl(productId)
     ).pipe(
       map((response) => response.data)
     );
@@ -33,8 +28,7 @@ export class ProductCategoryHttpService {
   create(productId: number, categoriesIds: Array<number>): Observable<ProductCategoryInterface> {
     return this.http.post<{ data: ProductCategoryInterface }>(
       this.getUrl(productId),
-      { categories: categoriesIds },
-      { headers : this.getHeaders() }
+      { categories: categoriesIds }
     ).pipe(
       map((response) => response.data)
     );
@@ -42,8 +36,7 @@ export class ProductCategoryHttpService {
 
   destroy(productId: number, categoryId: number): Observable<any> {
     return this.http.delete<any>(
-        this.getUrl(productId, categoryId),
-        { headers: this.getHeaders() }
+        this.getUrl(productId, categoryId)
     );
   }
 
@@ -53,9 +46,5 @@ export class ProductCategoryHttpService {
       url += categoryId;
     }
     return url;
-  }
-
-  getHeaders() {
-    return this.headers;
   }
 }

@@ -10,5 +10,4 @@ export interface HttpResourceInterface<T> {
     destroy(id: number): Observable<any>;
     restore(id: number): Observable<any>;
     getUrl(): string;
-    getHeaders();
 }

@@ -10,18 +10,12 @@ import { AuthService } from 'src/app/services/auth.service';
 export abstract class HttpResourceAbstract<T> implements HttpResourceInterface<T> {
 
     protected url = 'http://localhost:8000/api/';
-    protected token: string;
-    protected headers;
     protected http: HttpClient;
     protected authService: AuthService;
 
     constructor(http: HttpClient, authService: AuthService) {
         this.http = http;
         this.authService = authService;
-        this.token = this.authService.getToken();
-        this.headers = {
-            Authorization : `Bearer ${this.token}`
-        };
     }
 
     list(searchParams: SearchParamsInterface): Observable<{ data: Array<T>, meta: MetaPaginationInterface }> {
@@ -30,14 +24,13 @@ export abstract class HttpResourceAbstract<T> implements HttpResourceInterface<T
         });
         return this.http.get<{ data: Array<T>, meta: MetaPaginationInterface }>(
             this.getUrl(),
-            { params, headers : this.getHeaders() }
+            { params }
         );
     }
 
     get(id: number): Observable<T> {
         return this.http.get<{ data: T }>(
-            this.getUrl() + `/${id}`,
-            { headers : this.getHeaders() }
+            this.getUrl() + `/${id}`
         ).pipe(
             map(response => response.data)
         );
@@ -46,23 +39,20 @@ export abstract class HttpResourceAbstract<T> implements HttpResourceInterface<T
     create(data: T): Observable<T> {
         return this.http.post<T>(
             this.getUrl(),
-            data,
-            { headers : this.getHeaders() }
+            data
         );
     }
 
     update(id: number, data: T): Observable<T> {
         return this.http.put<T>(
             this.getUrl() + `/${id}`,
-            data,
-            { headers : this.getHeaders() }
+            data
         );
     }
 
     destroy(id: number): Observable<any> {
         return this.http.delete<any>(
-            this.getUrl() + `/${id}`,
-            { headers: this.getHeaders() }
+            this.getUrl() + `/${id}`
         );
     }
 
@@ -75,15 +65,11 @@ export abstract class HttpResourceAbstract<T> implements HttpResourceInterface<T
         return this.http.patch<any>(
             this.getUrl() + `/${id}/restore`,
             {},
-            { params, headers: this.getHeaders() }
+            { params }
         );
     }
 
     getUrl(): string {
         return this.url;
-    }
-
-    getHeaders() {
-        return this.headers;
     }
 }
