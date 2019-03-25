@@ -17,7 +17,7 @@ class ProductController extends Controller
     {
         $query = Product::query();
         $query = $this->onlyTrashedIfRequested($query);
-        $products = $request->has('all') ? $query->get() : $query->paginate(20);
+        $products = $request->has('all') ? $query->get() : $query->paginate(10);
         return ProductResource::collection($products);
     }
 
