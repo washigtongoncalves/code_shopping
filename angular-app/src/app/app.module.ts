@@ -33,6 +33,7 @@ import { UserEditModalComponent } from './components/pages/user/user-edit-modal/
 import { UserDeleteModalComponent } from './components/pages/user/user-delete-modal/user-delete-modal.component';
 import { UserRestoreModalComponent } from './components/pages/user/user-restore-modal/user-restore-modal.component';
 import { AuthService } from 'src/app/services/auth.service';
+import { NavbarComponent } from './components/bootstrap/navbar/navbar.component';
 
 const routes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -77,7 +78,8 @@ function jwtFactory(authService: AuthService) {
     UserNewModalComponent,
     UserEditModalComponent,
     UserDeleteModalComponent,
-    UserRestoreModalComponent
+    UserRestoreModalComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
