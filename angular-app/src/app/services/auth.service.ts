@@ -14,14 +14,14 @@ const TOKEN_KEY: string = 'code_shopping_token';
 export class AuthService {
 
   private api = 'http://localhost:8000/api/login';
-  me: UserInterface;
+  public me: UserInterface;
 
   constructor(private http: HttpClient) { 
     const token = this.getToken();
     this.setUserFromToken(token);
   }
 
-  login(user: UserInsertService): Observable<{ token: string }> {
+  login(user: UserInterface): Observable<{ token: string }> {
     return this.http
       .post<{ token: string }>(this.api, user)
       .pipe(
