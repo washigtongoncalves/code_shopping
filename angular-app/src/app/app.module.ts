@@ -34,15 +34,9 @@ import { UserDeleteModalComponent } from './components/pages/user/user-delete-mo
 import { UserRestoreModalComponent } from './components/pages/user/user-restore-modal/user-restore-modal.component';
 import { AuthService } from 'src/app/services/auth.service';
 import { NavbarComponent } from './components/bootstrap/navbar/navbar.component';
+import { AuthGuard } from './guards/auth.guard';
 
-const routes: Routes = [
-    { path: 'login', component: LoginComponent },
-    { path: 'users/list', component: UserListComponent },
-    { path: 'categories/list', component: CategoryListComponent },
-    { path: 'products/:product/categories/list', component: ProductCategoryListComponent },
-    { path: 'products/list', component: ProductListComponent },
-    { path: '', redirectTo: '/login', pathMatch: 'full' }, // Rota padrão
-];
+import { routes } from './config/routes';
 
 function jwtFactory(authService: AuthService) {
   return {
