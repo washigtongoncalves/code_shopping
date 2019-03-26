@@ -13,7 +13,7 @@ const TOKEN_KEY: string = 'code_shopping_token';
 })
 export class AuthService {
 
-  private api = 'http://localhost:8000/api/login';
+  private api = 'http://localhost:8000/api';
   public me: UserInterface;
 
   constructor(private http: HttpClient) { 
@@ -23,7 +23,7 @@ export class AuthService {
 
   login(user: UserInterface): Observable<{ token: string }> {
     return this.http
-      .post<{ token: string }>(this.api, user)
+      .post<{ token: string }>(`${this.api}/login`, user)
       .pipe(
           tap(response => {
             this.setToken(response.token);
@@ -31,9 +31,19 @@ export class AuthService {
       );
   }
 
+  logout(): Observable<any> {
+    return this.http
+      .post<any>(`${this.api}/logout`, {})
+      .pipe(
+          tap(() => {
+            this.setToken(null);
+          })
+      );
+  }
+
   setToken(token: string) {
     this.setUserFromToken(token);
-    localStorage.setItem(TOKEN_KEY, token);
+    token ? localStorage.setItem(TOKEN_KEY, token) : localStorage.removeItem(TOKEN_KEY);
   }
 
   getToken(): string | null {
