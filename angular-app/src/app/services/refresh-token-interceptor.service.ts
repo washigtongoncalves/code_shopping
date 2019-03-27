@@ -3,9 +3,9 @@ import {
   HttpErrorResponse, 
   HttpInterceptor, 
   HttpRequest, 
-  HttpResponse, 
   HttpHandler, 
-  HttpEvent
+  HttpEvent,
+  HttpResponseBase
  } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 import { tap } from 'rxjs/internal/operators/tap';
@@ -27,27 +27,28 @@ export class RefreshTokenInterceptorService implements HttpInterceptor {
       this.setNewTokenIfResponseValid(event);
     };
     const error = (eventError: HttpEvent<any>) => {
-      if (eventError instanceof HttpErrorResponse && eventError.status == 401) {
-        this.authService.setToken(null);
-        this.router.navigate(['/login']);
-      }
+      this.setNewTokenIfResponseValid(eventError);
+      this.redirectToLoginIfUnauthenticated(eventError); 
     };
     return next
       .handle(req)
-      .pipe(tap(success,error));
+      .pipe(tap(success, error));
+  }
+
+  private redirectToLoginIfUnauthenticated(eventError: HttpEvent<any>) {
+    if (eventError instanceof HttpErrorResponse && eventError.status == 401) {
+      this.authService.setToken(null);
+      this.router.navigate(['/login']);
+    }
   }
 
   private setNewTokenIfResponseValid(event: HttpEvent<any>) {
-    if (event instanceof HttpResponse) {
+    if (event instanceof HttpResponseBase) {
       const authorizationHeader = event.headers.get('authorization');
       if (authorizationHeader) {
         const token = authorizationHeader.split(' ')[1];
         this.authService.setToken(token);
       }
     }
-  }
-
-  private redirectToLoginIfUnauthenticated(eventError: HttpEvent<any>) {
-
   }
 }
