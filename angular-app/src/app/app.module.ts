@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms/';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -35,6 +35,7 @@ import { UserRestoreModalComponent } from './components/pages/user/user-restore-
 import { AuthService } from 'src/app/services/auth.service';
 import { NavbarComponent } from './components/bootstrap/navbar/navbar.component';
 import { AuthGuard } from './guards/auth.guard';
+import { RefreshTokenInterceptorService } from 'src/app/services/refresh-token-interceptor.service';
 
 import { routes } from './config/routes';
 
@@ -90,7 +91,13 @@ function jwtFactory(authService: AuthService) {
       }
     })
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RefreshTokenInterceptorService,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
