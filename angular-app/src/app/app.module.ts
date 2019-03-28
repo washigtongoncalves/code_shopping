@@ -37,8 +37,6 @@ import { NavbarComponent } from './components/bootstrap/navbar/navbar.component'
 import { AuthGuard } from './guards/auth.guard';
 import { RefreshTokenInterceptorService } from 'src/app/services/refresh-token-interceptor.service';
 
-import { routes } from './config/routes';
-
 function jwtFactory(authService: AuthService) {
   return {
     whitelistedDomains: [
@@ -81,7 +79,6 @@ function jwtFactory(authService: AuthService) {
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    RouterModule.forRoot(routes, { enableTracing: false }),
     NgxPaginationModule,
     JwtModule.forRoot({
       jwtOptionsProvider: {
