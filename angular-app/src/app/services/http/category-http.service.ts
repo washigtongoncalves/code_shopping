@@ -10,6 +10,6 @@ import { AuthService } from 'src/app/services/auth.service';
 export class CategoryHttpService extends HttpResourceAbstract<CategoryInterface> {
   constructor(http: HttpClient, authService: AuthService) {
     super(http, authService);
-    this.url += 'categories';
+    this.url += '/categories';
   }
 }

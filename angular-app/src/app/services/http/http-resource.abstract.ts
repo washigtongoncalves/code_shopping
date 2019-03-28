@@ -6,10 +6,11 @@ import { MetaPaginationInterface } from '../../interfaces/meta-pagination.interf
 import { SearchParamsInterface } from '../../interfaces/search-params.interface';
 import { SearchParamsBuilder } from '../../interfaces/search-params-builder.class';
 import { AuthService } from 'src/app/services/auth.service';
+import { environment } from '../../../environments/environment';
 
 export abstract class HttpResourceAbstract<T> implements HttpResourceInterface<T> {
 
-    protected url = 'http://localhost:8000/api/';
+    protected url = `${environment.api.url}`;
     protected http: HttpClient;
     protected authService: AuthService;
 

@@ -5,6 +5,7 @@ import { tap } from 'rxjs/operators';
 import { UserInsertService } from 'src/app/components/pages/user/user-list/user-insert.service';
 import { UserInterface } from 'src/app/interfaces/user.interface';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { environment } from '../../environments/environment';
 
 const TOKEN_KEY: string = 'code_shopping_token';
 
@@ -13,7 +14,7 @@ const TOKEN_KEY: string = 'code_shopping_token';
 })
 export class AuthService {
 
-  private api = 'http://localhost:8000/api';
+  private api = `${environment.api.url}`;
   public me: UserInterface;
 
   constructor(private http: HttpClient) { 

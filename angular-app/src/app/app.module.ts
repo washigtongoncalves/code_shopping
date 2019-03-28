@@ -37,10 +37,12 @@ import { NavbarComponent } from './components/bootstrap/navbar/navbar.component'
 import { AuthGuard } from './guards/auth.guard';
 import { RefreshTokenInterceptorService } from 'src/app/services/refresh-token-interceptor.service';
 
+import { environment } from '../environments/environment';
+
 function jwtFactory(authService: AuthService) {
   return {
     whitelistedDomains: [
-      new RegExp('localhost:8000/*')
+      new RegExp(`${environment.api.host}/*`)
     ],
     tokenGetter: () => {
       return authService.getToken();

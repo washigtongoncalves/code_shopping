@@ -4,13 +4,14 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ProductCategoryInterface } from '../../interfaces/product-category.interface';
 import { AuthService } from 'src/app/services/auth.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductCategoryHttpService {
 
-  protected baseUrl = 'http://localhost:8000/api';
+  protected baseUrl = `${environment.api.url}`;
   
   constructor(
     private http: HttpClient, 

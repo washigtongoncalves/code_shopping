@@ -10,6 +10,6 @@ import { AuthService } from 'src/app/services/auth.service';
 export class ProductHttpService extends HttpResourceAbstract<ProductInterface> {
   constructor(http: HttpClient, authService: AuthService) {
     super(http, authService);
-    this.url += 'products';
+    this.url += '/products';
   }
 }
