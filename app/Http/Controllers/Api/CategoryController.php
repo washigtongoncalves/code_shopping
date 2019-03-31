@@ -7,12 +7,15 @@ use CodeShopping\Models\Category;
 use CodeShopping\Http\Controllers\Controller;
 use CodeShopping\Http\Requests\CategoryRequest;
 use CodeShopping\Http\Resources\CategoryResource;
+use CodeShopping\Http\Filters\CategoryFilter;
 
 class CategoryController extends Controller
 {
     public function index(Request $request)
     {
-       $categories = $request->has('all') ? Category::all() : Category::paginate(10);
+       $filter = app(CategoryFilter::class);
+       $filterQuery = Category::filtered($filter);
+       $categories = $request->has('all') ? $filterQuery->get() : $filterQuery->paginate(10);
        return CategoryResource::collection($categories);
     }
 
