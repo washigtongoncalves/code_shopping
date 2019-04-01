@@ -9,6 +9,7 @@ use CodeShopping\Models\User;
 use CodeShopping\Traits\OnlyTrashedIfRequestedTrait;
 use CodeShopping\Http\Requests\{UserStoreRequest, UserUpdateRequest};
 use CodeShopping\Events\UserCreatedEvent;
+use CodeShopping\Http\Filters\UserFilter;
 
 class UserController extends Controller
 {
@@ -16,7 +17,8 @@ class UserController extends Controller
     
     public function index(Request $request)
     {
-        $query = User::query();
+        $filter = app(UserFilter::class);
+        $query = User::filtered($filter);
         $query = $this->onlyTrashedIfRequested($query);
         $users = $request->has('all') ? $query->get() : $query->paginate(10);
         return UserResource::collection($users);

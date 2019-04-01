@@ -8,6 +8,7 @@ use CodeShopping\Http\Controllers\Controller;
 use CodeShopping\Models\Product;
 use CodeShopping\Http\Resources\ProductResource;
 use CodeShopping\Traits\OnlyTrashedIfRequestedTrait;
+use CodeShopping\Http\Filters\ProductFilter;
 
 class ProductController extends Controller
 {
@@ -15,7 +16,8 @@ class ProductController extends Controller
     
     public function index(Request $request)
     {
-        $query = Product::query();
+        $filter = app(ProductFilter::class);
+        $query = Product::filtered($filter);
         $query = $this->onlyTrashedIfRequested($query);
         $products = $request->has('all') ? $query->get() : $query->paginate(10);
         return ProductResource::collection($products);

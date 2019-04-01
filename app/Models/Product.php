@@ -4,10 +4,11 @@ namespace CodeShopping\Models;
 
 use Illuminate\Database\Eloquent\{Model, SoftDeletes};
 use Cviebrock\EloquentSluggable\Sluggable;
+use Mnabialek\LaravelEloquentFilter\Traits\Filterable;
 
 class Product extends Model
 {
-    use Sluggable, SoftDeletes;
+    use Sluggable, SoftDeletes, Filterable;
     
     protected $dates = ['deleted_at'];
     protected $fillable = ['name', 'description', 'price', 'active'];

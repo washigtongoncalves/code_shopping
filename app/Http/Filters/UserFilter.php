@@ -4,12 +4,12 @@ namespace CodeShopping\Http\Filters;
 
 use Mnabialek\LaravelEloquentFilter\Filters\SimpleQueryFilter;
 
-class CategoryFilter extends SimpleQueryFilter
+class UserFilter extends SimpleQueryFilter
 {
     protected $simpleFilters = [
         'id', 
-        'name', 
-        'active', 
+        'name',
+        'email', 
         'created_at',
         'search'
     ];
@@ -17,6 +17,7 @@ class CategoryFilter extends SimpleQueryFilter
     protected $simpleSorts = [
         'id',
         'name',
+        'email',
         'created_at'
     ];
 
@@ -27,6 +28,7 @@ class CategoryFilter extends SimpleQueryFilter
 
     protected function applySearch($value)
     {
-        $this->query->where('name', 'like', "%{$value}%");
+        $this->query->where('name', 'like', "%{$value}%")
+                    ->orWhere('email', 'like', "%{$value}%");
     }
 }
