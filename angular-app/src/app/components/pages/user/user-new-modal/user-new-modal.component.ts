@@ -15,7 +15,7 @@ export class UserNewModalComponent {
   public user: UserInterface = {
       name: '',
       email: '',
-      password: ''  
+      password: ''
   };
   public confirmPassword: string;
 

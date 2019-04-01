@@ -3,5 +3,5 @@ export interface UserInterface {
     name?: string;
     email?: string;
     password?: string;
-    readonly created_at?: { date: string }
+    readonly created_at?: { date: string };
 }

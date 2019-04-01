@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { 
-  HttpErrorResponse, 
-  HttpInterceptor, 
-  HttpRequest, 
-  HttpHandler, 
+import {
+  HttpErrorResponse,
+  HttpInterceptor,
+  HttpRequest,
+  HttpHandler,
   HttpEvent,
   HttpResponseBase
  } from '@angular/common/http';
@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class RefreshTokenInterceptorService implements HttpInterceptor {
-  
+
   constructor(
     private authService: AuthService,
     private router: Router
@@ -28,7 +28,7 @@ export class RefreshTokenInterceptorService implements HttpInterceptor {
     };
     const error = (eventError: HttpEvent<any>) => {
       this.setNewTokenIfResponseValid(eventError);
-      this.redirectToLoginIfUnauthenticated(eventError); 
+      this.redirectToLoginIfUnauthenticated(eventError);
     };
     return next
       .handle(req)
@@ -36,7 +36,7 @@ export class RefreshTokenInterceptorService implements HttpInterceptor {
   }
 
   private redirectToLoginIfUnauthenticated(eventError: HttpEvent<any>) {
-    if (eventError instanceof HttpErrorResponse && eventError.status == 401) {
+    if (eventError instanceof HttpErrorResponse && eventError.status === 401) {
       this.authService.setToken(null);
       this.router.navigate(['/login']);
     }

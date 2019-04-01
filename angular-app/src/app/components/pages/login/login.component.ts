@@ -18,7 +18,7 @@ export class LoginComponent {
   public showMessageError = false;
 
   constructor(
-    private authService: AuthService, 
+    private authService: AuthService,
     private router: Router
   ) { }
 

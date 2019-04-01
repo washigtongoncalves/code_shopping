@@ -12,9 +12,9 @@ import { environment } from '../../../environments/environment';
 export class ProductCategoryHttpService {
 
   protected baseUrl = `${environment.api.url}`;
-  
+
   constructor(
-    private http: HttpClient, 
+    private http: HttpClient,
     private authService: AuthService
   ) {}
 

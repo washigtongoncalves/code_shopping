@@ -8,34 +8,34 @@ import { ProductCategoryListComponent } from '../components/pages/product-catego
 import { ProductListComponent } from '../components/pages/product/product-list/product-list.component';
 
 export const routes: Routes = [
-    { 
-      path: 'login', 
-      component: LoginComponent 
+    {
+      path: 'login',
+      component: LoginComponent
     },
-    { 
-      path: 'users/list', 
-      component: UserListComponent, 
-      canActivate: [AuthGuard] 
+    {
+      path: 'users/list',
+      component: UserListComponent,
+      canActivate: [AuthGuard]
     },
-    { 
-      path: 'categories/list', 
-      component: CategoryListComponent, 
-      canActivate: [AuthGuard] 
+    {
+      path: 'categories/list',
+      component: CategoryListComponent,
+      canActivate: [AuthGuard]
     },
-    { 
-      path: 'products/:product/categories/list', 
-      component: ProductCategoryListComponent, 
-      canActivate: [AuthGuard]  
+    {
+      path: 'products/:product/categories/list',
+      component: ProductCategoryListComponent,
+      canActivate: [AuthGuard]
     },
-    { 
-      path: 'products/list', 
-      component: ProductListComponent, 
-      canActivate: [AuthGuard]   
+    {
+      path: 'products/list',
+      component: ProductListComponent,
+      canActivate: [AuthGuard]
     },
     // Rota padrão
-    { 
-      path: '', 
-      redirectTo: '/login', 
-      pathMatch: 'full' 
+    {
+      path: '',
+      redirectTo: '/login',
+      pathMatch: 'full'
     },
 ];

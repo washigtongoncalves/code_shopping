@@ -18,7 +18,7 @@ export class UserEditModalComponent {
     email: '',
     password: ''
   };
-  public confirmPassword: string = '';
+  public confirmPassword = '';
 
   @ViewChild(ModalComponent)
   private modal: ModalComponent;

@@ -2,12 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 import { tap } from 'rxjs/operators';
-import { UserInsertService } from 'src/app/components/pages/user/user-list/user-insert.service';
 import { UserInterface } from 'src/app/interfaces/user.interface';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from '../../environments/environment';
 
-const TOKEN_KEY: string = 'code_shopping_token';
+const TOKEN_KEY = 'code_shopping_token';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +16,7 @@ export class AuthService {
   private api = `${environment.api.url}`;
   public me: UserInterface;
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {
     const token = this.getToken();
     this.setUserFromToken(token);
   }
@@ -58,8 +57,8 @@ export class AuthService {
 
   private setUserFromToken(token: string) {
     const decodedPayload = new JwtHelperService().decodeToken(token);
-    this.me = decodedPayload ? { 
-      id: decodedPayload.sub, 
+    this.me = decodedPayload ? {
+      id: decodedPayload.sub,
       name: decodedPayload.name,
       email: decodedPayload.email
     } : null;

@@ -11,6 +11,7 @@ import { UserHttpService } from '../../../../services/http/user-http.service';
 import { UserInterface } from 'src/app/interfaces/user.interface';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'user-list',
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.css']
@@ -45,7 +46,7 @@ export class UserListComponent implements OnInit {
     protected userRestoreService: UserRestoreService
   ) {
     this.userInsertService.userListComponent = this;
-    this.userEditService.userListComponent = this; 
+    this.userEditService.userListComponent = this;
     this.userDeleteService.userListComponent = this;
     this.userRestoreService.userListComponent = this;
   }
