@@ -16,6 +16,8 @@ import { CategoryDeleteService } from './category-delete.service';
 })
 export class CategoryListComponent implements OnInit {
 
+  sortColumn: { column: string, sort: string};
+
   public categories: Array<CategoryInterface> = [];
 
   @ViewChild(CategoryNewModalComponent)

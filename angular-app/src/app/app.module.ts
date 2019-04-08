@@ -38,6 +38,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { RefreshTokenInterceptorService } from 'src/app/services/refresh-token-interceptor.service';
 
 import { environment } from '../environments/environment';
+import { SortColumnComponent } from './components/common/sort-column/sort-column.component';
 
 function jwtFactory(authService: AuthService) {
   return {
@@ -74,7 +75,8 @@ function jwtFactory(authService: AuthService) {
     UserEditModalComponent,
     UserDeleteModalComponent,
     UserRestoreModalComponent,
-    NavbarComponent
+    NavbarComponent,
+    SortColumnComponent
   ],
   imports: [
     BrowserModule,
