@@ -38,6 +38,7 @@ export class UserListComponent implements OnInit {
   };
   public trashed: boolean;
   sortColumn = { column: '', sort: ''};
+  searchTerm: string;
 
   constructor(
     private userHttp: UserHttpService,
@@ -58,7 +59,7 @@ export class UserListComponent implements OnInit {
 
   getUsers() {
     this.userHttp
-        .list({ page: this.pagination.currentPage, trashed: this.trashed, sort: this.sortColumn })
+        .list({ page: this.pagination.currentPage, trashed: this.trashed, sort: this.sortColumn, search: this.searchTerm })
         .subscribe((response) => {
             this.users = response.data;
             this.pagination.totalItems = response.meta.total;
@@ -72,6 +73,11 @@ export class UserListComponent implements OnInit {
   }
 
   sortChange() {
+    this.getUsers();
+  }
+
+  search($event) {
+    this.searchTerm = $event;
     this.getUsers();
   }
 }

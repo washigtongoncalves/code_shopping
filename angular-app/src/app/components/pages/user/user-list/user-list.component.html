@@ -3,7 +3,7 @@
   <table class="table table-striped table-hover table-sm">
     <thead>
         <tr>
-            <td colspan="5">
+            <td colspan="3">
                 <button class="btn btn-primary" (click)="userInsertService.showModalInsert()">
                     Novo usuário
                 </button>
@@ -16,6 +16,9 @@
                       (change)="getUsers()">
                       &nbsp;Somente excluídos?
                 </label>
+            </td>
+            <td colspan="2">
+                <user-search-form (onSearch)="search($event)"></user-search-form>
             </td>
         </tr>
         <tr>
