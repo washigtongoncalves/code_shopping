@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostListener } from '@angular/core';
 
 @Component({
   selector: '[sortColumn]',
@@ -8,13 +8,26 @@ import { Component, OnInit, Input } from '@angular/core';
 export class SortColumnComponent implements OnInit {
 
   @Input()
-  sortColumn: { column: string, sort: string};
+  sortColumn: { column: string, sort: string };
 
   @Input()
   columnName: string;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  @HostListener('click')
+  changeSort() {
+    this.sortColumn.column = this.columnName;
+    this.sortColumn.sort = this.sortColumn.sort === 'DESC' ? 'ASC' : 'DESC';
+  }
+
+  showArrowDown(): boolean {
+    return this.sortColumn.column === this.columnName && this.sortColumn.sort === 'DESC';
+  }
+
+  showArrowUp(): boolean {
+    return this.sortColumn.column === this.columnName && this.sortColumn.sort === 'ASC';
   }
 }
