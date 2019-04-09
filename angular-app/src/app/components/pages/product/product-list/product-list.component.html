@@ -3,7 +3,7 @@
   <table class="table table-striped table-hover table-sm">
       <thead>
           <tr>
-              <td colspan="7">
+              <td colspan="5">
                   <button class="btn btn-primary" (click)="productInsertService.showModalInsert()">
                       Novo produto
                   </button>
@@ -16,6 +16,9 @@
                         (change)="getProducts()">
                         &nbsp;Somente excluídos?
                   </label>
+              </td>
+              <td colspan="2">
+                  <product-search-form (onSearch)="search($event)"></product-search-form>
               </td>
           </tr>
           <tr>

@@ -26,6 +26,7 @@ export class ProductListComponent implements OnInit {
   };
   public trashed: boolean;
   sortColumn = { column: '', sort: ''};
+  searchTerm: string;
 
   @ViewChild(ProductNewModalComponent)
   productNewModal: ProductNewModalComponent;
@@ -58,7 +59,7 @@ export class ProductListComponent implements OnInit {
 
   getProducts() {
     this.productHttp
-        .list({ page: this.pagination.currentPage, trashed: this.trashed, sort: this.sortColumn })
+        .list({ page: this.pagination.currentPage, trashed: this.trashed, sort: this.sortColumn, search: this.searchTerm })
         .subscribe((response) => {
             this.products = response.data;
             this.pagination.totalItems = response.meta.total;
@@ -72,6 +73,11 @@ export class ProductListComponent implements OnInit {
   }
 
   sortChange() {
+    this.getProducts();
+  }
+
+  search($event) {
+    this.searchTerm = $event;
     this.getProducts();
   }
 }
