@@ -17,6 +17,7 @@ import { CategoryDeleteService } from './category-delete.service';
 export class CategoryListComponent implements OnInit {
 
   sortColumn = { column: '', sort: ''};
+  searchTerm: string;
 
   public categories: Array<CategoryInterface> = [];
 
@@ -52,7 +53,7 @@ export class CategoryListComponent implements OnInit {
 
   getCategories() {
     this.categoryHttp
-        .list({ page: this.pagination.currentPage, sort: this.sortColumn })
+        .list({ page: this.pagination.currentPage, sort: this.sortColumn, search: this.searchTerm })
         .subscribe((response) => {
             this.categories = response.data;
             this.pagination.totalItems = response.meta.total;
@@ -66,6 +67,11 @@ export class CategoryListComponent implements OnInit {
   }
 
   sortChange() {
+    this.getCategories();
+  }
+
+  search($event) {
+    this.searchTerm = $event;
     this.getCategories();
   }
 }

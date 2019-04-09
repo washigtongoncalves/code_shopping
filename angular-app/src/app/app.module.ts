@@ -39,6 +39,7 @@ import { RefreshTokenInterceptorService } from 'src/app/services/refresh-token-i
 
 import { environment } from '../environments/environment';
 import { SortColumnComponent } from './components/common/sort-column/sort-column.component';
+import { CategorySearchFormComponent } from './components/pages/category/category-search-form/category-search-form.component';
 
 function jwtFactory(authService: AuthService) {
   return {
@@ -76,7 +77,8 @@ function jwtFactory(authService: AuthService) {
     UserDeleteModalComponent,
     UserRestoreModalComponent,
     NavbarComponent,
-    SortColumnComponent
+    SortColumnComponent,
+    CategorySearchFormComponent
   ],
   imports: [
     BrowserModule,

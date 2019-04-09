@@ -3,10 +3,13 @@
     <table class="table table-striped table-hover table-sm">
         <thead>
             <tr>
-                <td colspan="5">
+                <td colspan="3">
                     <button class="btn btn-primary" (click)="categoryInsertService.showModalInsert()">
                         Nova categoria
                     </button>
+                </td>
+                <td colspan="2">
+                    <category-search-form (onSearch)="search($event)"></category-search-form>
                 </td>
             </tr>
             <tr>
