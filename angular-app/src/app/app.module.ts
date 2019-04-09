@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms/';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { RouterModule, Routes } from '@angular/router';
 
 import { NgxPaginationModule } from 'ngx-pagination';
 import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
@@ -34,7 +33,6 @@ import { UserDeleteModalComponent } from './components/pages/user/user-delete-mo
 import { UserRestoreModalComponent } from './components/pages/user/user-restore-modal/user-restore-modal.component';
 import { AuthService } from 'src/app/services/auth.service';
 import { NavbarComponent } from './components/bootstrap/navbar/navbar.component';
-import { AuthGuard } from './guards/auth.guard';
 import { RefreshTokenInterceptorService } from 'src/app/services/refresh-token-interceptor.service';
 
 import { environment } from '../environments/environment';
