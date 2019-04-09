@@ -39,6 +39,7 @@ import { environment } from '../environments/environment';
 import { SortColumnComponent } from './components/common/sort-column/sort-column.component';
 import { SearchFormComponent } from './components/common/search-form/search-form.component';
 import { CategoryFormComponent } from './components/pages/category/category-form/category-form.component';
+import { ProductFormComponent } from './components/pages/product/product-form/product-form.component';
 
 function jwtFactory(authService: AuthService) {
   return {
@@ -78,7 +79,8 @@ function jwtFactory(authService: AuthService) {
     NavbarComponent,
     SortColumnComponent,
     SearchFormComponent,
-    CategoryFormComponent
+    CategoryFormComponent,
+    ProductFormComponent
   ],
   imports: [
     BrowserModule,

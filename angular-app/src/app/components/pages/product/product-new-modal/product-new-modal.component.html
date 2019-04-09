@@ -8,47 +8,7 @@
             Novo produto
         </h5>
         <div modal-body>
-            <div class="form-group">
-                <label for="name">Nome</label>
-                <input type="text" 
-                       name="product.name" 
-                       id="name" 
-                       class="form-control" 
-                       required 
-                       placeholder="Informe um nome para o novo produto"
-                       [(ngModel)]="product.name">
-            </div>
-            <div class="form-group">
-                <label for="description">Descrição</label>
-                <textarea 
-                        name="product.description" 
-                        id="description" 
-                        class="form-control no-resize" 
-                        required 
-                        placeholder="Informe uma descrição para o novo produto"
-                        [(ngModel)]="product.description">
-                </textarea>
-            </div>
-            <div class="form-group">
-                <label for="price">Preço</label>
-                <input type="number" 
-                        name="product.price" 
-                        id="price" 
-                        class="form-control" 
-                        required 
-                        [(ngModel)]="product.price"
-                        step="0.01">
-            </div>
-            <div class="form-group form-check">
-                <label>
-                    <input type="checkbox" 
-                        name="active" 
-                        class="form-check-input"
-                        required 
-                        [(ngModel)]="product.active">
-                    Ativo?
-                </label>
-            </div>
+            <product-form [product]="product"></product-form>
         </div>
         <div modal-footer>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">
