@@ -1,0 +1,19 @@
+<div class="form-group">
+  <label for="name">Nome</label>
+  <input type="text" 
+         name="category.name" 
+         id="name" 
+         class="form-control" 
+         required 
+         placeholder="Informe um nome para a categoria"
+         [(ngModel)]="category.name">
+</div>
+<div class="form-group form-check">
+  <input type="checkbox" 
+         name="active" 
+         id="active"
+         class="form-check-input"
+         required 
+         [(ngModel)]="category.active">
+  <label for="active">Ativo?</label>
+</div>
