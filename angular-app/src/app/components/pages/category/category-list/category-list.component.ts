@@ -52,7 +52,7 @@ export class CategoryListComponent implements OnInit {
 
   getCategories() {
     this.categoryHttp
-        .list({ page: this.pagination.currentPage })
+        .list({ page: this.pagination.currentPage, sortColumn: this.sortColumn })
         .subscribe((response) => {
             this.categories = response.data;
             this.pagination.totalItems = response.meta.total;
@@ -62,6 +62,10 @@ export class CategoryListComponent implements OnInit {
 
   pageChange(page: number) {
     this.pagination.currentPage = page;
+    this.getCategories();
+  }
+
+  sortChange() {
     this.getCategories();
   }
 }

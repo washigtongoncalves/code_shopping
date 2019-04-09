@@ -16,6 +16,10 @@ export class SearchParamsBuilder {
             sParams.all = '1';
             delete sParams.page;
         }
+        if (this.searchParams.sortColumn.column && this.searchParams.sortColumn.sort) {
+            const sort = this.searchParams.sortColumn.sort === 'ASC' ? '+' : '-';
+            sParams.sort = sort + this.searchParams.sortColumn.column;
+        }
         return sParams;
     }
 }

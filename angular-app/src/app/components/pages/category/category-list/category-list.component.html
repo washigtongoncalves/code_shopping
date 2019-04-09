@@ -10,10 +10,10 @@
                 </td>
             </tr>
             <tr>
-                <th style="width: 5%"  [sortColumn]="sortColumn" [columnName]="'id'">ID</th>
-                <th style="width: 50%" [sortColumn]="sortColumn" [columnName]="'name'">Nome</th>
+                <th style="width: 5%"  [sortColumn]="sortColumn" [columnName]="'id'" (onChangeSort)="sortChange()">ID</th>
+                <th style="width: 50%" [sortColumn]="sortColumn" [columnName]="'name'" (onChangeSort)="sortChange()">Nome</th>
                 <th style="width: 15%">Ativa?</th>
-                <th style="width: 15%" [sortColumn]="sortColumn" [columnName]="'created_at'">Criada em</th>
+                <th style="width: 15%" [sortColumn]="sortColumn" [columnName]="'created_at'" (onChangeSort)="sortChange()">Criada em</th>
                 <th style="width: 15%">Ações</th>
             </tr>
         </thead>
