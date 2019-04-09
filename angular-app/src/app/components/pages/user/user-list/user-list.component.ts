@@ -37,6 +37,7 @@ export class UserListComponent implements OnInit {
     itemsPerPage: 15
   };
   public trashed: boolean;
+  sortColumn = { column: '', sort: ''};
 
   constructor(
     private userHttp: UserHttpService,
@@ -57,7 +58,7 @@ export class UserListComponent implements OnInit {
 
   getUsers() {
     this.userHttp
-        .list({ page: this.pagination.currentPage, trashed: this.trashed })
+        .list({ page: this.pagination.currentPage, trashed: this.trashed, sort: this.sortColumn })
         .subscribe((response) => {
             this.users = response.data;
             this.pagination.totalItems = response.meta.total;
@@ -67,6 +68,10 @@ export class UserListComponent implements OnInit {
 
   pageChange(page: number) {
     this.pagination.currentPage = page;
+    this.getUsers();
+  }
+
+  sortChange() {
     this.getUsers();
   }
 }

@@ -19,10 +19,10 @@
             </td>
         </tr>
         <tr>
-            <th style="width: 5%">ID</th>
-            <th style="width: 30%">Nome</th>
-            <th style="width: 25%">E-mail</th>
-            <th style="width: 25%">Criado em</th>
+            <th style="width: 5%"  [sortColumn]="sortColumn" [columnName]="'id'" (onChangeSort)="sortChange()">ID</th>
+            <th style="width: 30%" [sortColumn]="sortColumn" [columnName]="'name'" (onChangeSort)="sortChange()">Nome</th>
+            <th style="width: 25%" [sortColumn]="sortColumn" [columnName]="'email'" (onChangeSort)="sortChange()">E-mail</th>
+            <th style="width: 25%" [sortColumn]="sortColumn" [columnName]="'created_at'" (onChangeSort)="sortChange()">Criado em</th>
             <th style="width: 15%">
               Ações
             </th>
