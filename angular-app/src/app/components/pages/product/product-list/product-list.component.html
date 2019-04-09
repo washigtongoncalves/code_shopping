@@ -19,17 +19,17 @@
               </td>
           </tr>
           <tr>
-              <th style="width: 5%">ID</th>
-              <th style="width: 35%">Nome</th>
+              <th style="width: 5%"  [sortColumn]="sortColumn" [columnName]="'id'" (onChangeSort)="sortChange()">ID</th>
+              <th style="width: 35%" [sortColumn]="sortColumn" [columnName]="'name'" (onChangeSort)="sortChange()">Nome</th>
               <th style="width: 10%">Ativo?</th>
-              <th style="width: 10%">Criado em</th>
+              <th style="width: 10%" [sortColumn]="sortColumn" [columnName]="'created_at'" (onChangeSort)="sortChange()">Criado em</th>
               <th style="width: 10%">
-                <span class="float-lg-right float-xl-right">
+                <span class="float-lg-right float-xl-right" [sortColumn]="sortColumn" [columnName]="'stock'" (onChangeSort)="sortChange()">
                     Estoque
                 </span>
               </th>
               <th style="width: 10%">
-                <span class="float-lg-right float-xl-right">
+                <span class="float-lg-right float-xl-right" [sortColumn]="sortColumn" [columnName]="'price'" (onChangeSort)="sortChange()">
                     Preço
                 </span>
               </th>

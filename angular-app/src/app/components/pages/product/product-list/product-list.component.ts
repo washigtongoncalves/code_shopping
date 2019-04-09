@@ -25,6 +25,7 @@ export class ProductListComponent implements OnInit {
     itemsPerPage: 15
   };
   public trashed: boolean;
+  sortColumn = { column: '', sort: ''};
 
   @ViewChild(ProductNewModalComponent)
   productNewModal: ProductNewModalComponent;
@@ -57,7 +58,7 @@ export class ProductListComponent implements OnInit {
 
   getProducts() {
     this.productHttp
-        .list({ page: this.pagination.currentPage, trashed: this.trashed })
+        .list({ page: this.pagination.currentPage, trashed: this.trashed, sort: this.sortColumn })
         .subscribe((response) => {
             this.products = response.data;
             this.pagination.totalItems = response.meta.total;
@@ -67,6 +68,10 @@ export class ProductListComponent implements OnInit {
 
   pageChange(page: number) {
     this.pagination.currentPage = page;
+    this.getProducts();
+  }
+
+  sortChange() {
     this.getProducts();
   }
 }
