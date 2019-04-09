@@ -2,11 +2,11 @@ import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   // tslint:disable-next-line:component-selector
-  selector: 'category-search-form',
-  templateUrl: './category-search-form.component.html',
-  styleUrls: ['./category-search-form.component.css']
+  selector: 'search-form',
+  templateUrl: './search-form.component.html',
+  styleUrls: ['./search-form.component.css']
 })
-export class CategorySearchFormComponent {
+export class SearchFormComponent {
 
   search: string;
 
