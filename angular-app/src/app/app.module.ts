@@ -40,6 +40,7 @@ import { SortColumnComponent } from './components/common/sort-column/sort-column
 import { SearchFormComponent } from './components/common/search-form/search-form.component';
 import { CategoryFormComponent } from './components/pages/category/category-form/category-form.component';
 import { ProductFormComponent } from './components/pages/product/product-form/product-form.component';
+import { UserFormComponent } from './components/pages/user/user-form/user-form.component';
 
 function jwtFactory(authService: AuthService) {
   return {
@@ -80,7 +81,8 @@ function jwtFactory(authService: AuthService) {
     SortColumnComponent,
     SearchFormComponent,
     CategoryFormComponent,
-    ProductFormComponent
+    ProductFormComponent,
+    UserFormComponent
   ],
   imports: [
     BrowserModule,

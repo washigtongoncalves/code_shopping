@@ -1,0 +1,28 @@
+<div class="form-group">
+  <label for="name">Nome</label>
+  <input type="text" 
+         name="user.name" 
+         class="form-control" 
+         required 
+         placeholder="Informe um nome para o usuário"
+         [(ngModel)]="user.name">
+</div>
+<div class="form-group">
+  <label for="email">E-mail</label>
+  <input type="email" 
+         name="user.email" 
+         class="form-control" 
+         required
+         [readonly]="editMode" 
+         placeholder="Informe um e-mail para o usuário"
+         [(ngModel)]="user.email">
+</div>
+<div class="form-group">
+  <label for="password">Senha</label>
+  <input type="password" 
+         name="user.password" 
+         class="form-control" 
+         placeholder="Informe uma senha para o usuário"
+         required 
+         [(ngModel)]="user.password">
+</div>

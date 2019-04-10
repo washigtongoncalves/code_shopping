@@ -18,7 +18,6 @@ export class UserEditModalComponent {
     email: '',
     password: ''
   };
-  public confirmPassword = '';
 
   @ViewChild(ModalComponent)
   private modal: ModalComponent;
@@ -55,7 +54,6 @@ export class UserEditModalComponent {
       email: '',
       password: ''
     };
-    this.confirmPassword = '';
   }
 
   showModal(user: UserInterface) {
