@@ -1,8 +1,8 @@
 import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
-import { ModalComponent } from '../../../bootstrap/modal/modal.component';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ModalComponent } from '../../../bootstrap/modal/modal.component';
 import { CategoryHttpService } from 'src/app/services/http/category-http.service';
-import { CategoryInterface } from 'src/app/interfaces/category.interface';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -12,10 +12,7 @@ import { CategoryInterface } from 'src/app/interfaces/category.interface';
 })
 export class CategoryNewModalComponent {
 
-  public category: CategoryInterface = {
-    name: '',
-    active : true
-  };
+  public form: FormGroup;
 
   @ViewChild(ModalComponent)
   private modal: ModalComponent;
@@ -28,7 +25,15 @@ export class CategoryNewModalComponent {
   @Output()
   onError: EventEmitter<HttpErrorResponse> = new EventEmitter<HttpErrorResponse>();
 
-  constructor(private categoryHttp: CategoryHttpService) { }
+  constructor(
+    private categoryHttp: CategoryHttpService,
+    private formBuilder: FormBuilder
+  ) { 
+    this.form = new FormBuilder().group({
+      name: '',
+      active : true
+    });
+  }
 
   submit() {
     const success = (category) => {
@@ -38,15 +43,15 @@ export class CategoryNewModalComponent {
     };
     const error = (err) => this.onError.emit(err);
     this.categoryHttp
-        .create(this.category)
+        .create(this.form.value)
         .subscribe(success, error);
   }
 
   reset() {
-    this.category = {
-        name: '',
-        active: true
-    };
+    this.form.reset({
+      name: '',
+      active : true
+    });
   }
 
   showModal() {

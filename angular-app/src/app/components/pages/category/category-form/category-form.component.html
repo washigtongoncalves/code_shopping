@@ -1,19 +1,16 @@
-<div class="form-group">
+<div class="form-group" [formGroup]="form">
   <label for="name">Nome</label>
   <input type="text" 
-         name="category.name" 
-         id="name" 
+         name="name"
+         formControlName="name" 
          class="form-control" 
          required 
-         placeholder="Informe um nome para a categoria"
-         [(ngModel)]="category.name">
+         placeholder="Informe um nome para a categoria">
 </div>
-<div class="form-group form-check">
+<div class="form-group form-check" [formGroup]="form">
   <input type="checkbox" 
-         name="active" 
-         id="active"
-         class="form-check-input"
-         required 
-         [(ngModel)]="category.active">
+         name="active"
+         formControlName="active" 
+         class="form-check-input">
   <label for="active">Ativo?</label>
 </div>

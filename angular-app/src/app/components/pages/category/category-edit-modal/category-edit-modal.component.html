@@ -8,15 +8,15 @@
             Editar categoria
         </h5>
         <div modal-body>
-            <category-form [category]="category"></category-form>
+            <category-form [form]="form"></category-form>
         </div>
         <div modal-footer>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">
                 Fechar
             </button>
             &nbsp;
-            <button type="submit" class="btn btn-primary">
-                Editar
+            <button type="submit" class="btn btn-primary" [disabled]="!form.valid">
+                Salvar
             </button>
         </div>
     </modal>

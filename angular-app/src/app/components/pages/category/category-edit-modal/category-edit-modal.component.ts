@@ -1,6 +1,7 @@
 import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
-import { ModalComponent } from '../../../bootstrap/modal/modal.component';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ModalComponent } from '../../../bootstrap/modal/modal.component';
 import { CategoryInterface } from 'src/app/interfaces/category.interface';
 import { CategoryHttpService } from 'src/app/services/http/category-http.service';
 
@@ -12,10 +13,8 @@ import { CategoryHttpService } from 'src/app/services/http/category-http.service
 })
 export class CategoryEditModalComponent {
 
-  private category: CategoryInterface = {
-    name: '',
-    active: true
-  };
+  public form: FormGroup;
+  private categoryId: number;
 
   @ViewChild(ModalComponent)
   private modal: ModalComponent;
@@ -28,7 +27,15 @@ export class CategoryEditModalComponent {
   @Output()
   onError: EventEmitter<HttpErrorResponse> = new EventEmitter<HttpErrorResponse>();
 
-  constructor(private categoryHttp: CategoryHttpService) { }
+  constructor(
+    private categoryHttp: CategoryHttpService,
+    private formBuilder: FormBuilder
+  ) { 
+    this.form = new FormBuilder().group({
+      name: '',
+      active : true
+    });
+  }
 
   submit() {
     const success = (category) => {
@@ -37,14 +44,13 @@ export class CategoryEditModalComponent {
     };
     const error = (err) => this.onError.emit(err);
     this.categoryHttp
-        .update(this.category.id, this.category)
+        .update(this.categoryId, this.form.value)
         .subscribe(success, error);
   }
 
   showModal(category: CategoryInterface) {
-    this.category.id = category.id;
-    this.category.name = category.name;
-    this.category.active = category.active;
+    this.categoryId = category.id;
+    this.form.patchValue(category);
     this.modal.show();
   }
 
