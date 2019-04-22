@@ -30,7 +30,7 @@ export class CategoryEditModalComponent {
   constructor(
     private categoryHttp: CategoryHttpService,
     private formBuilder: FormBuilder
-  ) { 
+  ) {
     this.form = new FormBuilder().group({
       name: '',
       active : true

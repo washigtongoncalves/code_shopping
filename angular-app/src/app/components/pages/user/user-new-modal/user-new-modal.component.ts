@@ -17,7 +17,7 @@ export class UserNewModalComponent {
       email: '',
       password: ''
   };
-  
+
   @ViewChild(ModalComponent)
   private modal: ModalComponent;
 
