@@ -9,14 +9,7 @@
          placeholder="Informe um nome para a categoria"
          [ngClass]="{'is-invalid': form.get('name').invalid && (form.get('name').dirty || form.get('name').touched)}"
          >
-  <div class="invalid-feedback" *ngIf="form.get('name').invalid && (form.get('name').dirty || form.get('name').touched)">
-    <p *ngIf="form.get('name').errors.required">
-      O campo nome é de preenchimento obrigatório.
-    </p>
-    <p *ngIf="form.get('name').errors.maxlength">
-      O tamanho máximo do campo é de 20 caracteres.
-    </p>
-  </div>
+  <field-error [field]="form.get('name')" *ngIf="form.get('name').invalid && (form.get('name').dirty || form.get('name').touched)"></field-error>
 </div>
 <div class="form-group form-check" [formGroup]="form">
   <input type="checkbox" 
