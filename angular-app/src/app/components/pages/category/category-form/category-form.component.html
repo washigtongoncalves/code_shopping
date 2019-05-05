@@ -9,7 +9,7 @@
          placeholder="Informe um nome para a categoria"
          [ngClass]="{'is-invalid': form.get('name').invalid && (form.get('name').dirty || form.get('name').touched)}"
          >
-  <field-error [field]="form.get('name')" *ngIf="form.get('name').invalid && (form.get('name').dirty || form.get('name').touched)"></field-error>
+  <field-error [field]="form.get('name')"></field-error>
 </div>
 <div class="form-group form-check" [formGroup]="form">
   <input type="checkbox" 
