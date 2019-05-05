@@ -42,6 +42,7 @@ import { CategoryFormComponent } from './components/pages/category/category-form
 import { ProductFormComponent } from './components/pages/product/product-form/product-form.component';
 import { UserFormComponent } from './components/pages/user/user-form/user-form.component';
 import { FieldErrorComponent } from './components/bootstrap/field-error/field-error.component';
+import { IsInvalidDirective } from './directives/is-invalid.directive';
 
 function jwtFactory(authService: AuthService) {
   return {
@@ -84,7 +85,8 @@ function jwtFactory(authService: AuthService) {
     CategoryFormComponent,
     ProductFormComponent,
     UserFormComponent,
-    FieldErrorComponent
+    FieldErrorComponent,
+    IsInvalidDirective
   ],
   imports: [
     BrowserModule,

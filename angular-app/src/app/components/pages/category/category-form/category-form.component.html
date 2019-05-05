@@ -7,8 +7,7 @@
          maxlength="20"
          required 
          placeholder="Informe um nome para a categoria"
-         [ngClass]="{'is-invalid': form.get('name').invalid && (form.get('name').dirty || form.get('name').touched)}"
-         >
+         isInvalid>
   <field-error [field]="form.get('name')"></field-error>
 </div>
 <div class="form-group form-check" [formGroup]="form">
