@@ -18,4 +18,21 @@ export class CategoryFormComponent {
   ngOnChanges() {
     this.changeRef.detectChanges();
   }
+
+  get fieldsOptions() {
+    return {
+      name: {
+        id: 'name',
+        label: 'Nome',
+        placeholder: 'Informe um nome para a categoria',
+        validationMessage: {
+          maxlength: 20
+        }
+      },
+      active: {
+        id: 'active',
+        label: 'Ativo'
+      }
+    };
+  }
 }

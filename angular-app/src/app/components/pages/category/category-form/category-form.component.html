@@ -1,19 +1,27 @@
 <div class="form-group" [formGroup]="form">
-  <label for="name">Nome</label>
+  <label [for]="fieldsOptions.name.id">
+    {{fieldsOptions.name.label}}
+  </label>
   <input type="text" 
-         name="name"
          formControlName="name" 
          class="form-control" 
-         maxlength="20"
          required 
-         placeholder="Informe um nome para a categoria"
+         [name]="fieldsOptions.name.id"
+         [maxlength]="fieldsOptions.name.validationMessage.maxlength"
+         [placeholder]="fieldsOptions.name.placeholder"
          isInvalid>
-  <field-error [field]="form.get('name')"></field-error>
+  <field-error 
+         [field]="form.get('name')" 
+         [label]="fieldsOptions.name.label"
+         [messages]="fieldsOptions.name.validationMessage">
+  </field-error>
 </div>
 <div class="form-group form-check" [formGroup]="form">
   <input type="checkbox" 
-         name="active"
          formControlName="active" 
-         class="form-check-input">
-  <label for="active">Ativo?</label>
+         class="form-check-input"
+         [name]="fieldsOptions.active.id">
+  <label [for]="fieldsOptions.active.id">
+    {{fieldsOptions.active.label}}?
+  </label>
 </div>

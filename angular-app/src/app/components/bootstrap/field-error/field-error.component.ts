@@ -15,6 +15,12 @@ export class FieldErrorComponent {
   @Input()
   public field: FormControl;
 
+  @Input()
+  public messages;
+
+  @Input()
+  public label: string;
+
   constructor() { }
 
   get errorKeys() {
@@ -30,6 +36,14 @@ export class FieldErrorComponent {
   }
 
   getMessage(error: string): string {
-    return ValidationMessage.getMessage(error, ['label']);
+    let replaceTokens: Array<string> = [this.label];
+    if (this.messages && this.messages.hasOwnProperty(error)) {
+      if (Array.isArray(this.messages[error])) {
+        replaceTokens = replaceTokens.concat(this.messages[error]);
+      } else {
+        replaceTokens.push(this.messages[error]);
+      }
+    }
+    return ValidationMessage.getMessage(error, replaceTokens);
   }
 }

@@ -7,7 +7,7 @@ const messages = {
 
 export class ValidationMessage 
 {
-    static getMessage(error: string, replaceTokens: Array<any>): string {
+    static getMessage(error: string, replaceTokens: Array<string>): string {
         let message  = messages[error];
         const tokens = message.match(/\:[a-z]*/g);
         tokens.forEach((token, index) => message = message.replace(token, replaceTokens[index]));
