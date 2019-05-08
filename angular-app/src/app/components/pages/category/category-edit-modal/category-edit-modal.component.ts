@@ -1,9 +1,10 @@
 import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ModalComponent } from '../../../bootstrap/modal/modal.component';
 import { CategoryInterface } from 'src/app/interfaces/category.interface';
 import { CategoryHttpService } from 'src/app/services/http/category-http.service';
+import fieldsOptions from '../category-form/category-fields-options';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -31,8 +32,9 @@ export class CategoryEditModalComponent {
     private categoryHttp: CategoryHttpService,
     private formBuilder: FormBuilder
   ) {
+    const maxlength: number = fieldsOptions.name.validationMessage.maxlength;
     this.form = new FormBuilder().group({
-      name: '',
+      name: ['', [Validators.required, Validators.maxLength(maxlength)]],
       active : true
     });
   }

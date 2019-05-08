@@ -1,5 +1,6 @@
 import { Component, Input, ChangeDetectorRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import fieldsOptions from './category-fields-options';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -19,20 +20,7 @@ export class CategoryFormComponent {
     this.changeRef.detectChanges();
   }
 
-  get fieldsOptions() {
-    return {
-      name: {
-        id: 'name',
-        label: 'Nome',
-        placeholder: 'Informe um nome para a categoria',
-        validationMessage: {
-          maxlength: 20
-        }
-      },
-      active: {
-        id: 'active',
-        label: 'Ativo'
-      }
-    };
+  get fieldsOptions(): any {
+    return fieldsOptions;
   }
 }
