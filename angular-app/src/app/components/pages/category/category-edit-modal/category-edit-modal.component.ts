@@ -27,6 +27,7 @@ export class CategoryEditModalComponent {
   // tslint:disable-next-line:no-output-on-prefix
   @Output()
   onError: EventEmitter<HttpErrorResponse> = new EventEmitter<HttpErrorResponse>();
+  errors = {};
 
   constructor(
     private categoryHttp: CategoryHttpService,
@@ -44,10 +45,19 @@ export class CategoryEditModalComponent {
         this.onSuccess.emit(category);
         this.modal.hide();
     };
-    const error = (err) => this.onError.emit(err);
+    const error = (responseError) => {
+        if (responseError.status === 422) {
+          this.errors = responseError.error.errors;
+        }
+        this.onError.emit(responseError);
+    };
     this.categoryHttp
         .update(this.categoryId, this.form.value)
         .subscribe(success, error);
+  }
+
+  showErrors() {
+    return Object.keys(this.errors).length > 0;
   }
 
   showModal(category: CategoryInterface) {

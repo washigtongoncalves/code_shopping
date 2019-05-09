@@ -8,6 +8,7 @@
             Editar categoria
         </h5>
         <div modal-body>
+            <list-error [errors]="errors" *ngIf="showErrors()"></list-error>
             <category-form [form]="form"></category-form>
         </div>
         <div modal-footer>
