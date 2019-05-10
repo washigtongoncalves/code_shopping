@@ -5,7 +5,7 @@
   <input type="text" 
          formControlName="name" 
          class="form-control" 
-         [name]="fieldsOptions.name.id"
+         [id]="fieldsOptions.name.id"
          [placeholder]="fieldsOptions.name.placeholder"
          isInvalid>
   <field-error 
@@ -18,7 +18,7 @@
   <input type="checkbox" 
          formControlName="active" 
          class="form-check-input"
-         [name]="fieldsOptions.active.id">
+         [id]="fieldsOptions.active.id">
   <label [for]="fieldsOptions.active.id">
     {{fieldsOptions.active.label}}?
   </label>
