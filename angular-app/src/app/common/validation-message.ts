@@ -1,12 +1,11 @@
 const messages = {
-    required  : ':name é requerido', 
+    required  : ':name é requerido',
     minlength : ':name precisa ter no mínimo :minlength caracteres',
     maxlength : ':name precisa ter no máximo :maxlength caracteres',
     email     : ':name não é um e-mail válido'
 };
 
-export class ValidationMessage 
-{
+export class ValidationMessage {
     static getMessage(error: string, replaceTokens: Array<string>): string {
         let message  = messages[error];
         const tokens = message.match(/\:[a-z]*/g);

@@ -13,6 +13,6 @@ const fieldsOptions: FieldsOptionsInterface = {
       id: 'active',
       label: 'Ativo'
     }
-}; 
+};
 
 export default fieldsOptions;

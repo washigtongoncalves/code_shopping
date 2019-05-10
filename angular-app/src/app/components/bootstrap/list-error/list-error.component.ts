@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'list-error',
   templateUrl: './list-error.component.html',
   styleUrls: ['./list-error.component.css']

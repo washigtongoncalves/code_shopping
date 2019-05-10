@@ -3,11 +3,13 @@ import { FormControl } from '@angular/forms';
 import { ValidationMessage } from '../../../common/validation-message';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'field-error',
   templateUrl: './field-error.component.html',
   styleUrls: ['./field-error.component.css'],
+  // tslint:disable-next-line:use-host-property-decorator
   host: {
-    'class': 'invalid-feedback'
+    class: 'invalid-feedback'
   }
 })
 export class FieldErrorComponent {

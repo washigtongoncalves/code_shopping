@@ -6,5 +6,5 @@ export interface FieldsOptionsInterface {
         validationMessage?: {
             [error: string]: any
         }
-    }
+    };
 }

@@ -4,12 +4,13 @@ import { NgControl } from '@angular/forms';
 const className = 'is-invalid';
 
 @Directive({
+  // tslint:disable-next-line:directive-selector
   selector: '[isInvalid]'
 })
 export class IsInvalidDirective implements OnInit {
 
   constructor(
-    private element: ElementRef, 
+    private element: ElementRef,
     private control: NgControl
   ) { }
 
