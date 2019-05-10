@@ -1,41 +1,40 @@
-<div class="form-group">
-  <label for="name">Nome</label>
-  <input type="text" 
-         name="product.name" 
-         id="name" 
+<div class="form-group" [formGroup]="form">
+  <label [for]="fieldsOptions.name.id">
+    {{fieldsOptions.name.label}}
+  </label>
+  <input type="text"
+         formControlName="name" 
          class="form-control" 
-         required 
-         placeholder="Informe um nome para o produto"
-         [(ngModel)]="product.name">
+         [id]="fieldsOptions.name.id"
+         [placeholder]="fieldsOptions.name.placeholder">
 </div>
-<div class="form-group">
-  <label for="description">Descrição</label>
+<div class="form-group" [formGroup]="form">
+  <label [for]="fieldsOptions.description.id">
+    {{fieldsOptions.description.label}}
+  </label>
   <textarea 
-          name="product.description" 
-          id="description" 
-          class="form-control no-resize" 
-          required 
-          placeholder="Informe uma descrição para o produto"
-          [(ngModel)]="product.description">
-  </textarea>
+         formControlName="description"
+         class="form-control no-resize" 
+         [id]="fieldsOptions.description.id" 
+         [placeholder]="fieldsOptions.description.placeholder"></textarea>
 </div>
-<div class="form-group">
-  <label for="price">Preço</label>
+<div class="form-group" [formGroup]="form">
+  <label [for]="fieldsOptions.price.id">
+    {{fieldsOptions.price.label}}
+  </label>
   <input type="number" 
-          name="product.price" 
-          id="price" 
-          class="form-control" 
-          required 
-          [(ngModel)]="product.price"
-          step="0.01">
+         formControlName="price"
+         class="form-control" 
+         [id]="fieldsOptions.price.id"
+         [min]="fieldsOptions.price.min" 
+         [step]="fieldsOptions.price.step">
 </div>
-<div class="form-group form-check">
-  <label>
-      <input type="checkbox" 
-          name="active" 
-          class="form-check-input"
-          required 
-          [(ngModel)]="product.active">
-      Ativo?
+<div class="form-group form-check" [formGroup]="form">
+  <input type="checkbox"
+         formControlName="active" 
+         class="form-check-input"
+         [id]="fieldsOptions.active.id">
+  <label [for]="fieldsOptions.active.id">
+      {{fieldsOptions.active.label}}?
   </label>
 </div>
