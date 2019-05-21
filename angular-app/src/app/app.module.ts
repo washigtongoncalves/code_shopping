@@ -45,6 +45,7 @@ import { FieldErrorComponent } from './components/bootstrap/field-error/field-er
 import { IsInvalidDirective } from './directives/is-invalid.directive';
 import { ListErrorComponent } from './components/bootstrap/list-error/list-error.component';
 import { CardErrorComponent } from './components/bootstrap/card-error/card-error.component';
+import { InputListComponent } from './components/pages/input/input-list/input-list.component';
 
 function jwtFactory(authService: AuthService) {
   return {
@@ -90,7 +91,8 @@ function jwtFactory(authService: AuthService) {
     FieldErrorComponent,
     IsInvalidDirective,
     ListErrorComponent,
-    CardErrorComponent
+    CardErrorComponent,
+    InputListComponent
   ],
   imports: [
     BrowserModule,
