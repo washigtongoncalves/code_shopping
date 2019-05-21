@@ -23,9 +23,18 @@ class ProductInputFilter extends SimpleQueryFilter
 
     protected function applySearch($value)
     {
-        /*
-        $this->query->where('name', 'like', "%{$value}%")
-                    ->orWhere('description', 'like', "%{$value}%");
-        */
+        $this->query->where('products.name', 'like', "%{$value}%");
+    }
+
+    public function apply($query) 
+    {
+        $query = $query->select('product_inputs.*')
+        ->join(
+            'products', 
+            'products.id', 
+            '=', 
+            'product_inputs.product_id'
+        );
+        return parent::apply($query);
     }
 }
