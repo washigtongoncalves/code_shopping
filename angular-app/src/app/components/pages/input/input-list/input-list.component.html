@@ -13,10 +13,30 @@
                 </td>
             </tr>
             <tr>
-                <th style="width: 5%"  [sortColumn]="sortColumn" [columnName]="'id'" (onChangeSort)="sortChange()">ID</th>
-                <th style="width: 40%" [sortColumn]="sortColumn" [columnName]="'produc_name'" (onChangeSort)="sortChange()">Produto</th>
-                <th style="width: 30%" [sortColumn]="sortColumn" [columnName]="'amount'" (onChangeSort)="sortChange()">Quantidade</th>
-                <th style="width: 25%" [sortColumn]="sortColumn" [columnName]="'created_at'" (onChangeSort)="sortChange()">Criada em</th>
+                <th style="width: 5%"  
+                    [sortColumn]="sortColumn" 
+                    [columnName]="'id'" 
+                    (onChangeSort)="sortChange()">
+                    ID
+                </th>
+                <th style="width: 40%" 
+                    [sortColumn]="sortColumn" 
+                    [columnName]="'product_name'" 
+                    (onChangeSort)="sortChange()">
+                    Produto
+                </th>
+                <th style="width: 30%" 
+                    [sortColumn]="sortColumn" 
+                    [columnName]="'amount'" 
+                    (onChangeSort)="sortChange()">
+                    Quantidade
+                </th>
+                <th style="width: 25%" 
+                    [sortColumn]="sortColumn" 
+                    [columnName]="'created_at'" 
+                    (onChangeSort)="sortChange()">
+                    Criada em
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -52,7 +72,7 @@
         responsive=true>
     </pagination-controls>
 </div>
-<!--input-new-modal 
+<input-new-modal 
     (onSuccess)="inputInsertService.onInsertSuccess($event)" 
     (onError)="inputInsertService.onInsertError($event)">
-</input-new-modal-->
+</input-new-modal>

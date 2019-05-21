@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-// import { CategoryNewModalComponent } from '../category-new-modal/category-new-modal.component';
+import { InputNewModalComponent } from '../input-new-modal/input-new-modal.component';
 import { InputHttpService } from 'src/app/services/http/input-http.service';
 import { InputInterface } from 'src/app/interfaces/input.interface';
-// import { CategoryInsertService } from './category-insert.service';
+import { InputInsertService } from './input-insert.service';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'input-list',
   templateUrl: './input-list.component.html',
   styleUrls: ['./input-list.component.css']
@@ -16,20 +17,20 @@ export class InputListComponent implements OnInit {
 
   public inputs: Array<InputInterface> = [];
 
-  // @ViewChild(CategoryNewModalComponent)
-  // categoryNewModal: CategoryNewModalComponent;
+  @ViewChild(InputNewModalComponent)
+  inputNewModal: InputNewModalComponent;
 
   public pagination = {
-      currentPage: 1,
-      totalItems: 0,
-      itemsPerPage: 15
+    currentPage: 1,
+    totalItems: 0,
+    itemsPerPage: 15
   };
 
   constructor(
-      private inputHttp: InputHttpService,
-      //protected categoryInsertService: CategoryInsertService
+    private inputHttp: InputHttpService,
+    protected inputInsertService: InputInsertService
   ) {
-    //this.categoryInsertService.categoryListComponent = this;
+    this.inputInsertService.inputListComponent = this;
   }
 
   ngOnInit() {
