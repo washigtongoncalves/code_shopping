@@ -7,10 +7,6 @@ use Mnabialek\LaravelEloquentFilter\Filters\SimpleQueryFilter;
 class CategoryFilter extends SimpleQueryFilter
 {
     protected $simpleFilters = [
-        'id', 
-        'name', 
-        'active', 
-        'created_at',
         'search'
     ];
     

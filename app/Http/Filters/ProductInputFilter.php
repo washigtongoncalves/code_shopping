@@ -4,7 +4,7 @@ namespace CodeShopping\Http\Filters;
 
 use Mnabialek\LaravelEloquentFilter\Filters\SimpleQueryFilter;
 
-class ProductFilter extends SimpleQueryFilter
+class ProductInputFilter extends SimpleQueryFilter
 {
     protected $simpleFilters = [
         'search'
@@ -12,9 +12,7 @@ class ProductFilter extends SimpleQueryFilter
     
     protected $simpleSorts = [
         'id',
-        'name',
-        'price',
-        'stock',
+        'amount',
         'created_at'
     ];
 
@@ -25,7 +23,9 @@ class ProductFilter extends SimpleQueryFilter
 
     protected function applySearch($value)
     {
+        /*
         $this->query->where('name', 'like', "%{$value}%")
                     ->orWhere('description', 'like', "%{$value}%");
+        */
     }
 }

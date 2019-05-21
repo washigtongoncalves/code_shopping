@@ -7,10 +7,6 @@ use Mnabialek\LaravelEloquentFilter\Filters\SimpleQueryFilter;
 class UserFilter extends SimpleQueryFilter
 {
     protected $simpleFilters = [
-        'id', 
-        'name',
-        'email', 
-        'created_at',
         'search'
     ];
     
