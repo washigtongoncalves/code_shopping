@@ -1,8 +1,9 @@
 import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
-import { ModalComponent } from '../../../bootstrap/modal/modal.component';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ModalComponent } from '../../../bootstrap/modal/modal.component';
 import { ProductHttpService } from 'src/app/services/http/product-http.service';
-import { ProductInterface } from 'src/app/interfaces/product.interface';
+import fieldsOptions from '../product-form/product-fields-options';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -12,12 +13,7 @@ import { ProductInterface } from 'src/app/interfaces/product.interface';
 })
 export class ProductNewModalComponent {
 
-  public product: ProductInterface = {
-      name: '',
-      description: '',
-      price: 0.00,
-      active: true
-  };
+  public form: FormGroup;
 
   @ViewChild(ModalComponent)
   private modal: ModalComponent;
@@ -29,28 +25,49 @@ export class ProductNewModalComponent {
   // tslint:disable-next-line:no-output-on-prefix
   @Output()
   onError: EventEmitter<HttpErrorResponse> = new EventEmitter<HttpErrorResponse>();
+  errors = {};
 
-  constructor(private productHttp: ProductHttpService) { }
+  constructor(
+    private productHttp: ProductHttpService,
+    private formBuilder: FormBuilder
+  ) { 
+    const maxlength: number = fieldsOptions.name.validationMessage.maxlength;
+    this.form = new FormBuilder().group({
+      name: ['', [Validators.required, Validators.maxLength(maxlength)]],
+      description: ['', [Validators.required]],
+      price: 0.00,
+      active: true
+    });
+  }
 
   submit() {
-    const success = (category) => {
-        this.onSuccess.emit(category);
+    const success = (product) => {
+        this.onSuccess.emit(product);
         this.modal.hide();
         this.reset();
     };
-    const error = (err) => this.onError.emit(err);
+    const error = (responseError) => {
+      if (responseError.status === 422) {
+        this.errors = responseError.error.errors;
+      }
+      this.onError.emit(responseError);
+    };
     this.productHttp
-        .create(this.product)
+        .create(this.form.value)
         .subscribe(success, error);
   }
 
   reset() {
-    this.product = {
-        name: '',
-        description: '',
-        price: 0.00,
-        active: true
-    };
+    this.form.reset({
+      name: '',
+      description: '',
+      price: 0.00,
+      active : true
+    });
+  }
+
+  showErrors() {
+    return Object.keys(this.errors).length > 0;
   }
 
   showModal() {

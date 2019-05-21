@@ -8,15 +8,16 @@
             Editar produto
         </h5>
         <div modal-body>
-            <product-form></product-form>
+            <list-error [errors]="errors" *ngIf="showErrors()"></list-error>
+            <product-form [form]="form"></product-form>
         </div>
         <div modal-footer>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">
                 Fechar
             </button>
             &nbsp;
-            <button type="submit" class="btn btn-primary">
-                Editar
+            <button type="submit" class="btn btn-primary" [disabled]="!form.valid">
+                Salvar
             </button>
         </div>
     </modal>

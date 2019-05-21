@@ -1,8 +1,10 @@
 import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
-import { ModalComponent } from '../../../bootstrap/modal/modal.component';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ModalComponent } from '../../../bootstrap/modal/modal.component';
 import { ProductInterface } from 'src/app/interfaces/product.interface';
 import { ProductHttpService } from 'src/app/services/http/product-http.service';
+import fieldsOptions from '../product-form/product-fields-options';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -12,12 +14,8 @@ import { ProductHttpService } from 'src/app/services/http/product-http.service';
 })
 export class ProductEditModalComponent {
 
-  private product: ProductInterface = {
-    name: '',
-    description: '',
-    price: 0.00,
-    active: true
-  };
+  public form: FormGroup;
+  private productId: number;
 
   @ViewChild(ModalComponent)
   private modal: ModalComponent;
@@ -29,31 +27,49 @@ export class ProductEditModalComponent {
   // tslint:disable-next-line:no-output-on-prefix
   @Output()
   onError: EventEmitter<HttpErrorResponse> = new EventEmitter<HttpErrorResponse>();
+  errors = {};
 
-  constructor(private productHttp: ProductHttpService) { }
+  constructor(
+    private productHttp: ProductHttpService,
+    private formBuilder: FormBuilder
+  ) { 
+    const maxlength: number = fieldsOptions.name.validationMessage.maxlength;
+    this.form = new FormBuilder().group({
+      name: ['', [Validators.required, Validators.maxLength(maxlength)]],
+      description: ['', [Validators.required]],
+      price: 0.00,
+      active: true
+    });
+  }
 
   submit() {
-    const success = (category) => {
-        this.onSuccess.emit(category);
+    const success = (product) => {
+        this.onSuccess.emit(product);
         this.modal.hide();
     };
-    const error = (err) => this.onError.emit(err);
+    const error = (responseError) => {
+      if (responseError.status === 422) {
+        this.errors = responseError.error.errors;
+      }
+      this.onError.emit(responseError);
+    };
     this.productHttp
-        .update(this.product.id, this.product)
+        .update(this.productId, this.form.value)
         .subscribe(success, error);
   }
 
   showModal(product: ProductInterface) {
-    this.product.id = product.id;
-    this.product.name = product.name;
-    this.product.description = product.description;
-    this.product.price  = product.price;
-    this.product.active = product.active;
+    this.productId = product.id;
+    this.form.patchValue(product);
     this.modal.show();
   }
 
   hideModal() {
     this.modal.hide();
+  }
+
+  showErrors() {
+    return Object.keys(this.errors).length > 0;
   }
 
   // Eventos do componente de Modal
