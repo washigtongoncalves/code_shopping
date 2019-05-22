@@ -18,14 +18,18 @@ class ProductFilter extends SimpleQueryFilter
         'created_at'
     ];
 
-    protected function applyCreatedAt($value)
-    {
-        $this->query->whereRaw('DATE(created_at) = ? ', [$value]);
-    }
-
     protected function applySearch($value)
     {
-        $this->query->where('name', 'like', "%{$value}%")
-                    ->orWhere('description', 'like', "%{$value}%");
+        $this->query
+             ->where('name', 'like', "%{$value}%")
+             ->orWhere('description', 'like', "%{$value}%");
+    }
+
+    public function hasFilterParameter(): bool
+    {
+        $contains = $this->parser->getFilters()->contains(function($filter) {
+            return $filter->getField() === 'search' && !empty($filter->getValue()); 
+        });
+        return $contains;
     }
 }

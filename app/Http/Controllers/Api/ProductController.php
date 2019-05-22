@@ -17,9 +17,10 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $filter = app(ProductFilter::class);
-        $query = Product::filtered($filter);
-        $query = $this->onlyTrashedIfRequested($query);
-        $products = $request->has('all') ? $query->get() : $query->paginate(10);
+        $query  = Product::query(); 
+        $query  = $this->onlyTrashedIfRequested($query);
+        $filterQuery = $query->filtered($filter);
+        $products = $filter->hasFilterParameter() ? $filterQuery->get() : $filterQuery->paginate(10);
         return ProductResource::collection($products);
     }
 
