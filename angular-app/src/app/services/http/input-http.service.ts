@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { InputInterface } from '../../interfaces/input.interface';
-import { HttpResourceAbstract } from './http-resource.abstract';
-import { HttpResourceInterface } from './http-resource.interface';
 import { MetaPaginationInterface } from '../../interfaces/meta-pagination.interface';
 import { SearchParamsInterface } from '../../interfaces/search-params.interface';
 import { SearchParamsBuilder } from '../../interfaces/search-params-builder.class';
@@ -15,7 +12,7 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class InputHttpService {
-    
+
   protected url = `${environment.api.url}/inputs`;
   protected http: HttpClient;
   protected authService: AuthService;

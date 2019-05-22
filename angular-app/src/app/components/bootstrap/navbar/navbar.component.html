@@ -45,6 +45,10 @@
              {{authService.me?.name}}
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" [routerLink]="'/users/profile'">
+              Minha Conta
+            </a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="javascript:void(0)" (click)="logout()">
               Sair
             </a>

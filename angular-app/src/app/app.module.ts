@@ -47,6 +47,7 @@ import { ListErrorComponent } from './components/bootstrap/list-error/list-error
 import { CardErrorComponent } from './components/bootstrap/card-error/card-error.component';
 import { InputListComponent } from './components/pages/input/input-list/input-list.component';
 import { InputNewModalComponent } from './components/pages/input/input-new-modal/input-new-modal.component';
+import { UserProfileComponent } from './components/pages/user/user-profile/user-profile.component';
 
 function jwtFactory(authService: AuthService) {
   return {
@@ -94,7 +95,8 @@ function jwtFactory(authService: AuthService) {
     ListErrorComponent,
     CardErrorComponent,
     InputListComponent,
-    InputNewModalComponent
+    InputNewModalComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,
