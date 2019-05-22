@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -11,16 +11,18 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginComponent {
 
-  private credentials = {
-      email: 'admin@user.com',
-      password: 'secret'
-  };
+  public form: FormGroup;
   public showMessageError = false;
 
   constructor(
     private authService: AuthService,
     private router: Router
-  ) { }
+  ) {
+    this.form = new FormBuilder().group({
+      email: ['admin@user.com', [Validators.required, Validators.email]],
+      password: ['secret', [Validators.required]]
+    });
+  }
 
   public submit(event) {
     const success = (data) => {
@@ -28,7 +30,7 @@ export class LoginComponent {
     };
     const error = (response) => this.showMessageError = true;
     this.authService
-        .login(this.credentials)
+        .login(this.form.value)
         .subscribe(success, error);
     return false;
   }

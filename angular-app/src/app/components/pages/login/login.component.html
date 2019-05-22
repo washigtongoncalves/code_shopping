@@ -5,26 +5,26 @@
   <alert-error [(show)]="showMessageError" [show-btn-close]="true" [show-icon]="true">
       Credenciais inválidas
   </alert-error>
-  <label for="email" class="sr-only">
-      E-mail
-  </label>
-  <input type="email" 
-         name="credentials.email"
-         [(ngModel)]="credentials.email" 
-         class="form-control" 
-         placeholder="Digite o e-mail" 
-         required 
-         autofocus>
-  <label for="password" class="sr-only">
-      Senha
-  </label>
-  <input type="password" 
-         name="credentials.password"
-         [(ngModel)]="credentials.password"
-         class="form-control" 
-         placeholder="Digite sua senha" 
-         required>
-  <button class="btn btn-lg btn-primary btn-block" type="submit">
+  <span class="form-group" [formGroup]="form">
+    <label for="email" class="sr-only">
+        E-mail
+    </label>
+    <input type="email" 
+           formControlName="email"
+           class="form-control" 
+           placeholder="Digite o e-mail"
+           autofocus>
+  </span>
+  <span class="form-group" [formGroup]="form">
+    <label for="password" class="sr-only">
+        Senha
+    </label>
+    <input type="password" 
+           formControlName="password"
+           class="form-control" 
+           placeholder="Digite sua senha">
+  </span>
+  <button class="btn btn-lg btn-primary btn-block" type="submit" [disabled]="!form.valid">
       Entrar
   </button>
 </form>
