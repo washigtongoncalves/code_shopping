@@ -32,7 +32,7 @@ export class ProductEditModalComponent {
   constructor(
     private productHttp: ProductHttpService,
     private formBuilder: FormBuilder
-  ) { 
+  ) {
     const maxlength: number = fieldsOptions.name.validationMessage.maxlength;
     this.form = new FormBuilder().group({
       name: ['', [Validators.required, Validators.maxLength(maxlength)]],
