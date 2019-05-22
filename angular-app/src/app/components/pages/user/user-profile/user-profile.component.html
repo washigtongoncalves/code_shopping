@@ -1,8 +1,9 @@
 <h3>Minha Conta</h3>
 <hr>
-<form (submit)="submit()" autocomplete="off">   
-  <!--user-form [user]="user" [editMode]=true></user-form-->
-  <button type="submit" class="btn btn-primary">
+<form (submit)="submit()" autocomplete="off"> 
+  <list-error [errors]="errors" *ngIf="showErrors()"></list-error>
+  <user-form [form]="form" [editMode]=true></user-form>  
+  <button type="submit" class="btn btn-primary" [disabled]="!form.valid">
     Salvar
   </button>
 </form>
