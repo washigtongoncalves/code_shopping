@@ -41,11 +41,8 @@ export class UserEditModalComponent {
   }
 
   submit() {
-    // if (this.user.password === '') {
-    //   delete this.user.password;
-    // }
-    const success = (user) => {
-        this.onSuccess.emit(user);
+    const success = (u) => {
+        this.onSuccess.emit(u);
         this.modal.hide();
     };
     const error = (responseError) => {
@@ -54,8 +51,12 @@ export class UserEditModalComponent {
       }
       this.onError.emit(responseError);
     };
+    const user = this.form.value;
+    if (user.password === '') {
+       delete user.password;
+    }
     this.userHttp
-        .update(this.userId, this.form.value)
+        .update(this.userId, user)
         .subscribe(success, error);
     this.reset();
   }
