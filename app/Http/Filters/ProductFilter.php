@@ -18,11 +18,6 @@ class ProductFilter extends SimpleQueryFilter
         'created_at'
     ];
 
-    protected function applyCreatedAt($value)
-    {
-        $this->query->whereRaw('DATE(created_at) = ? ', [$value]);
-    }
-
     protected function applySearch($value)
     {
         $this->query->where('name', 'like', "%{$value}%")

@@ -12,18 +12,24 @@ class ProductInputFilter extends SimpleQueryFilter
     
     protected $simpleSorts = [
         'id',
+        'product_name',
         'amount',
         'created_at'
     ];
 
-    protected function applyCreatedAt($value)
-    {
-        $this->query->whereRaw('DATE(created_at) = ? ', [$value]);
-    }
-
     protected function applySearch($value)
     {
         $this->query->where('products.name', 'like', "%{$value}%");
+    }
+
+    protected function applySortProductName($order)
+    {
+        $this->query->orderBy('products.name', $order);
+    }
+
+    protected function applySortCreatedAt($order)
+    {
+        $this->query->orderBy('product_inputs.created_at', $order);
     }
 
     public function apply($query) 
