@@ -1,28 +1,31 @@
-<div class="form-group">
-  <label for="name">Nome</label>
-  <input type="text" 
-         name="user.name" 
+<div class="form-group" [formGroup]="form">
+  <label [for]="fieldsOptions.name.id">
+    {{fieldsOptions.name.label}}
+  </label>
+  <input type="text"
+         formControlName="name" 
          class="form-control" 
-         required 
-         placeholder="Informe um nome para o usuário"
-         [(ngModel)]="user.name">
+         [id]="fieldsOptions.name.id"
+         [placeholder]="fieldsOptions.name.placeholder">
 </div>
-<div class="form-group">
-  <label for="email">E-mail</label>
+<div class="form-group" [formGroup]="form">
+  <label [for]="fieldsOptions.email.id">
+    {{fieldsOptions.email.label}}
+  </label>
   <input type="email" 
-         name="user.email" 
+         formControlName="email"
          class="form-control" 
-         required
+         [id]="fieldsOptions.email.id"
          [readonly]="editMode" 
-         placeholder="Informe um e-mail para o usuário"
-         [(ngModel)]="user.email">
+         [placeholder]="fieldsOptions.email.placeholder">
 </div>
-<div class="form-group">
-  <label for="password">Senha</label>
-  <input type="password" 
-         name="user.password" 
-         class="form-control" 
-         placeholder="Informe uma senha para o usuário"
-         required 
-         [(ngModel)]="user.password">
+<div class="form-group" [formGroup]="form">
+  <label [for]="fieldsOptions.password.id">
+    {{fieldsOptions.password.label}}
+  </label>
+  <input type="password"
+         formControlName="password" 
+         class="form-control"
+         [id]="fieldsOptions.password.id" 
+         [placeholder]="fieldsOptions.password.placeholder">
 </div>

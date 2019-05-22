@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { UserInterface } from 'src/app/interfaces/user.interface';
+import { Component, Input, ChangeDetectorRef } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import fieldsOptions from './user-fields-options';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -10,12 +11,19 @@ import { UserInterface } from 'src/app/interfaces/user.interface';
 export class UserFormComponent {
 
   @Input()
-  user: UserInterface = {
-    name: '',
-    email: '',
-    password: ''
-  };
+  public form: FormGroup;
 
   @Input()
   editMode: boolean;
+
+  constructor(private changeRef: ChangeDetectorRef) {}
+
+  // tslint:disable-next-line:use-life-cycle-interface
+  ngOnChanges() {
+    this.changeRef.detectChanges();
+  }
+
+  get fieldsOptions(): any {
+    return fieldsOptions;
+  }
 }

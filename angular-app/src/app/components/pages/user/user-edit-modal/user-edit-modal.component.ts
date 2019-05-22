@@ -1,8 +1,10 @@
 import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
-import { ModalComponent } from '../../../bootstrap/modal/modal.component';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-import { UserHttpService } from 'src/app/services/http/user-http.service';
+import { ModalComponent } from '../../../bootstrap/modal/modal.component';
 import { UserInterface } from 'src/app/interfaces/user.interface';
+import { UserHttpService } from 'src/app/services/http/user-http.service';
+import fieldsOptions from '../user-form/user-fields-options';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -12,12 +14,8 @@ import { UserInterface } from 'src/app/interfaces/user.interface';
 })
 export class UserEditModalComponent {
 
-  public user: UserInterface = {
-    id: null,
-    name: '',
-    email: '',
-    password: ''
-  };
+  public form: FormGroup;
+  private userId: number;
 
   @ViewChild(ModalComponent)
   private modal: ModalComponent;
@@ -29,37 +27,55 @@ export class UserEditModalComponent {
   // tslint:disable-next-line:no-output-on-prefix
   @Output()
   onError: EventEmitter<HttpErrorResponse> = new EventEmitter<HttpErrorResponse>();
+  errors = {};
 
-  constructor(private userHttp: UserHttpService) { }
+  constructor(
+    private userHttp: UserHttpService
+  ) {
+    const maxlength: number = fieldsOptions.name.validationMessage.maxlength;
+    this.form = new FormBuilder().group({
+      name:  ['', [Validators.required, Validators.maxLength(maxlength)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ''
+    });
+  }
 
   submit() {
-    if (this.user.password === '') {
-      delete this.user.password;
-    }
+    // if (this.user.password === '') {
+    //   delete this.user.password;
+    // }
     const success = (user) => {
         this.onSuccess.emit(user);
         this.modal.hide();
     };
-    const error = (err) => this.onError.emit(err);
+    const error = (responseError) => {
+      if (responseError.status === 422) {
+        this.errors = responseError.error.errors;
+      }
+      this.onError.emit(responseError);
+    };
     this.userHttp
-        .update(this.user.id, this.user)
+        .update(this.userId, this.form.value)
         .subscribe(success, error);
     this.reset();
   }
 
   reset() {
-    this.user = {
+    this.form.reset({
       id: null,
       name: '',
       email: '',
       password: ''
-    };
+    });
+  }
+
+  showErrors() {
+    return Object.keys(this.errors).length > 0;
   }
 
   showModal(user: UserInterface) {
-    this.user.id = user.id;
-    this.user.name = user.name;
-    this.user.email = user.email;
+    this.userId = user.id;
+    this.form.patchValue(user);
     this.modal.show();
   }
 

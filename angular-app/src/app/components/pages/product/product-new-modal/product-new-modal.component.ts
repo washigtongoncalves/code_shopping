@@ -28,8 +28,7 @@ export class ProductNewModalComponent {
   errors = {};
 
   constructor(
-    private productHttp: ProductHttpService,
-    private formBuilder: FormBuilder
+    private productHttp: ProductHttpService
   ) {
     const maxlength: number = fieldsOptions.name.validationMessage.maxlength;
     this.form = new FormBuilder().group({

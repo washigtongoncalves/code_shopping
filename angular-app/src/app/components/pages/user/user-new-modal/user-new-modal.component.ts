@@ -1,8 +1,9 @@
 import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
-import { ModalComponent } from '../../../bootstrap/modal/modal.component';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ModalComponent } from '../../../bootstrap/modal/modal.component';
 import { UserHttpService } from 'src/app/services/http/user-http.service';
-import { UserInterface } from 'src/app/interfaces/user.interface';
+import fieldsOptions from '../user-form/user-fields-options';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -12,11 +13,7 @@ import { UserInterface } from 'src/app/interfaces/user.interface';
 })
 export class UserNewModalComponent {
 
-  public user: UserInterface = {
-      name: '',
-      email: '',
-      password: ''
-  };
+  public form: FormGroup;
 
   @ViewChild(ModalComponent)
   private modal: ModalComponent;
@@ -28,8 +25,18 @@ export class UserNewModalComponent {
   // tslint:disable-next-line:no-output-on-prefix
   @Output()
   onError: EventEmitter<HttpErrorResponse> = new EventEmitter<HttpErrorResponse>();
+  errors = {};
 
-  constructor(private userHttp: UserHttpService) { }
+  constructor(
+    private userHttp: UserHttpService
+  ) {
+    const maxlength: number = fieldsOptions.name.validationMessage.maxlength;
+    this.form = new FormBuilder().group({
+      name:  ['', [Validators.required, Validators.maxLength(maxlength)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]]
+    });
+  }
 
   submit() {
     const success = (user) => {
@@ -37,18 +44,27 @@ export class UserNewModalComponent {
         this.modal.hide();
         this.reset();
     };
-    const error = (err) => this.onError.emit(err);
+    const error = (responseError) => {
+      if (responseError.status === 422) {
+        this.errors = responseError.error.errors;
+      }
+      this.onError.emit(responseError);
+    };
     this.userHttp
-        .create(this.user)
+        .create(this.form.value)
         .subscribe(success, error);
   }
 
   reset() {
-    this.user = {
+    this.form.reset({
         name: '',
         email: '',
         password: ''
-    };
+    });
+  }
+
+  showErrors() {
+    return Object.keys(this.errors).length > 0;
   }
 
   showModal() {
