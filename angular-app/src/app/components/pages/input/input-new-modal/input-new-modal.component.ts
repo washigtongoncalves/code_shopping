@@ -2,6 +2,7 @@ import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ModalComponent } from '../../../bootstrap/modal/modal.component';
+import fieldsOptions from '../input-form/input-fields-options';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -24,6 +25,44 @@ export class InputNewModalComponent {
   @Output()
   onError: EventEmitter<HttpErrorResponse> = new EventEmitter<HttpErrorResponse>();
   errors = {};
+
+  constructor(
+    // private productHttp: ProductHttpService
+  ) {
+    const min: number = fieldsOptions.amount.min;
+    this.form = new FormBuilder().group({
+      product: ['', [Validators.required]],
+      amount:  [1, [Validators.required, Validators.min(min)]]
+    });
+  }
+
+  /*
+  submit() {
+    const success = (product) => {
+        this.onSuccess.emit(product);
+        this.modal.hide();
+        this.reset();
+    };
+    const error = (responseError) => {
+      if (responseError.status === 422) {
+        this.errors = responseError.error.errors;
+      }
+      this.onError.emit(responseError);
+    };
+    this.productHttp
+        .create(this.form.value)
+        .subscribe(success, error);
+  }
+
+  reset() {
+    this.form.reset({
+      name: '',
+      description: '',
+      price: 0.00,
+      active : true
+    });
+  }
+  */
 
   showErrors() {
     return Object.keys(this.errors).length > 0;

@@ -5,6 +5,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { NgxPaginationModule } from 'ngx-pagination';
 import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { Select2Module } from 'ng2-select2';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -48,6 +49,7 @@ import { CardErrorComponent } from './components/bootstrap/card-error/card-error
 import { InputListComponent } from './components/pages/input/input-list/input-list.component';
 import { InputNewModalComponent } from './components/pages/input/input-new-modal/input-new-modal.component';
 import { UserProfileComponent } from './components/pages/user/user-profile/user-profile.component';
+import { InputFormComponent } from './components/pages/input/input-form/input-form.component';
 
 function jwtFactory(authService: AuthService) {
   return {
@@ -96,7 +98,8 @@ function jwtFactory(authService: AuthService) {
     CardErrorComponent,
     InputListComponent,
     InputNewModalComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    InputFormComponent
   ],
   imports: [
     BrowserModule,
@@ -111,7 +114,8 @@ function jwtFactory(authService: AuthService) {
         useFactory: jwtFactory,
         deps: [AuthService]
       }
-    })
+    }),
+    Select2Module
   ],
   providers: [
     {
