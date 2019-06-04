@@ -55,6 +55,10 @@ export class AuthService {
     return !(new JwtHelperService().isTokenExpired(token, 30));
   }
 
+  get authorizationHeader(): string {
+    return `Bearer ${this.getToken()}`;
+  }
+
   private setUserFromToken(token: string) {
     const decodedPayload = new JwtHelperService().decodeToken(token);
     this.me = decodedPayload ? {

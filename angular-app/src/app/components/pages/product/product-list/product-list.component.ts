@@ -62,8 +62,10 @@ export class ProductListComponent implements OnInit {
         .list({ page: this.pagination.currentPage, trashed: this.trashed, sort: this.sortColumn, search: this.searchTerm })
         .subscribe((response) => {
             this.products = response.data;
-            this.pagination.totalItems = response.meta.total;
-            this.pagination.itemsPerPage = response.meta.per_page;
+            if (response.meta) {
+              this.pagination.totalItems = response.meta.total;
+              this.pagination.itemsPerPage = response.meta.per_page;
+            }
         });
   }
 
