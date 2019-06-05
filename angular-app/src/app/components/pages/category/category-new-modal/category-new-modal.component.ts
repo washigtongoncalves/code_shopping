@@ -32,8 +32,9 @@ export class CategoryNewModalComponent {
     private formBuilder: FormBuilder
   ) {
     const maxlength: number = fieldsOptions.name.validationMessage.maxlength;
+    const minlength: number = fieldsOptions.name.validationMessage.minlength;
     this.form = new FormBuilder().group({
-      name: ['', [Validators.required, Validators.maxLength(maxlength)]],
+      name: ['', [Validators.required, Validators.maxLength(maxlength), Validators.minLength(minlength)]],
       active : true
     });
   }

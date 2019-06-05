@@ -6,7 +6,8 @@ const fieldsOptions: FieldsOptionsInterface = {
       label: 'Nome',
       placeholder: 'Informe um nome para a categoria',
       validationMessage: {
-        maxlength: 30
+        maxlength: 30,
+        minlength: 3
       }
     },
     active: {
