@@ -12,7 +12,13 @@
   <input type="number" 
          formControlName="amount"
          class="form-control input-small" 
+         isInvalid
          [id]="fieldsOptions.amount.id"
-         [min]="fieldsOptions.amount.min" 
          [step]="fieldsOptions.amount.step">
+  <field-error 
+         [field]="form.get('amount')"
+         [label]="fieldsOptions.amount.label"
+         [messages]="fieldsOptions.amount.validationMessage"
+         >
+  </field-error>
 </div>

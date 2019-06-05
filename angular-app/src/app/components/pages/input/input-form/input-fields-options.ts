@@ -9,6 +9,9 @@ const fieldsOptions: FieldsOptionsInterface = {
         id: 'amount',
         label: 'QTD',
         min: 1,
+        validationMessage: {
+            min: 1,
+        },
         step: 1
     },
 };
