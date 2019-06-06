@@ -6,7 +6,8 @@ const fieldsOptions: FieldsOptionsInterface = {
       label: 'Nome',
       placeholder: 'Informe um nome para o usuário',
       validationMessage: {
-        maxlength: 30
+        maxlength: 30,
+        minlength: 3
       }
     },
     email: {
@@ -17,7 +18,10 @@ const fieldsOptions: FieldsOptionsInterface = {
     password: {
       id: 'password',
       label: 'Senha',
-      placeholder: 'Informe uma senha para o usuário'
+      placeholder: 'Informe uma senha para o usuário',
+      validationMessage: {
+        minlength: 5
+      }
     }
 };
 

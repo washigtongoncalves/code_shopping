@@ -31,10 +31,11 @@ export class ProductNewModalComponent {
     private productHttp: ProductHttpService
   ) {
     const maxlength: number = fieldsOptions.name.validationMessage.maxlength;
+    const minlength: number = fieldsOptions.name.validationMessage.minlength;
     this.form = new FormBuilder().group({
-      name: ['', [Validators.required, Validators.maxLength(maxlength)]],
-      description: ['', [Validators.required]],
-      price: 0.00,
+      name: ['', [Validators.required, Validators.maxLength(maxlength), Validators.minLength(minlength)]],
+      description: ['', [Validators.required, Validators.minLength(fieldsOptions.description.validationMessage.minlength)]],
+      price: [0.01, [Validators.required, Validators.min(fieldsOptions.price.validationMessage.min)]],
       active: true
     });
   }

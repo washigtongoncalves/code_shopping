@@ -6,19 +6,26 @@ const fieldsOptions: FieldsOptionsInterface = {
       label: 'Nome',
       placeholder: 'Informe um nome para o produto',
       validationMessage: {
-        maxlength: 60
+        maxlength: 30,
+        minlength: 3
       }
     },
     description: {
       id: 'description',
       label: 'Descrição',
-      placeholder: 'Informe uma descrição para o produto'
+      placeholder: 'Informe uma descrição para o produto',
+      validationMessage: {
+        minlength: 10
+      }
     },
     price: {
       id: 'price',
       label: 'Preço',
-      min: 0,
-      step: 0.01
+      min:  0.01,
+      step: 0.01,
+      validationMessage: {
+        min: 0.01
+      }
     },
     active: {
       id: 'active',

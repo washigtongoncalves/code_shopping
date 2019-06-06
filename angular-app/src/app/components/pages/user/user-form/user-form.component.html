@@ -6,7 +6,14 @@
          formControlName="name" 
          class="form-control" 
          [id]="fieldsOptions.name.id"
-         [placeholder]="fieldsOptions.name.placeholder">
+         [placeholder]="fieldsOptions.name.placeholder"
+         isInvalid>
+  <field-error 
+         [field]="form.get('name')"
+         [label]="fieldsOptions.name.label"
+         [messages]="fieldsOptions.name.validationMessage"
+         >
+  </field-error>
 </div>
 <div class="form-group" [formGroup]="form">
   <label [for]="fieldsOptions.email.id">
@@ -17,7 +24,14 @@
          class="form-control" 
          [id]="fieldsOptions.email.id"
          [readonly]="editMode" 
-         [placeholder]="fieldsOptions.email.placeholder">
+         [placeholder]="fieldsOptions.email.placeholder"
+         isInvalid>
+  <field-error 
+         [field]="form.get('email')"
+         [label]="fieldsOptions.email.label"
+         [messages]="fieldsOptions.email.validationMessage"
+         >
+  </field-error>
 </div>
 <div class="form-group" [formGroup]="form">
   <label [for]="fieldsOptions.password.id">
@@ -27,5 +41,12 @@
          formControlName="password" 
          class="form-control"
          [id]="fieldsOptions.password.id" 
-         [placeholder]="fieldsOptions.password.placeholder">
+         [placeholder]="fieldsOptions.password.placeholder"
+         isInvalid>
+  <field-error 
+         [field]="form.get('password')"
+         [label]="fieldsOptions.password.label"
+         [messages]="fieldsOptions.password.validationMessage"
+         >
+  </field-error>
 </div>

@@ -31,10 +31,11 @@ export class UserNewModalComponent {
     private userHttp: UserHttpService
   ) {
     const maxlength: number = fieldsOptions.name.validationMessage.maxlength;
+    const minlength: number = fieldsOptions.name.validationMessage.minlength;
     this.form = new FormBuilder().group({
-      name:  ['', [Validators.required, Validators.maxLength(maxlength)]],
+      name:  ['', [Validators.required, Validators.maxLength(maxlength), Validators.minLength(minlength)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]]
+      password: ['', [Validators.required, Validators.minLength(fieldsOptions.password.validationMessage.minlength)]]
     });
   }
 

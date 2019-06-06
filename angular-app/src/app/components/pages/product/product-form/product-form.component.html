@@ -5,8 +5,16 @@
   <input type="text"
          formControlName="name" 
          class="form-control" 
+         isInvalid
          [id]="fieldsOptions.name.id"
+         [maxlength]="fieldsOptions.name.validationMessage.maxlength"
          [placeholder]="fieldsOptions.name.placeholder">
+  <field-error 
+         [field]="form.get('name')"
+         [label]="fieldsOptions.name.label"
+         [messages]="fieldsOptions.name.validationMessage"
+         >
+  </field-error>
 </div>
 <div class="form-group" [formGroup]="form">
   <label [for]="fieldsOptions.description.id">
@@ -14,9 +22,16 @@
   </label>
   <textarea 
          formControlName="description"
-         class="form-control no-resize" 
+         class="form-control no-resize"
+         isInvalid 
          [id]="fieldsOptions.description.id" 
          [placeholder]="fieldsOptions.description.placeholder"></textarea>
+  <field-error 
+         [field]="form.get('description')"
+         [label]="fieldsOptions.description.label"
+         [messages]="fieldsOptions.description.validationMessage"
+         >
+  </field-error>
 </div>
 <div class="form-group" [formGroup]="form">
   <label [for]="fieldsOptions.price.id">
@@ -24,10 +39,17 @@
   </label>
   <input type="number" 
          formControlName="price"
-         class="form-control" 
+         class="form-control"
+         isInvalid 
          [id]="fieldsOptions.price.id"
          [min]="fieldsOptions.price.min" 
          [step]="fieldsOptions.price.step">
+  <field-error 
+         [field]="form.get('price')"
+         [label]="fieldsOptions.price.label"
+         [messages]="fieldsOptions.price.validationMessage"
+         >
+  </field-error>
 </div>
 <div class="form-group form-check" [formGroup]="form">
   <input type="checkbox"
