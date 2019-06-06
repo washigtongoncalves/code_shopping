@@ -28,13 +28,14 @@ export class CategoryNewModalComponent {
   errors = {};
 
   constructor(
-    private categoryHttp: CategoryHttpService,
-    private formBuilder: FormBuilder
+    private categoryHttp: CategoryHttpService
   ) {
-    const maxlength: number = fieldsOptions.name.validationMessage.maxlength;
-    const minlength: number = fieldsOptions.name.validationMessage.minlength;
     this.form = new FormBuilder().group({
-      name: ['', [Validators.required, Validators.maxLength(maxlength), Validators.minLength(minlength)]],
+      name: ['', [
+        Validators.required,
+        Validators.minLength(fieldsOptions.name.validationMessage.minlength),
+        Validators.maxLength(fieldsOptions.name.validationMessage.maxlength)
+      ]],
       active: true
     });
   }
