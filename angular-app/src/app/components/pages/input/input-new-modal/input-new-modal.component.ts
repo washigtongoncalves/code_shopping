@@ -29,10 +29,12 @@ export class InputNewModalComponent {
   constructor(
     // private productHttp: ProductHttpService
   ) {
-    const min: number = fieldsOptions.amount.min;
     this.form = new FormBuilder().group({
-      product: ['', [Validators.required]],
-      amount:  [1, [Validators.required, Validators.min(min)]]
+      product_id: [null, [Validators.required]],
+      amount:  [1, [
+        Validators.required,
+        Validators.min(fieldsOptions.amount.min)
+      ]]
     });
   }
 

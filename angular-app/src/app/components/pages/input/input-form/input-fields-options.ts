@@ -1,7 +1,7 @@
 import { FieldsOptionsInterface } from '../../../../interfaces/fields-options.interface';
 
 const fieldsOptions: FieldsOptionsInterface = {
-    product: {
+    product_id: {
         id: 'product',
         label: 'Produto'
     },
