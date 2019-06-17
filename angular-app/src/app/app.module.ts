@@ -47,6 +47,7 @@ import { IsInvalidDirective, IsInvalidControlDirective } from './directives/is-i
 import { ListErrorComponent } from './components/bootstrap/list-error/list-error.component';
 import { CardErrorComponent } from './components/bootstrap/card-error/card-error.component';
 import { InputListComponent } from './components/pages/input/input-list/input-list.component';
+import { OutputListComponent } from './components/pages/output/output-list/output-list.component';
 import { UserProfileComponent } from './components/pages/user/user-profile/user-profile.component';
 
 function jwtFactory(authService: AuthService) {
@@ -96,6 +97,7 @@ function jwtFactory(authService: AuthService) {
     ListErrorComponent,
     CardErrorComponent,
     InputListComponent,
+    OutputListComponent,
     UserProfileComponent
   ],
   imports: [

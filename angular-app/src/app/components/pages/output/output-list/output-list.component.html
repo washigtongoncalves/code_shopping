@@ -1,0 +1,72 @@
+<div class="row" id="no-more-tables">
+    <h3>Listagem de Saídas de Estoque</h3>
+    <table class="table table-striped table-hover table-sm">
+        <thead>
+            <tr>
+                <td colspan="2">
+                    &nbsp;
+                </td>
+                <td colspan="2">
+                    <search-form (onSearch)="search($event)"></search-form>
+                </td>
+            </tr>
+            <tr>
+                <th style="width: 5%"  
+                    [sortColumn]="sortColumn" 
+                    [columnName]="'id'" 
+                    (onChangeSort)="sortChange()">
+                    ID
+                </th>
+                <th style="width: 40%" 
+                    [sortColumn]="sortColumn" 
+                    [columnName]="'product_name'" 
+                    (onChangeSort)="sortChange()">
+                    Produto
+                </th>
+                <th style="width: 30%" 
+                    [sortColumn]="sortColumn" 
+                    [columnName]="'amount'" 
+                    (onChangeSort)="sortChange()">
+                    Quantidade
+                </th>
+                <th style="width: 25%" 
+                    [sortColumn]="sortColumn" 
+                    [columnName]="'created_at'" 
+                    (onChangeSort)="sortChange()">
+                    Criada em
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let output of outputs | paginate: pagination">
+                <td data-title="ID:">
+                    {{output.id}}
+                </td>
+                <td data-title="Produto:">
+                    {{output.product.name}}
+                </td>
+                <td data-title="Quantidade:">
+                    {{output.amount}}
+                </td>
+                <td data-title="Criada em:">
+                    {{output.created_at.date | date: 'dd/MM/yyyy'}}
+                </td>
+            </tr>
+            <tr *ngIf="!outputs.length">
+                <td colspan="4">
+                    Nada a exibir por enquanto :(
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<hr>
+<div style="text-align: right;">
+    <pagination-controls 
+        (pageChange)="pageChange($event)"
+        nextLabel="Próximo"
+        previousLabel="Anterior"
+        autoHide=true
+        responsive=true>
+    </pagination-controls>
+</div>

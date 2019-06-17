@@ -2,16 +2,19 @@
 
 namespace CodeShopping\Http\Controllers\Api;
 
+use CodeShopping\Models\ProductOutput;
 use CodeShopping\Http\Controllers\Controller;
 use CodeShopping\Http\Requests\ProductOutputRequest;
 use CodeShopping\Http\Resources\ProductOutputResource;
-use CodeShopping\Models\ProductOutput;
+use CodeShopping\Http\Filters\ProductOutputFilter;
 
 class ProductOutputController extends Controller
 {
     public function index()
     {
-        $outputs = ProductOutput::with('product')->paginate();
+        $filter = app(ProductOutputFilter::class);
+        $filterQuery = ProductOutput::with('product')->filtered($filter);
+        $outputs = $filterQuery->paginate(10);
         return ProductOutputResource::collection($outputs);
     }
     
