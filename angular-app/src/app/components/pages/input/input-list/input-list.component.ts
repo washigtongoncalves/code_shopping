@@ -1,8 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { InputNewModalComponent } from '../input-new-modal/input-new-modal.component';
+import { Component, OnInit } from '@angular/core';
 import { InputHttpService } from 'src/app/services/http/input-http.service';
 import { InputInterface } from 'src/app/interfaces/input.interface';
-import { InputInsertService } from './input-insert.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -17,21 +15,13 @@ export class InputListComponent implements OnInit {
 
   public inputs: Array<InputInterface> = [];
 
-  @ViewChild(InputNewModalComponent)
-  inputNewModal: InputNewModalComponent;
-
   public pagination = {
     currentPage: 1,
     totalItems: 0,
     itemsPerPage: 15
   };
 
-  constructor(
-    private inputHttp: InputHttpService,
-    protected inputInsertService: InputInsertService
-  ) {
-    this.inputInsertService.inputListComponent = this;
-  }
+  constructor(private inputHttp: InputHttpService) { }
 
   ngOnInit() {
     this.getInputs();

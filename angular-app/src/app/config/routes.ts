@@ -44,6 +44,11 @@ export const routes: Routes = [
       component: InputListComponent,
       canActivate: [AuthGuard]
     },
+    {
+      path: 'outputs/list',
+      component: InputListComponent,
+      canActivate: [AuthGuard]
+    },
     // Rota padrão
     {
       path: '',

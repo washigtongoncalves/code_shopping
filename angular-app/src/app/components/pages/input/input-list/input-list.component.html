@@ -4,9 +4,7 @@
         <thead>
             <tr>
                 <td colspan="2">
-                    <button class="btn btn-primary" (click)="inputInsertService.showModalInsert()">
-                        Nova entrada
-                    </button>
+                    &nbsp;
                 </td>
                 <td colspan="2">
                     <search-form (onSearch)="search($event)"></search-form>
@@ -72,7 +70,3 @@
         responsive=true>
     </pagination-controls>
 </div>
-<input-new-modal 
-    (onSuccess)="inputInsertService.onInsertSuccess($event)" 
-    (onError)="inputInsertService.onInsertError($event)">
-</input-new-modal>
