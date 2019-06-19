@@ -19,8 +19,8 @@ class ProductInputCollection extends ResourceCollection
     {
         return [
             'products' => new ProductResource($this->product),
-            'inputs'   => $this->collection->map(function($photo) {
-                return new ProductInputResource($photo, true);
+            'inputs'   => $this->collection->map(function($product) {
+                return new ProductInputResource($product, true);
             })
         ];
     }
