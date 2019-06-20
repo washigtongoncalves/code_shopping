@@ -18,9 +18,9 @@ class ProductInputCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'products' => new ProductResource($this->product),
-            'inputs'   => $this->collection->map(function($product) {
-                return new ProductInputResource($product, true);
+            'product' => new ProductResource($this->product),
+            'inputs'  => $this->collection->map(function($input) {
+                return new ProductInputResource($input);
             })
         ];
     }

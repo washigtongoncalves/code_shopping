@@ -18,9 +18,9 @@ class ProductOutputCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'products' => new ProductResource($this->product),
-            'outputs'  => $this->collection->map(function($product) {
-                return new ProductOutputResource($product, true);
+            'product' => new ProductResource($this->product),
+            'outputs' => $this->collection->map(function($output) {
+                return new ProductOutputResource($output, true);
             })
         ];
     }
