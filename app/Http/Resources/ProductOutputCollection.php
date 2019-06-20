@@ -20,7 +20,7 @@ class ProductOutputCollection extends ResourceCollection
         return [
             'product' => new ProductResource($this->product),
             'outputs' => $this->collection->map(function($output) {
-                return new ProductOutputResource($output, true);
+                return new ProductOutputResource($output);
             })
         ];
     }
