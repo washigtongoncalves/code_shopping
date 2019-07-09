@@ -1,0 +1,51 @@
+<div class="row" id="no-more-tables">
+    <h3>Entradas do produto {{product?.name}}</h3>
+    <table class="table table-striped table-hover table-sm">
+      <thead>
+          <tr>
+              <th colspan="3">
+                <button class="btn btn-primary" (click)="productInputInsertService.showModalInsert()">
+                    Nova entrada
+                </button>
+              </th>
+          </tr>
+          <tr>
+              <th>ID</th>
+              <th>Quantidade</th>
+              <th>Criada em</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let input of inputs">
+              <td data-title="ID:">
+                  {{input.id}}
+              </td>
+              <td data-title="Quantidade:">
+                  {{input.amount}}
+              </td>
+              <td data-title="Criada em:">
+                  {{input.created_at.date | date: 'dd/MM/yyyy'}}
+              </td>
+          </tr>
+          <tr *ngIf="inputs && !inputs.length">
+              <td colspan="3">
+                  Nada a exibir por enquanto :(
+              </td>
+          </tr>
+      </tbody>
+    </table>
+</div>
+<hr>
+<!--div style="text-align: right;">
+    <pagination-controls 
+        (pageChange)="pageChange($event)"
+        nextLabel="Próximo"
+        previousLabel="Anterior"
+        autoHide=true
+        responsive=true>
+    </pagination-controls>
+</div-->
+<product-input-new-modal 
+    (onSuccess)="productInputInsertService.onInsertSuccess($event)" 
+    (onError)="productInputInsertService.onInsertError($event)">
+</product-input-new-modal>

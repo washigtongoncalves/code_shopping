@@ -75,6 +75,16 @@
                            <i class="fas fa-edit"></i>
                         </a>
                         &nbsp;
+                        <a [routerLink]="['/products', product.id, 'inputs', 'list']" 
+                           title="Registrar entrada de produto {{product.name}}">
+                           <i class="fas fa-plus-square"></i>
+                        </a>
+                        &nbsp;
+                        <a [routerLink]="['/products', product.id, 'outputs', 'list']" 
+                           title="Registrar saída de produto {{product.name}}">
+                           <i class="fas fa-minus-square"></i>
+                        </a>
+                        &nbsp;
                         <a [routerLink]="['/products', product.id, 'categories', 'list']" 
                            title="Configurar categorias vinculadas ao produto {{product.name}}">
                            <i class="fas fa-box-open"></i>

@@ -20,7 +20,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['namespace' => 'Api', 'as' => 'api.'], function() {
     Route::post('login', 'AuthController@login')->name('login');
     Route::post('refresh', 'AuthController@refresh')->name('refresh');
-    Route::group(['middleware' => ['auth:api', 'jwt.refresh']], function() {
+    // Route::group(['middleware' => ['auth:api', 'jwt.refresh']], function() {
+    Route::group(['middleware' => []], function() {
         Route::post('logout', 'AuthController@logout')->name('logout');
         Route::get('me', 'AuthController@me')->name('me');
         Route::resource('categories', 'CategoryController', ['except' => ['create', 'edit']]);
@@ -28,9 +29,11 @@ Route::group(['namespace' => 'Api', 'as' => 'api.'], function() {
         Route::apiResource('products', 'ProductController');
         Route::resource('products.categories', 'ProductCategoryController', ['only' => ['index', 'store', 'destroy']]);
         Route::resource('products.photos', 'ProductPhotoController', ['except' => ['create', 'edit']]);
+        Route::resource('products.inputs', 'ProductInputController', ['except' => ['create', 'edit']]);
+        Route::resource('products.outputs', 'ProductOutputController', ['except' => ['create', 'edit']]);
         Route::resource('categories.products', 'CategoryProductController', ['only' => ['index', 'store', 'destroy']]);
-        Route::resource('inputs' , 'ProductInputController' , ['only' => ['index', 'store', 'show']]);
-        Route::resource('outputs', 'ProductOutputController', ['only' => ['index', 'store', 'show']]);
+        Route::resource('inputs' , 'InputController' , ['only' => ['index']]);
+        Route::resource('outputs', 'OutputController', ['only' => ['index']]);
         Route::patch('users/{user}/restore', 'UserController@restore')->name('users.restore');
         Route::apiResource('users', 'UserController');
     });

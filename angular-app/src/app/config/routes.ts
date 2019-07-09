@@ -9,6 +9,8 @@ import { ProductCategoryListComponent } from '../components/pages/product-catego
 import { ProductListComponent } from '../components/pages/product/product-list/product-list.component';
 import { InputListComponent } from '../components/pages/input/input-list/input-list.component';
 import { OutputListComponent } from '../components/pages/output/output-list/output-list.component';
+import { ProductInputListComponent } from '../components/pages/product-input/product-input-list/product-input-list.component';
+import { ProductOutputListComponent } from '../components/pages/product-output/product-output-list/product-output-list.component';
 
 export const routes: Routes = [
     {
@@ -43,6 +45,16 @@ export const routes: Routes = [
     {
       path: 'inputs/list',
       component: InputListComponent,
+      canActivate: [AuthGuard]
+    },
+    {
+      path: 'products/:product/inputs/list',
+      component: ProductInputListComponent,
+      canActivate: [AuthGuard]
+    },
+    {
+      path: 'products/:product/outputs/list',
+      component: ProductOutputListComponent,
       canActivate: [AuthGuard]
     },
     {
