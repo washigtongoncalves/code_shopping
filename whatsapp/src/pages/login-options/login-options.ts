@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ActionSheetController } from 'ionic-angular';
+import { LoginPhoneNumberPage } from '../login-phone-number/login-phone-number';
+import { ResetPhoneNumberPage } from '../reset-phone-number/reset-phone-number';
 
 /**
  * Generated class for the LoginOptionsPage page.
@@ -22,17 +24,28 @@ export class LoginOptionsPage {
   ) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginOptionsPage');
-  }
-
   openLoginOptions() {
     const actionSheet = this.actionSheetCtrl.create({
       title: 'Já possui telefone cadastrado?',
       buttons: [
-        { text: 'Já tenho, quero logar' },
-        { text: 'Já tenho, quero trocar o telefone' },
-        { text: 'Não tenho, quero criar uma conta' },
+        { 
+          text: 'Já tenho, quero entrar',
+          handler: () => {
+            this.navCtrl.push(LoginPhoneNumberPage);
+          } 
+        },
+        { 
+          text: 'Já tenho, quero trocar o telefone',
+          handler: () => {
+            this.navCtrl.push(ResetPhoneNumberPage);
+          }  
+        },
+        { 
+          text: 'Não tenho, quero criar uma conta',
+          handler: () => {
+            this.navCtrl.push(LoginPhoneNumberPage);
+          } 
+        },
         { text: 'Cancelar', role: 'cancel' }
       ]
     });

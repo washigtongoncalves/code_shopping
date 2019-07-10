@@ -9,11 +9,15 @@ import { ListPage } from '../pages/list/list';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { LoginOptionsPage } from '../pages/login-options/login-options';
+import { LoginPhoneNumberPage } from '../pages/login-phone-number/login-phone-number';
+import { ResetPhoneNumberPage } from '../pages/reset-phone-number/reset-phone-number';
 
 @NgModule({
   declarations: [
     MyApp,
     LoginOptionsPage,
+    LoginPhoneNumberPage,
+    ResetPhoneNumberPage,
     HomePage,
     ListPage
   ],
@@ -25,6 +29,8 @@ import { LoginOptionsPage } from '../pages/login-options/login-options';
   entryComponents: [
     MyApp,
     LoginOptionsPage,
+    LoginPhoneNumberPage,
+    ResetPhoneNumberPage,
     HomePage,
     ListPage
   ],
