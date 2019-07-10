@@ -8,10 +8,12 @@ import { ListPage } from '../pages/list/list';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { LoginOptionsPage } from '../pages/login-options/login-options';
 
 @NgModule({
   declarations: [
     MyApp,
+    LoginOptionsPage,
     HomePage,
     ListPage
   ],
@@ -22,6 +24,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    LoginOptionsPage,
     HomePage,
     ListPage
   ],
