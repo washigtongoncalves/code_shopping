@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import * as firebase from 'firebase';
+// import * as firebaseui from 'firebaseui'; // Já está sendo inportado pelo método scriptjs
+import firebaseConfig from '../../app/firebase-config';
+import scriptjs from 'scriptjs';
 
-/**
- * Generated class for the LoginPhoneNumberPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+// Necessário para não ter que digitar window.firebaseui
+declare const firebaseui;
+(<any>window).firebase = firebase;
 
 @IonicPage()
 @Component({
@@ -19,7 +20,17 @@ export class LoginPhoneNumberPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPhoneNumberPage');
+    // Carrega o script do FirebaseUI já com a tradução para o Português Brasileiro
+    scriptjs('https://www.gstatic.com/firebasejs/ui/3.1.1/firebase-ui-auth__pt.js', () => {
+      firebase.initializeApp(firebaseConfig);
+      const uiConfig = {
+        signInOptions: [
+          firebase.auth.PhoneAuthProvider.PROVIDER_ID
+        ]
+      };
+      const ui = new firebaseui.auth.AuthUI(firebase.auth());
+      ui.start('#firebaseUI', uiConfig);
+    });
   }
 
 }
