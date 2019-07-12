@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { FirebaseAuthProvider } from '../../providers/auth/firebase-auth';
 
 @IonicPage()
 @Component({
@@ -10,9 +11,12 @@ export class LoginPhoneNumberPage {
 
   constructor(
     public navCtrl: NavController, 
-    public navParams: NavParams
+    public navParams: NavParams,
+    private firebaseAuth: FirebaseAuthProvider
   ) {
   }
 
-  ionViewDidLoad() {}
+  ionViewDidLoad() {
+    this.firebaseAuth.makePhoneNumberForm("#firebaseUI");
+  }
 }
