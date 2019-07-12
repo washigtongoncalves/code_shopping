@@ -11,6 +11,8 @@ declare const firebaseui;
 @Injectable()
 export class FirebaseAuthProvider {
 
+  private ui;
+
   constructor() {
     firebase.initializeApp(firebaseConfig);
   }
@@ -38,7 +40,9 @@ export class FirebaseAuthProvider {
           signInSuccessWithAuthResult: () => false
         }
       };
-      const ui = new firebaseui.auth.AuthUI(firebase.auth());
-      ui.start(selectorElement, uiConfig);
+      if (this.ui === undefined) {
+        this.ui = new firebaseui.auth.AuthUI(firebase.auth());
+      }
+      this.ui.start(selectorElement, uiConfig);
   }
 }
