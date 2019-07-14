@@ -5,6 +5,7 @@ namespace CodeShopping\Providers;
 use Illuminate\Support\ServiceProvider;
 use CodeShopping\Models\ProductInput;
 use CodeShopping\Models\ProductOutput;
+use Kreait\Firebase;
 use Exception;
 
 class AppServiceProvider extends ServiceProvider
@@ -41,6 +42,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(Firebase::class, function() {
+            $serviceAccount = Firebase\ServiceAccount::fromJsonFile(base_path('firebase-admin.json'));
+            return (new Firebase\Factory())->withServiceAccount($serviceAccount)->create();
+        });
     }
 }
