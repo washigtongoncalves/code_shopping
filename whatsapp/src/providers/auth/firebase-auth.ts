@@ -38,6 +38,10 @@ export class FirebaseAuthProvider {
   }
 
   async getUser(): Promise<firebase.User | any> {
+    const currentUser = this.getCurrentUser();
+    if (currentUser) {
+      return Promise.resolve(currentUser);
+    }
     return new Promise((resolve, reject) => {
       // Escuta o evento de autenticação
       const success = (user) => {
@@ -50,6 +54,10 @@ export class FirebaseAuthProvider {
       });
       const unsubscribed = this.getFirebase().auth().onAuthStateChanged(success, error);
     });
+  }
+
+  private getCurrentUser(): firebase.User | null {
+    return this.getFirebase().auth().currentUser;
   }
 
   private async getFirebaseUI(): Promise<any> {
