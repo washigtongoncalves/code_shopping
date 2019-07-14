@@ -17,6 +17,8 @@ export class LoginPhoneNumberPage {
   }
 
   ionViewDidLoad() {
+    this.firebaseAuth.getUser().then((user) => console.log(user));
+    // Monta o formulário de autenticação via telefone
     this.firebaseAuth.makePhoneNumberForm("#firebaseUI");
   }
 }

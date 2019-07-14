@@ -17,19 +17,6 @@ export class FirebaseAuthProvider {
     firebase.initializeApp(firebaseConfig);
   }
 
-  private async getFirebaseUI(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      if (window.hasOwnProperty('firebaseui')) { // Se já tiver carregado o firebaseui, apenas o retorna
-        resolve(firebaseui);
-        return;
-      }
-      // Carrega o script do FirebaseUI já com a tradução para o Português Brasileiro
-      scriptjs('https://www.gstatic.com/firebasejs/ui/3.1.1/firebase-ui-auth__pt.js', () => {
-        resolve(firebaseui);
-      });
-    });
-  }
-
   async makePhoneNumberForm(selectorElement: string) {
       const firebaseui = await this.getFirebaseUI();
       const uiConfig = {
@@ -44,5 +31,37 @@ export class FirebaseAuthProvider {
         this.ui = new firebaseui.auth.AuthUI(firebase.auth());
       }
       this.ui.start(selectorElement, uiConfig);
+  }
+
+  getFirebase() {
+    return firebase;
+  }
+
+  async getUser(): Promise<firebase.User | any> {
+    return new Promise((resolve, reject) => {
+      // Escuta o evento de autenticação
+      const success = (user) => {
+        resolve(user);
+        unsubscribed(); // Deixa de escutar o evento
+      };
+      const error = (erro => { 
+        reject(erro);
+        unsubscribed(); // Deixa de escutar o evento
+      });
+      const unsubscribed = this.getFirebase().auth().onAuthStateChanged(success, error);
+    });
+  }
+
+  private async getFirebaseUI(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      if (window.hasOwnProperty('firebaseui')) { // Se já tiver carregado o firebaseui, apenas o retorna
+        resolve(firebaseui);
+        return;
+      }
+      // Carrega o script do FirebaseUI já com a tradução para o Português Brasileiro
+      scriptjs('https://www.gstatic.com/firebasejs/ui/3.1.1/firebase-ui-auth__pt.js', () => {
+        resolve(firebaseui);
+      });
+    });
   }
 }
