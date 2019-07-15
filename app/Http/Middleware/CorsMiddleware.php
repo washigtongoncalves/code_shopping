@@ -7,11 +7,23 @@ use Closure;
 
 class CorsMiddleware
 {
+    private $origins = [
+        'http://localhost:4200', // Angular Web App
+        'http://localhost:8100'  // Ionic App
+    ];
+
     public function handle(Request $request, Closure $next)
     {
+        $requestOrigin = $request->headers->get('Origin');
+        if (in_array($requestOrigin, $this->origins)) {
+            $allowOrigin = $requestOrigin;
+        }
+
         if ($request->is('api/*')) {
-            // Libera o request para qualquer origem
-            header('Access-Control-Allow-Origin: *');
+            if (isset($allowOrigin)) {
+                // Libera o request para a origem
+                header("Access-Control-Allow-Origin: {$allowOrigin}");
+            }
             // Libera o uso do header Content-Type
             header('Access-Control-Allow-Headers: Content-Type, Authorization');
             // Libera o uso dos seguintes métodos HTTP
