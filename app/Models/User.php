@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CodeShopping\Models;
 
 use Illuminate\Notifications\Notifiable;
@@ -7,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Mnabialek\LaravelEloquentFilter\Traits\Filterable;
+use Exception;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -26,6 +29,19 @@ class User extends Authenticatable implements JWTSubject
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public static function createCustomer(array $data): User
+    {
+        try {
+            UserProfile::uploadPhoto($data['photo']);
+            \DB::beginTransaction();
+            \DB::commit();
+        } catch (Exception $e) {
+            // Remover a foto
+            \DB::rollback();
+            throw $e;
+        }
+    }
     
     public function setPasswordAttribute($value)
     {
