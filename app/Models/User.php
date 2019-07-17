@@ -12,6 +12,9 @@ class User extends Authenticatable implements JWTSubject
 {
     use Notifiable, SoftDeletes, Filterable;
 
+    const ROLE_SELLER = 1;   // Vendedor
+    const ROLE_CUSTOMER = 2; // Cliente
+
     protected $dates = [
         'created_at', 'updated_at', 'deleted_at'
     ];

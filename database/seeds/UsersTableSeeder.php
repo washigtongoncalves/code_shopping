@@ -13,6 +13,8 @@ class UsersTableSeeder extends Seeder
             $user->profile->phone_number = '+16505551234';
             $user->profile->save();
         });
-        factory(User::class, 100)->create();
+        factory(User::class, 100)->create([
+            'role' => User::ROLE_CUSTOMER
+        ]);
     }
 }
