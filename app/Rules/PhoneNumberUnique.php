@@ -9,13 +9,20 @@ use Exception;
 
 class PhoneNumberUnique implements Rule
 {
+    private $ignoreId;
+
+    public function __construct($ignoreId = null) 
+    {
+        $this->ignoreId = $ignoreId;
+    }
+
     public function passes($attribute, $token)
     {
         $firebaseAuth = app(FirebaseAuth::class);
         try {
             $phoneNumber = $firebaseAuth->phoneNumber($token);
             $userProfile = UserProfile::where('phone_number', $phoneNumber)->first();
-            return is_null($userProfile);
+            return is_null($userProfile) || ($this->ignoreId && $this->ignoreId === $userProfile->user->id);
         } catch (Exception $e) {
             return false;
         }

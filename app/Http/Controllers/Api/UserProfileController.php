@@ -2,14 +2,14 @@
 
 namespace CodeShopping\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use CodeShopping\Http\Controllers\Controller;
 use CodeShopping\Http\Resources\UserResource;
 use CodeShopping\Firebase\Auth as FirebaseAuth;
+use CodeShopping\Http\Requests\UserProfileUpdateRequest;
 
 class UserProfileController extends Controller
 {
-    public function update(Request $request) 
+    public function update(UserProfileUpdateRequest $request) 
     {
         $data = $request->all();
         if ($request->has('token')) {
