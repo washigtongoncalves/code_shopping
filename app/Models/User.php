@@ -39,7 +39,7 @@ class User extends Authenticatable implements JWTSubject
             UserProfile::saveProfile($user, $data);
             \DB::commit();
         } catch (Exception $e) {
-            UserProfile::deletePhoto($data);
+            UserProfile::deleteFile($data);
             \DB::rollBack();
             throw $e;
         }
@@ -53,6 +53,22 @@ class User extends Authenticatable implements JWTSubject
         $user->role = self::ROLE_CUSTOMER;
         $user->save();
         return $user;
+    }
+
+    public function updateWithProfile(array $data): User 
+    {
+        try {
+            UserProfile::uploadPhoto($data['photo']);
+            \DB::beginTransaction();
+            $this->fill($data)->save();
+            UserProfile::saveProfile($this, $data);
+            \DB::commit();
+        } catch (Exception $e) {
+            UserProfile::deleteFile($data);
+            \DB::rollBack();
+            throw $e;
+        }
+        return $this;
     }
     
     public function setPasswordAttribute($value)
