@@ -26,7 +26,7 @@ class UserProfile extends Model
         return $user->profile;
     }
 
-    private static function getPhotoHashName(UploadFile $photo = null) 
+    private static function getPhotoHashName(UploadedFile $photo = null) 
     {
         return $photo ? $photo->hashName() : null;
     }

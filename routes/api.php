@@ -21,7 +21,7 @@ Route::group(['namespace' => 'Api', 'as' => 'api.'], function() {
     Route::post('login', 'AuthController@login')->name('login');
     Route::post('login_vendor', 'AuthController@loginFirebase')->name('login_vendor');
     Route::post('refresh', 'AuthController@refresh')->name('refresh');
-    Route::resource('custumers', 'CustumerController', ['only' => 'store']);
+    Route::resource('customers', 'CustomerController', ['only' => 'store']);
     Route::group(['middleware' => ['auth:api', 'jwt.refresh', 'can:is_seller']], function() {
     // Route::group(['middleware' => []], function() {
         Route::post('logout', 'AuthController@logout')->name('logout');

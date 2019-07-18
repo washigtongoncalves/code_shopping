@@ -4,14 +4,15 @@ namespace CodeShopping\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use CodeShopping\Http\Controllers\Controller;
-use CodeShopping\Http\Requests\CustumerRequest;
+use CodeShopping\Http\Requests\CustomerRequest;
 use CodeShopping\Firebase\Auth as FirebaseAuth;
+use CodeShopping\Models\User;
 
-class CustumerController extends Controller
+class CustomerController extends Controller
 {
-    public function store(CustumerRequest $request) 
+    public function store(CustomerRequest $request) 
     {
-        $data = $request->all();
+        $data  = $request->all();
         $token = $request->token;
         $data['phone_number'] = $this->getPhoneNumber($token);
         $data['photo'] = $data['photo'] ?? null;

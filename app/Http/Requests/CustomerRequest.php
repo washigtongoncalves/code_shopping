@@ -4,7 +4,7 @@ namespace CodeShopping\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CustumerRequest extends FormRequest
+class CustomerRequest extends FormRequest
 {
     public function authorize()
     {

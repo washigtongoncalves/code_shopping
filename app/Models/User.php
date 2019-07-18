@@ -35,7 +35,7 @@ class User extends Authenticatable implements JWTSubject
         try {
             UserProfile::uploadPhoto($data['photo']);
             \DB::beginTransaction();
-            $user = self::createCustumerUser($data);
+            $user = self::createCustomerUser($data);
             UserProfile::saveProfile($user, $data);
             \DB::commit();
         } catch (Exception $e) {
@@ -46,11 +46,11 @@ class User extends Authenticatable implements JWTSubject
         return $user;
     }
 
-    private static function createCustumerUser(array $data): User
+    private static function createCustomerUser(array $data): User
     {
         $data['password'] = bcrypt(str_random(16));
         $user = self::create($data);
-        $user->role = self::ROLE_CUSTUMER;
+        $user->role = self::ROLE_CUSTOMER;
         $user->save();
         return $user;
     }
