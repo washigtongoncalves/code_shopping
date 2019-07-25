@@ -22,6 +22,15 @@ export class ProductPhotoHttpService {
     );
   }
 
+  create(productId: number, files: FileList): Observable<ProductPhotosInterface> {
+    const formData = new FormData();
+    const filesArray = Array.from(files);
+    filesArray.forEach(file => {
+      formData.append('photos[]', file);
+    });
+    return this.http.post<any>(this.getUrl(productId), formData);
+  }
+
   getUrl(productId: number, photoId: number = null): string {
     let url = `${this.baseUrl}/products/${productId}/photos/`;
     if (photoId) {

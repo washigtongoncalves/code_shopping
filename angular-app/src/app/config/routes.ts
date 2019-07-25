@@ -11,7 +11,7 @@ import { InputListComponent } from '../components/pages/input/input-list/input-l
 import { OutputListComponent } from '../components/pages/output/output-list/output-list.component';
 import { ProductInputListComponent } from '../components/pages/product-input/product-input-list/product-input-list.component';
 import { ProductOutputListComponent } from '../components/pages/product-output/product-output-list/product-output-list.component';
-import { ProductPhotosListComponent } from '../pages/product-photos/product-photos-list/product-photos-list.component';
+import { ProductPhotosListComponent } from '../components/pages/product-photos/product-photos-list/product-photos-list.component';
 
 export const routes: Routes = [
     {
