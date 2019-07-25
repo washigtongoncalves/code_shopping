@@ -1,7 +1,7 @@
 <div class="row">
   <h3>Fotos do produto {{product?.name}}</h3>
   <div class="col-md-12">
-    <product-photos-upload></product-photos-upload>
+    <product-photos-upload (onSuccess)="onInsertSuccess($event)"></product-photos-upload>
   </div>
   <div class="col-md-12">
     <img [src]="photo.photo_url" *ngFor="let photo of photos" style="max-width: 100px">

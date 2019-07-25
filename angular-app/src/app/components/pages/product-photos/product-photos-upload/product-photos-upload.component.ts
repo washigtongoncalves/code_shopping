@@ -11,7 +11,7 @@ import { ProductPhotoHttpService } from 'src/app/services/http/product-photo-htt
 })
 export class ProductPhotosUploadComponent implements OnInit {
 
-  private errors: Array<string>;
+  private errors: Array<any> = [];
   private productId: number;
 
   // tslint:disable-next-line:no-output-on-prefix
@@ -51,7 +51,6 @@ export class ProductPhotosUploadComponent implements OnInit {
   }
 
   showErrors() {
-    return false;
-    // return Object.keys(this.errors).length !== 0;
+    return Object.keys(this.errors).length !== 0;
   }
 }

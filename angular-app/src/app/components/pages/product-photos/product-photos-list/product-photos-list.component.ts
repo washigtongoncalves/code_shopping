@@ -3,6 +3,7 @@ import { ProductPhotoHttpService } from 'src/app/services/http/product-photo-htt
 import { ActivatedRoute } from '@angular/router';
 import { ProductInterface } from 'src/app/interfaces/product.interface';
 import { PhotosInterface } from 'src/app/interfaces/photos.interface';
+import { NotifyMessageService } from 'src/app/services/notify-message.service';
 
 @Component({
   selector: 'app-product-photos-list',
@@ -17,7 +18,8 @@ export class ProductPhotosListComponent implements OnInit {
 
   constructor(
     private productPhotoHttp: ProductPhotoHttpService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private notifyMessage: NotifyMessageService
   ) {}
 
   ngOnInit() {
@@ -34,5 +36,10 @@ export class ProductPhotosListComponent implements OnInit {
           this.product = data.product;
           this.photos = data.photos;
         });
+  }
+
+  onInsertSuccess(data: { photos: PhotosInterface[] }) {
+    this.photos.push(...data.photos); // ... converte um array para algo assim: photo1 photo2 photo3 ...
+    this.notifyMessage.success('Foto(s) adicionada(s) com sucesso!');
   }
 }
