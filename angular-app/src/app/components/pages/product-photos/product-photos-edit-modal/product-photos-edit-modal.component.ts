@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, ViewChild, Input } from '@angular/core';
 import { ProductPhotoHttpService } from 'src/app/services/http/product-photo-http.service';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -14,6 +14,9 @@ export class ProductPhotosEditModalComponent implements OnInit {
 
   private errors: Array<any> = [];
   private productId: number;
+
+  @Input()
+  photoId: number;
 
   @ViewChild(ModalComponent)
   modal: ModalComponent;
@@ -50,7 +53,7 @@ export class ProductPhotosEditModalComponent implements OnInit {
       this.onError.emit(responseError);
     };
     this.productPhotoHttp
-        .create(this.productId, files)
+        .update(this.productId, this.photoId, files[0])
         .subscribe(success, error);
   }
 

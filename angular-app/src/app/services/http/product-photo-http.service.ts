@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ProductPhotosInterface } from 'src/app/interfaces/product-photos.interface';
 import { environment } from '../../../environments/environment';
+import { PhotosInterface } from 'src/app/interfaces/photos.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,16 @@ export class ProductPhotoHttpService {
       formData.append('photos[]', file);
     });
     return this.http.post<any>(this.getUrl(productId), formData);
+  }
+
+  update(productId: number, photoId: number, file: File): Observable<PhotosInterface> {
+    const formData = new FormData();
+    formData.append('photo', file);
+    formData.append('_method', 'PUT');
+    const url = this.getUrl(productId, photoId);
+    return this.http.post<any>(url, formData).pipe(
+      map((response) => response.data)
+    );
   }
 
   getUrl(productId: number, photoId: number = null): string {

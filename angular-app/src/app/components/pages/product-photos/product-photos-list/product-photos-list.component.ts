@@ -18,6 +18,7 @@ export class ProductPhotosListComponent implements OnInit {
   private productId: number;
   private product: ProductInterface;
   private photos: PhotosInterface[];
+  photoIdToEdit: number;
 
   @ViewChild(ProductPhotosEditModalComponent)
   editModal: ProductPhotosEditModalComponent;
@@ -58,7 +59,15 @@ export class ProductPhotosListComponent implements OnInit {
     `;
     $.fancybox.defaults.buttons = ['download', 'edit'];
     $('body').on('click', '[data-fancybox-edit]', () => {
+      const photoId = this.getPhotoIdFromSlideShow();
+      this.photoIdToEdit = photoId;
       this.editModal.showModal();
     });
+  }
+
+  getPhotoIdFromSlideShow() {
+    const src = $('.fancybox-slide--current .fancybox-image').attr('src');
+    const id  = $('[data-fancybox="gallery"]').find(`[src='${src}']`).attr('id');
+    return id.split('-')[1];
   }
 }
