@@ -90,6 +90,11 @@
                            <i class="fas fa-box-open"></i>
                         </a>
                         &nbsp;
+                        <a [routerLink]="['/products', product.id, 'photos', 'list']" 
+                           title="Gerenciar as fotos vinculadas ao produto {{product.name}}">
+                           <i class="fas fa-images"></i>
+                        </a>
+                        &nbsp;
                         <a href="javascript:void(0)" 
                            (click)="productDeleteService.showModalDelete(product)"
                            title="Excluir o produto {{product.name}}">
