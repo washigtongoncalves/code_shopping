@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProductPhotoHttpService } from 'src/app/services/http/product-photo-http.service';
 import { ActivatedRoute } from '@angular/router';
 import { ProductInterface } from 'src/app/interfaces/product.interface';
 import { PhotosInterface } from 'src/app/interfaces/photos.interface';
 import { NotifyMessageService } from 'src/app/services/notify-message.service';
+import { ProductPhotosEditModalComponent } from '../product-photos-edit-modal/product-photos-edit-modal.component';
 
 declare const $;
 
@@ -17,6 +18,9 @@ export class ProductPhotosListComponent implements OnInit {
   private productId: number;
   private product: ProductInterface;
   private photos: PhotosInterface[];
+
+  @ViewChild(ProductPhotosEditModalComponent)
+  editModal: ProductPhotosEditModalComponent;
 
   constructor(
     private productPhotoHttp: ProductPhotoHttpService,
@@ -53,5 +57,8 @@ export class ProductPhotosListComponent implements OnInit {
       </a>
     `;
     $.fancybox.defaults.buttons = ['download', 'edit'];
+    $('body').on('click', '[data-fancybox-edit]', () => {
+      this.editModal.showModal();
+    });
   }
 }
