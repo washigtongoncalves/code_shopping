@@ -51,6 +51,16 @@ export class ProductPhotosListComponent implements OnInit {
     this.notifyMessage.success('Foto(s) adicionada(s) com sucesso!');
   }
 
+  onEditSuccess(photo: PhotosInterface) {
+    $.fancybox.getInstance().close();
+    const index = this.photos.findIndex((ph: PhotosInterface) => {
+      return ph.id === this.photoIdToEdit;
+    });
+    this.photos[index] = photo;
+    this.notifyMessage.success('Foto substituída com sucesso!');
+    this.editModal.hideModal();
+  }
+
   configFancybox() {
     $.fancybox.defaults.btnTpl.edit = `
       <a class="fancybox-button" data-fancybox-edit title="Substituir" href="javascript:void(0)" style="text-align: center">
