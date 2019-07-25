@@ -18,7 +18,7 @@ class ProductPhotoCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'products' => new ProductResource($this->product),
+            'product'  => new ProductResource($this->product),
             'photos'   => $this->collection->map(function($photo) {
                 return new ProductPhotoResource($photo, true);
             })
