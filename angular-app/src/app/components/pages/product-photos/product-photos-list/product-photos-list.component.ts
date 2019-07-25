@@ -5,6 +5,8 @@ import { ProductInterface } from 'src/app/interfaces/product.interface';
 import { PhotosInterface } from 'src/app/interfaces/photos.interface';
 import { NotifyMessageService } from 'src/app/services/notify-message.service';
 
+declare const $;
+
 @Component({
   selector: 'app-product-photos-list',
   templateUrl: './product-photos-list.component.html',
@@ -26,6 +28,7 @@ export class ProductPhotosListComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.productId = params.product;
       this.getPhotos();
+      this.configFancybox();
     });
   }
 
@@ -41,5 +44,14 @@ export class ProductPhotosListComponent implements OnInit {
   onInsertSuccess(data: { photos: PhotosInterface[] }) {
     this.photos.push(...data.photos); // ... converte um array para algo assim: photo1 photo2 photo3 ...
     this.notifyMessage.success('Foto(s) adicionada(s) com sucesso!');
+  }
+
+  configFancybox() {
+    $.fancybox.defaults.btnTpl.edit = `
+      <a class="fancybox-button" data-fancybox-edit title="Substituir" href="javascript:void(0)" style="text-align: center">
+        <i class="fas fa-edit"></i>
+      </a>
+    `;
+    $.fancybox.defaults.buttons = ['download', 'edit'];
   }
 }
