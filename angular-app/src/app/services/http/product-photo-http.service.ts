@@ -42,6 +42,11 @@ export class ProductPhotoHttpService {
     );
   }
 
+  delete(productId: number, photoId: number): Observable<any> {
+    let url = `${this.baseUrl}/products/${productId}/photos/${photoId}`;
+    return this.http.delete(url);
+  }
+
   getUrl(productId: number, photoId: number = null): string {
     let url = `${this.baseUrl}/products/${productId}/photos/`;
     if (photoId) {

@@ -55,6 +55,7 @@ import { ProductInputNewModalComponent } from './components/pages/product-input/
 import { ProductPhotosListComponent } from './components/pages/product-photos/product-photos-list/product-photos-list.component';
 import { ProductPhotosUploadComponent } from './components/pages/product-photos/product-photos-upload/product-photos-upload.component';
 import { ProductPhotosEditModalComponent } from './components/pages/product-photos/product-photos-edit-modal/product-photos-edit-modal.component';
+import { ProductPhotosDeleteModalComponent } from './components/pages/product-photos/product-photos-delete-modal/product-photos-delete-modal.component';
 
 function jwtFactory(authService: AuthService) {
   return {
@@ -110,7 +111,8 @@ function jwtFactory(authService: AuthService) {
     ProductInputNewModalComponent,
     ProductPhotosListComponent,
     ProductPhotosUploadComponent,
-    ProductPhotosEditModalComponent
+    ProductPhotosEditModalComponent,
+    ProductPhotosDeleteModalComponent
   ],
   imports: [
     BrowserModule,

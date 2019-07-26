@@ -9,4 +9,12 @@
     </a>
   </div>
 </div>
-<product-photos-edit-modal (onSuccess)="onEditSuccess($event)" [photoId]="photoIdToEdit"></product-photos-edit-modal>
+<product-photos-edit-modal 
+    (onSuccess)="onEditSuccess($event)" 
+    [photoId]="photoIdToEdit">
+</product-photos-edit-modal>
+<product-photos-delete-modal 
+    (onSuccess)="onDeleteSuccess($event)"
+    (onError)="onDeleteError($event)" 
+    [photoId]="photoIdToDelete">
+</product-photos-delete-modal>
