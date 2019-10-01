@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+
 import CategoriesService from '../../../services/CategoriesService';
 import { dateFormatBr } from '../../../functions/formater';
 import SortColumn from '../../template/SortColumn';
 import SearchForm from '../../template/SearchForm';
+import PaginationControls from '../../template/PaginationControls';
 
 class Categories extends Component {
 
@@ -11,11 +13,13 @@ class Categories extends Component {
         this.state = {
             categories: [],
             sort: { column: null },
-            search: ''
+            search: '',
+            pagination: {}
         };
         this.sortChange = this.sortChange.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.navigate = this.navigate.bind(this);
     }
 
     componentWillMount() {
@@ -25,12 +29,21 @@ class Categories extends Component {
     async getCategories(paramns = {}) {
         const { data } = await CategoriesService.list(paramns);
         const categories = data.data;
-        this.setState(state => state.categories = categories);
+        const pagination = data.meta;
+        this.setState(state => { 
+            state.categories = categories;
+            state.pagination = pagination;
+            return state;
+        });
     }
 
     sortChange(sort) {
         this.setState(state => state.sort = sort);
         this.getCategories({ page: 1, sort});
+    }
+
+    navigate(nextPage) {
+        this.getCategories({ page: nextPage });
     }
 
     handleChange(e) {
@@ -128,6 +141,11 @@ class Categories extends Component {
                         {this.renderRows()}
                     </tbody>
                 </table>
+                <div style={{ width: "100%" }}>
+                    <PaginationControls
+                        {...this.state.pagination} 
+                        navigate={this.navigate} />
+                </div>
             </div>
         );
     }
