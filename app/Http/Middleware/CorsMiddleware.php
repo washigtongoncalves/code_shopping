@@ -9,6 +9,7 @@ class CorsMiddleware
 {
     private $origins = [
         'http://localhost:4200', // Angular Web App
+        'http://localhost:3000', // React Web App
         'http://localhost:8100'  // Ionic App
     ];
 

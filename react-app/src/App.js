@@ -16,7 +16,12 @@ function App(props) {
         <BrowserRouter>
             <div className="app">
                 <Menu appTitle="Code Shopping" />
-                <Routes />
+                <br />
+                <main>
+                    <div className="container">
+                        <Routes />
+                    </div>
+                </main>
             </div>
         </BrowserRouter>
     );

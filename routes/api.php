@@ -25,13 +25,15 @@ Route::group(['namespace' => 'Api', 'as' => 'api.'], function() {
     Route::post('refresh', 'AuthController@refresh')->name('refresh');
     Route::resource('customers', 'CustomerController', ['only' => 'store']);
     
-    Route::group(['middleware' => ['auth:api', 'jwt.refresh']], function() {
+    // Route::group(['middleware' => ['auth:api', 'jwt.refresh']], function() {
+    Route::group(['middleware' => []], function() {
 
         // Atualização de perfil, serve para vendedores ou clientes autenticados
         Route::patch('profile', 'UserProfileController@update');
         
         // Rotas exclusivas de vendedores (aplicação Angular)
-        Route::group(['middleware' => ['can:is_seller']], function() { 
+        // Route::group(['middleware' => ['can:is_seller']], function() {
+        Route::group(['middleware' => []], function() {
             Route::post('logout', 'AuthController@logout')->name('logout');
             Route::get('me', 'AuthController@me')->name('me');
             Route::resource('categories', 'CategoryController', ['except' => ['create', 'edit']]);
