@@ -25,7 +25,9 @@ class SortColumn extends Component {
         return (
             <button type="button" className="link-button" onClick={this.handleClick}>
                 {this.props.children}&nbsp;
-                <i className={`fa fa-${this.state.sort.order === 'ASC' ? 'caret-down' : 'caret-up'}`}></i>
+                {!this.props.showIcon ? null : (
+                    <i className={`fa fa-${this.state.sort.order === 'ASC' ? 'caret-down' : 'caret-up'}`}></i>
+                )}
             </button>
         );
     }

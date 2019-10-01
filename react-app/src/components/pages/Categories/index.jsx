@@ -8,7 +8,8 @@ class Categories extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            categories: []
+            categories: [],
+            sort: { column: null }
         };
         this.sortChange = this.sortChange.bind(this);
     }
@@ -24,6 +25,7 @@ class Categories extends Component {
     }
 
     sortChange(sort) {
+        this.setState(state => state.sort = sort);
         this.getCategories({ page: 1, sort});
     }
 
@@ -78,18 +80,27 @@ class Categories extends Component {
                         </tr>
                         <tr>
                             <th style={{ width: "5%" }}>
-                                <SortColumn column="id" sortChange={this.sortChange}>
+                                <SortColumn 
+                                    column="id"
+                                    showIcon={this.state.sort.column === "id"} 
+                                    sortChange={this.sortChange}>
                                     ID
                                 </SortColumn>
                             </th>
                             <th style={{ width: "50%" }}>
-                                <SortColumn column="name" sortChange={this.sortChange}>
+                                <SortColumn 
+                                    column="name" 
+                                    sortChange={this.sortChange}
+                                    showIcon={this.state.sort.column === "name"}>
                                     Nome
                                 </SortColumn>
                             </th>
                             <th style={{ width: "15%" }}>Ativa?</th>
                             <th style={{ width: "15%" }}>
-                                <SortColumn column="created_at" sortChange={this.sortChange}>
+                                <SortColumn 
+                                    column="created_at"
+                                    showIcon={this.state.sort.column === "created_at"} 
+                                    sortChange={this.sortChange}>
                                     Criada em
                                 </SortColumn>
                             </th>
