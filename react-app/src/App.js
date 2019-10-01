@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 
 import Menu from './components/template/Menu';
 import Routes from './Routes';
@@ -13,12 +13,12 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 
 function App(props) {
     return (
-        <HashRouter>
+        <BrowserRouter>
             <div className="app">
                 <Menu appTitle="Code Shopping" />
                 <Routes />
             </div>
-        </HashRouter>
+        </BrowserRouter>
     );
 }
 export default App;

@@ -1,10 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function Logo(props) {
     return (
-        <a className="navbar-brand" href="#/">
+        <Link className="navbar-brand" to="/home">
             {props.appTitle}
-        </a>
+        </Link>
     );
 }
 export default Logo;

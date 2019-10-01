@@ -12,11 +12,12 @@ function Routes(props) {
     return (
         <Switch>
             <Route path="/" exact component={Login} />
-            <Route path="/categories" component={Categories} />
-            <Route path="/products" component={Products} />
-            <Route path="/inputs" component={ProductsInputs} />
-            <Route path="/outputs" component={ProductsOutputs} />
-            <Route path="/users" component={Users} />
+            <Route path="/home" component={Categories} />
+            <Route path="/categories/list" component={Categories} />
+            <Route path="/products/list" component={Products} />
+            <Route path="/inputs/list" component={ProductsInputs} />
+            <Route path="/outputs/list" component={ProductsOutputs} />
+            <Route path="/users/list" component={Users} />
             <Redirect from="*" to="/" /> 
         </Switch>
     );

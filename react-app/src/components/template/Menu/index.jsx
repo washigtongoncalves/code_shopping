@@ -1,6 +1,8 @@
 import React from 'react';
 import MenuIcon from './MenuIcon';
 import Logo from '../Logo';
+import MenuItenContainer from './MenuItensContainer';
+import MenuItem from './MenuItem';
 import DropdownMenuLoggedUser from './DropdownMenuLoggedUser';
 
 function Menu(props) {
@@ -9,33 +11,13 @@ function Menu(props) {
             <Logo appTitle={props.appTitle} />
             <MenuIcon />
             <div className="collapse navbar-collapse" id="navbars">
-                <ul className="navbar-nav mr-auto">
-                    <li className="nav-item">
-                        <a className="nav-link" href="#/categories">
-                            Categorias
-                        </a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="#/products">
-                            Produtos
-                        </a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="#/inputs">
-                            Entradas
-                        </a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="#/outputs">
-                            Saídas
-                        </a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="#/users">
-                            Usuários
-                        </a>
-                    </li>
-                </ul>
+                <MenuItenContainer>
+                    <MenuItem label="Categorias" to="/categories/list" />
+                    <MenuItem label="Produtos" to="/products/list" />
+                    <MenuItem label="Entradas" to="/inputs/list" />
+                    <MenuItem label="Saídas" to="/outputs/list" />
+                    <MenuItem label="Usuários" to="/users/list" />
+                </MenuItenContainer>
                 <DropdownMenuLoggedUser />
             </div>
         </nav>
