@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import CategoriesService from '../../../services/CategoriesService';
 import { dateFormatBr } from '../../../functions/formater';
 import SortColumn from '../../template/SortColumn';
+import SearchForm from '../../template/SearchForm';
 
 class Categories extends Component {
 
@@ -9,9 +10,12 @@ class Categories extends Component {
         super(props);
         this.state = {
             categories: [],
-            sort: { column: null }
+            sort: { column: null },
+            search: ''
         };
         this.sortChange = this.sortChange.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentWillMount() {
@@ -27,6 +31,17 @@ class Categories extends Component {
     sortChange(sort) {
         this.setState(state => state.sort = sort);
         this.getCategories({ page: 1, sort});
+    }
+
+    handleChange(e) {
+        const search = e.target.value;
+        this.setState(state => state.search = search);
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+        const search = this.state.search;
+        this.getCategories({ page: 1, search});
     }
 
     renderRows() {
@@ -75,7 +90,9 @@ class Categories extends Component {
                                 </button>
                             </td>
                             <td colSpan="2">
-                                
+                                <SearchForm 
+                                    handleChange={this.handleChange}
+                                    handleSubmit={this.handleSubmit} />
                             </td>
                         </tr>
                         <tr>
