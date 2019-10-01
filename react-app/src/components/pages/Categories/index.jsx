@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import CategoriesService from '../../../services/CategoriesService';
 import { dateFormatBr } from '../../../functions/formater';
+import SortColumn from '../../template/SortColumn';
 
 class Categories extends Component {
 
@@ -9,12 +10,21 @@ class Categories extends Component {
         this.state = {
             categories: []
         };
+        this.sortChange = this.sortChange.bind(this);
     }
 
-    async componentWillMount() {
-        const { data } = await CategoriesService.list();
+    componentWillMount() {
+        this.getCategories();
+    }
+
+    async getCategories(paramns = {}) {
+        const { data } = await CategoriesService.list(paramns);
         const categories = data.data;
         this.setState(state => state.categories = categories);
+    }
+
+    sortChange(sort) {
+        this.getCategories({ page: 1, sort});
     }
 
     renderRows() {
@@ -67,10 +77,22 @@ class Categories extends Component {
                             </td>
                         </tr>
                         <tr>
-                            <th style={{ width: "5%" }}>ID</th>
-                            <th style={{ width: "50%" }}>Nome</th>
+                            <th style={{ width: "5%" }}>
+                                <SortColumn column="id" sortChange={this.sortChange}>
+                                    ID
+                                </SortColumn>
+                            </th>
+                            <th style={{ width: "50%" }}>
+                                <SortColumn column="name" sortChange={this.sortChange}>
+                                    Nome
+                                </SortColumn>
+                            </th>
                             <th style={{ width: "15%" }}>Ativa?</th>
-                            <th style={{ width: "15%" }}>Criada em</th>
+                            <th style={{ width: "15%" }}>
+                                <SortColumn column="created_at" sortChange={this.sortChange}>
+                                    Criada em
+                                </SortColumn>
+                            </th>
                             <th style={{ width: "15%" }}>Ações</th>
                         </tr>
                     </thead>
