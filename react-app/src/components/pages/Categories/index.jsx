@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 
 import CategoriesService from '../../../services/CategoriesService';
-import { dateFormatBr } from '../../../functions/formater';
 import SortColumn from '../../template/SortColumn';
 import SearchForm from '../../template/SearchForm';
 import PaginationControls from '../../template/PaginationControls';
+import { dateFormatBr } from '../../../functions/formater';
 
 const INITIAL_SATE = {
     categories: [],
-    sort: { column: null },
+    sort: { 
+        column: 'id',
+        order: 'ASC' 
+    },
     search: '',
     pagination: {}
 };
@@ -29,7 +32,7 @@ class Categories extends Component {
     }
 
     async getCategories(paramns = {}) {
-        const { data } = await CategoriesService.list(paramns);
+        const { data }   = await CategoriesService.list(paramns);
         const categories = data.data;
         const pagination = data.meta;
         this.setState(state => { 
@@ -44,8 +47,8 @@ class Categories extends Component {
         this.getCategories({ page: 1, sort, search: this.state.search });
     }
 
-    navigate(nextPage) {
-        this.getCategories({ page: nextPage });
+    navigate(page) {
+        this.getCategories({ page });
     }
 
     handleChange(e) {
@@ -63,7 +66,7 @@ class Categories extends Component {
 
         if (!this.state.categories.length) {
             return (
-                <tr>
+                <tr key={0}>
                     <td colSpan="5">
                         Nada a exibir por enquanto :(
                     </td>
