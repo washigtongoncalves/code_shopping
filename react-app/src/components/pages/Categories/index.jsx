@@ -6,16 +6,18 @@ import SortColumn from '../../template/SortColumn';
 import SearchForm from '../../template/SearchForm';
 import PaginationControls from '../../template/PaginationControls';
 
+const INITIAL_SATE = {
+    categories: [],
+    sort: { column: null },
+    search: '',
+    pagination: {}
+};
+
 class Categories extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            categories: [],
-            sort: { column: null },
-            search: '',
-            pagination: {}
-        };
+        this.state = INITIAL_SATE;
         this.sortChange = this.sortChange.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -39,7 +41,7 @@ class Categories extends Component {
 
     sortChange(sort) {
         this.setState(state => state.sort = sort);
-        this.getCategories({ page: 1, sort});
+        this.getCategories({ page: 1, sort, search: this.state.search });
     }
 
     navigate(nextPage) {

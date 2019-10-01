@@ -17,17 +17,17 @@ class PaginationControls extends Component {
                 <nav>
                     <ul className={`pagination pagination-sm justify-content-${this.props.alignCenter ? 'center' : 'end'}`}>
                         <li className={`page-item ${this.disablePreviousButton()}`}>
-                            <a className="page-link" href="#" onClick={() => this.props.navigate(this.props.current_page-1)}>
+                            <a className="page-link" href="javascript:void(0)" onClick={() => this.props.navigate(this.props.current_page-1)}>
                                 <span>&laquo;</span>&nbsp;Anterior
                             </a>
                         </li>
                         <li className="page-item active">
-                            <a className="page-link" href="#">
+                            <a className="page-link" href="javascript:void(0)">
                                 {this.props.current_page}
                             </a>
                         </li>
                         <li className={`page-item ${this.disableNextButton()}`}>
-                            <a className="page-link" href="#" onClick={() => this.props.navigate(this.props.current_page+1)}>
+                            <a className="page-link" href="javascript:void(0)" onClick={() => this.props.navigate(this.props.current_page+1)}>
                                 Próximo&nbsp;<span>&raquo;</span>
                             </a>
                         </li>
