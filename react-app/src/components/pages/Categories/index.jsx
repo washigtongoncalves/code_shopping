@@ -89,7 +89,14 @@ class Categories extends Component {
                     {dateFormatBr(category.created_at.date)}
                 </td>
                 <td data-title="Ações: ">
-                    
+                    <button type="button" className="btn btn-sm btn-success btn-actions" 
+                       title={`Editar a categoria ${category.name}`}>
+                       <i className="fa fa-edit"></i>
+                    </button>
+                    <button type="button" className="btn btn-sm btn-danger btn-actions" 
+                       title={`Excluir a categoria ${category.name}`}>
+                       <i className="fa fa-trash-o"></i>
+                    </button>
                 </td>
             </tr>
         ));

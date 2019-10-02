@@ -65,3 +65,7 @@
 .link-button:focus {
     text-decoration: underline;
 }
+
+.btn-actions {
+  margin-left: 3px;
+}
