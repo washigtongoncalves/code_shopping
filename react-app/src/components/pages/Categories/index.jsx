@@ -74,12 +74,12 @@ class Categories extends Component {
         this.getCategories({ page: 1, search});
     }
 
-    async deleteCategory(categoryId) {
-        await CategoriesService.delete(categoryId);
+    async deleteCategory(category) {
+        await CategoriesService.delete(category.id);
         this.modalDelete.modal('hide');
         this.setState(state => state.categoryToDelete = null);
         this.getCategories();
-        this.notify.success(`Categoria excluída com sucesso.`);
+        this.notify.success(`Categoria ${category.name} excluída com sucesso.`);
     }
 
     showModalDelete(category) {

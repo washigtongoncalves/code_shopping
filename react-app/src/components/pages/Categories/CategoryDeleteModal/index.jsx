@@ -12,7 +12,7 @@ function ModalFooter(props) {
             </button>
             <button type="button" 
                 className="btn btn-danger" 
-                onClick={() => props.handleClick(props.category.id)}>
+                onClick={() => props.handleClick(props.category)}>
                 Excluir
             </button>
         </Fragment>
