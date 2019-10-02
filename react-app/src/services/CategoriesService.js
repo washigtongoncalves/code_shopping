@@ -13,5 +13,9 @@ class CategoriesService {
         }
         return api.get(url);
     }
+
+    static delete(categoryId) {
+        return api.delete(`/categories/${categoryId}`);
+    }
 }
 export default CategoriesService;

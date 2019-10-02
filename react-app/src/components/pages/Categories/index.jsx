@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
+import $ from 'jquery';
 
 import CategoriesService from '../../../services/CategoriesService';
 import SortColumn from '../../template/SortColumn';
 import SearchForm from '../../template/SearchForm';
 import PaginationControls from '../../template/PaginationControls';
+import CategoryDeleteModal from './CategoryDeleteModal';
 import { dateFormatBr } from '../../../functions/formater';
 
 const INITIAL_SATE = {
     categories: [],
+    categoryToDelete: null,
     sort: { 
         column: 'id',
         order: 'ASC' 
@@ -20,15 +23,21 @@ class Categories extends Component {
 
     constructor(props) {
         super(props);
+        this.modalDelete = null;
         this.state = INITIAL_SATE;
         this.sortChange = this.sortChange.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.navigate = this.navigate.bind(this);
+        this.deleteCategory = this.deleteCategory.bind(this);
     }
 
     componentWillMount() {
         this.getCategories();
+    }
+
+    componentDidMount() {
+        this.modalDelete = $("#category-delete-modal");
     }
 
     async getCategories(paramns = {}) {
@@ -60,6 +69,18 @@ class Categories extends Component {
         e.preventDefault();
         const search = this.state.search;
         this.getCategories({ page: 1, search});
+    }
+
+    async deleteCategory(categoryId) {
+        await CategoriesService.delete(categoryId);
+        this.modalDelete.modal('hide');
+        this.setState(state => state.categoryToDelete = null);
+        this.getCategories();
+    }
+
+    showModalDelete(category) {
+        this.setState(state => state.categoryToDelete = category);
+        this.modalDelete.modal('show');
     }
 
     renderRows() {
@@ -94,7 +115,8 @@ class Categories extends Component {
                        <i className="fa fa-edit"></i>
                     </button>
                     <button type="button" className="btn btn-sm btn-danger btn-actions" 
-                       title={`Excluir a categoria ${category.name}`}>
+                       title={`Excluir a categoria ${category.name}`}
+                       onClick={() => this.showModalDelete(category)}>
                        <i className="fa fa-trash-o"></i>
                     </button>
                 </td>
@@ -158,6 +180,10 @@ class Categories extends Component {
                         {...this.state.pagination} 
                         navigate={this.navigate} />
                 </div>
+                <CategoryDeleteModal 
+                    modalId="category-delete-modal"
+                    category={this.state.categoryToDelete}
+                    handleClick={this.deleteCategory} />
             </div>
         );
     }
