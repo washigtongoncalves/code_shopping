@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
 
-import CategoriesService from '../../../services/CategoriesService';
 import SortColumn from '../../template/SortColumn';
 import SearchForm from '../../template/SearchForm';
 import PaginationControls from '../../template/PaginationControls';
 import CategoryDeleteModal from './CategoryDeleteModal';
 import { dateFormatBr } from '../../../functions/formater';
+
+import CategoriesService from '../../../services/CategoriesService';
+import NotifyMessageService from '../../../services/NotifyMessageService';
 
 const INITIAL_SATE = {
     categories: [],
@@ -24,6 +26,7 @@ class Categories extends Component {
     constructor(props) {
         super(props);
         this.modalDelete = null;
+        this.notify = new NotifyMessageService;
         this.state = INITIAL_SATE;
         this.sortChange = this.sortChange.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -76,6 +79,7 @@ class Categories extends Component {
         this.modalDelete.modal('hide');
         this.setState(state => state.categoryToDelete = null);
         this.getCategories();
+        this.notify.success(`Categoria excluída com sucesso.`);
     }
 
     showModalDelete(category) {
