@@ -31,23 +31,18 @@ class Categories extends Component {
         this.modalEdit = null;
         this.notify = new NotifyMessageService();
         this.state = INITIAL_SATE;
-        this.sortChange = this.sortChange.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.navigate = this.navigate.bind(this);
-        this.deleteCategory = this.deleteCategory.bind(this);
     }
 
-    componentWillMount() {
+    componentWillMount = () => {
         this.getCategories();
     }
 
-    componentDidMount() {
+    componentDidMount = () => {
         this.modalDelete = $("#category-delete-modal");
         this.modalEdit = $("#category-edit-modal");
     }
 
-    async getCategories(paramns = {}) {
+    getCategories = async (paramns = {}) => {
         const { data }   = await CategoriesService.list(paramns);
         const categories = data.data;
         const pagination = data.meta;
@@ -58,27 +53,27 @@ class Categories extends Component {
         });
     }
 
-    sortChange(sort) {
+    sortChange = (sort) => {
         this.setState(state => state.sort = sort);
         this.getCategories({ page: 1, sort, search: this.state.search });
     }
 
-    navigate(page) {
+    navigate = (page) => {
         this.getCategories({ page });
     }
 
-    handleChange(e) {
+    handleChange = (e) => {
         const search = e.target.value;
         this.setState(state => state.search = search);
     }
 
-    handleSubmit(e) {
+    handleSubmit = (e) => {
         e.preventDefault();
         const search = this.state.search;
         this.getCategories({ page: 1, search});
     }
 
-    async deleteCategory(category) {
+    deleteCategory = async (category) => {
         await CategoriesService.delete(category.id);
         this.modalDelete.modal('hide');
         this.setState(state => state.categoryToDelete = null);
@@ -86,17 +81,17 @@ class Categories extends Component {
         this.notify.success(`Categoria ${category.name} excluída com sucesso.`);
     }
 
-    showModalDelete(category) {
+    showModalDelete = (category) => {
         this.setState(state => state.categoryToDelete = category);
         this.modalDelete.modal('show');
     }
 
-    showModalEdit(category = {}) {
+    showModalEdit = (category = {}) => {
         this.setState(state => state.categoryToEdit = category);
         this.modalEdit.modal('show');
     }
 
-    renderRows() {
+    renderRows = () => {
 
         if (!this.state.categories.length) {
             return (
@@ -138,7 +133,7 @@ class Categories extends Component {
         ));
     }
 
-    render() {
+    render = () => {
         return (
             <div className="row" id="no-more-tables">
                 <h3>Listagem de Categorias</h3>
