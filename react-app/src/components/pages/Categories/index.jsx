@@ -5,6 +5,7 @@ import SortColumn from '../../template/SortColumn';
 import SearchForm from '../../template/SearchForm';
 import PaginationControls from '../../template/PaginationControls';
 import CategoryDeleteModal from './CategoryDeleteModal';
+import CategoryEditModal from './CategoryEditModal';
 import { dateFormatBr } from '../../../functions/formater';
 
 import CategoriesService from '../../../services/CategoriesService';
@@ -13,6 +14,7 @@ import NotifyMessageService from '../../../services/NotifyMessageService';
 const INITIAL_SATE = {
     categories: [],
     categoryToDelete: null,
+    categoryToEdit: null,
     sort: { 
         column: 'id',
         order: 'ASC' 
@@ -26,7 +28,8 @@ class Categories extends Component {
     constructor(props) {
         super(props);
         this.modalDelete = null;
-        this.notify = new NotifyMessageService;
+        this.modalEdit = null;
+        this.notify = new NotifyMessageService();
         this.state = INITIAL_SATE;
         this.sortChange = this.sortChange.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -41,6 +44,7 @@ class Categories extends Component {
 
     componentDidMount() {
         this.modalDelete = $("#category-delete-modal");
+        this.modalEdit = $("#category-edit-modal");
     }
 
     async getCategories(paramns = {}) {
@@ -87,6 +91,11 @@ class Categories extends Component {
         this.modalDelete.modal('show');
     }
 
+    showModalEdit(category = {}) {
+        this.setState(state => state.categoryToEdit = category);
+        this.modalEdit.modal('show');
+    }
+
     renderRows() {
 
         if (!this.state.categories.length) {
@@ -115,7 +124,8 @@ class Categories extends Component {
                 </td>
                 <td data-title="Ações: ">
                     <button type="button" className="btn btn-sm btn-success btn-actions" 
-                       title={`Editar a categoria ${category.name}`}>
+                       title={`Editar a categoria ${category.name}`}
+                       onClick={() => this.showModalEdit(category)}>
                        <i className="fa fa-edit"></i>
                     </button>
                     <button type="button" className="btn btn-sm btn-danger btn-actions" 
@@ -136,7 +146,8 @@ class Categories extends Component {
                     <thead>
                         <tr>
                             <td colSpan="3">
-                                <button className="btn btn-primary">
+                                <button className="btn btn-primary" 
+                                    onClick={() => this.showModalEdit()}>
                                     Nova categoria
                                 </button>
                             </td>
@@ -188,6 +199,9 @@ class Categories extends Component {
                     modalId="category-delete-modal"
                     category={this.state.categoryToDelete}
                     handleClick={this.deleteCategory} />
+                <CategoryEditModal 
+                    modalId="category-edit-modal"
+                    category={this.state.categoryToEdit} />
             </div>
         );
     }
