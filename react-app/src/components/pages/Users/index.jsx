@@ -5,7 +5,7 @@ import SortColumn from '../../template/SortColumn';
 import SearchForm from '../../template/SearchForm';
 import PaginationControls from '../../template/PaginationControls';
 import UserDeleteModal from './UserDeleteModal';
-// import UserEditModal from './UserEditModal';
+import UserEditModal from './UserEditModal';
 import UserRestoreModal from './UserRestoreModal';
 import { dateFormatBr } from '../../../functions/formater';
 
@@ -94,10 +94,10 @@ class Users extends Component {
         this.modalDelete.modal('show');
     }
 
-    // showModalEdit = (user = {}) => {
-    //     this.setState(state => state.userToEdit = user);
-    //     this.modalEdit.modal('show');
-    // }
+    showModalEdit = (user = {}) => {
+        this.setState(state => state.userToEdit = user);
+        this.modalEdit.modal('show');
+    }
 
     showModalRestore = (user) => {
         this.setState(state => state.userToRestore = user);
@@ -112,36 +112,34 @@ class Users extends Component {
         this.notify.success(`Usuário ${user.name} restaurado com sucesso.`);
     }
 
-    // saveuser = (e) => {
-    //     e.preventDefault();
-    //     const user = this.getFormData();
-    //     CategoriesService.save(user)
-    //     .then(resp => {
-    //         this.modalEdit.modal('hide');
-    //         this.setState(state => state.userToEdit = null);
-    //         this.getUsers();
-    //         this.notify.success(`Categoria ${user.name} salva com sucesso.`);
-    //     }, error => {
-    //         this.notify.error(`Ocorreu um erro ao tentar salvar a categoria ${user.name}.`);
-    //     });
-    // }
-    // 
-    // getFormData = () => {
-    //     const formData = this.formEdit.serializeArray();
-    //     const user = {};
-    //     formData.forEach(field => user[field.name] = field.value);
-    //     if (user.active && user.active === 'on') user.active = 1 
-    //     else user.active = 0;
-    //     if (!user.id) {
-    //         delete user.id;
-    //     }
-    //     return user;
-    // }
+    saveUser = (e) => {
+        e.preventDefault();
+        const user = this.getFormData();
+        UsersService.save(user)
+        .then(resp => {
+            this.modalEdit.modal('hide');
+            this.setState(state => state.userToEdit = null);
+            this.getUsers();
+            this.notify.success(`Usuário ${user.name} salvo com sucesso.`);
+        }, error => {
+            this.notify.error(`Ocorreu um erro ao tentar salvar o usuário ${user.name}.`);
+        });
+    }
+    
+    getFormData = () => {
+        const formData = this.formEdit.serializeArray();
+        const user = {};
+        formData.forEach(field => user[field.name] = field.value);
+        if (!user.id) {
+            delete user.id;
+        }
+        return user;
+    }
 
-    // handleFormDataChanged = () => {
-    //     const user = this.getFormData();
-    //     this.setState(state => state.userToEdit = user);
-    // }
+    handleFormDataChanged = () => {
+        const user = this.getFormData();
+        this.setState(state => state.userToEdit = user);
+    }
 
     changeOnlyTrashed = () => {
         const onlyTrashed = !this.state.onlyTrashed;
@@ -277,12 +275,12 @@ class Users extends Component {
                     modalId={DELETE_MODAL_ID}
                     user={this.state.userToDelete}
                     handleClick={this.deleteUser} />
-                {/* <UserEditModal 
+                <UserEditModal 
                     modalId={EDIT_MODAL_ID}
                     formId={FORM_EDIT_ID}
                     user={this.state.userToEdit}
                     formDataChanged={this.handleFormDataChanged}
-                    handleSubmit={this.saveuser} /> */} 
+                    handleSubmit={this.saveUser} />
                 <UserRestoreModal 
                     modalId={RESTORE_MODAL_ID}
                     user={this.state.userToRestore}

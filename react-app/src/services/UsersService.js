@@ -24,14 +24,14 @@ class UsersService {
         return api.delete(`/users/${userId}`);
     }
 
-    // static save(category) {
-    //     let method = 'post';
-    //     let url = '/users';
-    //     if (category && category.id) {
-    //         method = 'put';
-    //         url += `/${category.id}`;
-    //     }
-    //     return api[method](url, category);
-    // }
+    static save(user) {
+        let method = 'post';
+        let url = '/users';
+        if (user && user.id) {
+            method = 'put';
+            url += `/${user.id}`;
+        }
+        return api[method](url, user);
+    }
 }
 export default UsersService;
