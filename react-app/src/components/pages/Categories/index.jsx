@@ -120,6 +120,11 @@ class Categories extends Component {
         return category;
     }
 
+    handleFormDataChanged = () => {
+        const category = this.getFormData();
+        this.setState(state => state.categoryToEdit = category);
+    }
+
     renderRows = () => {
 
         if (!this.state.categories.length) {
@@ -227,6 +232,7 @@ class Categories extends Component {
                     modalId={EDIT_MODAL_ID}
                     formId={FORM_EDIT_ID}
                     category={this.state.categoryToEdit}
+                    formDataChanged={this.handleFormDataChanged}
                     handleSubmit={this.saveCategory} />
             </div>
         );

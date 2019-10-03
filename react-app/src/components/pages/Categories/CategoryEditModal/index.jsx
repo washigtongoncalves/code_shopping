@@ -27,10 +27,14 @@ function CategoryEditModal(props) {
                 modalId={props.modalId} 
                 title={`${acao} categoria`}
                 body={
-                    <CategoryForm category={category} />
+                    <CategoryForm 
+                        category={category}
+                        formDataChanged={props.formDataChanged} />
                 }
                 footer={
-                    <ModalFooter category={category} acao={acao} />
+                    <ModalFooter 
+                        category={category} 
+                        acao={acao} />
                 }
             />
         </form>

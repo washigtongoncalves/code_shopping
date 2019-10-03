@@ -10,12 +10,12 @@ function CategoryForm(props) {
                 </label>
                 <input type="text" 
                     className="form-control" 
-                    id="name"
                     name="name"
                     maxLength="30"
-                    defaultValue={category && category.name ? category.name : ''}
+                    value={category && category.name ? category.name : ''}
                     placeholder="Informe um nome para a categoria"
-                    required />
+                    required
+                    onChange={() => props.formDataChanged()} />
                 <input type="hidden" 
                     name="id" 
                     defaultValue={category && category.id ? category.id : ''} />
@@ -23,9 +23,9 @@ function CategoryForm(props) {
             <div className="form-group form-check">
                 <input type="checkbox" 
                     className="form-check-input"
-                    defaultChecked={!category || category.active}
-                    id="active"
-                    name="active" />
+                    checked={!category || category.active}
+                    name="active"
+                    onChange={() => props.formDataChanged()}  />
                 <label htmlFor="active">
                     Ativo?
                 </label>
