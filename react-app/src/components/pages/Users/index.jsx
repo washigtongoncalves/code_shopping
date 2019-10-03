@@ -4,7 +4,7 @@ import $ from 'jquery';
 import SortColumn from '../../template/SortColumn';
 import SearchForm from '../../template/SearchForm';
 import PaginationControls from '../../template/PaginationControls';
-// import UserDeleteModal from './UserDeleteModal';
+import UserDeleteModal from './UserDeleteModal';
 // import UserEditModal from './UserEditModal';
 import UserRestoreModal from './UserRestoreModal';
 import { dateFormatBr } from '../../../functions/formater';
@@ -81,18 +81,18 @@ class Users extends Component {
         this.getUsers({ page: 1, search});
     }
 
-    // deleteuser = async (user) => {
-    //     await CategoriesService.delete(user.id);
-    //     this.modalDelete.modal('hide');
-    //     this.setState(state => state.userToDelete = null);
-    //     this.getUsers();
-    //     this.notify.success(`Categoria ${user.name} excluída com sucesso.`);
-    // }
+    deleteUser = async (user) => {
+        await UsersService.delete(user.id);
+        this.modalDelete.modal('hide');
+        this.setState(state => state.userToDelete = null);
+        this.getUsers();
+        this.notify.success(`Usuário ${user.name} excluído com sucesso.`);
+    }
 
-    // showModalDelete = (user) => {
-    //     this.setState(state => state.userToDelete = user);
-    //     this.modalDelete.modal('show');
-    // }
+    showModalDelete = (user) => {
+        this.setState(state => state.userToDelete = user);
+        this.modalDelete.modal('show');
+    }
 
     // showModalEdit = (user = {}) => {
     //     this.setState(state => state.userToEdit = user);
@@ -273,16 +273,16 @@ class Users extends Component {
                         {...this.state.pagination} 
                         navigate={this.navigate} />
                 </div>
-                {/* <UserDeleteModal 
+                <UserDeleteModal 
                     modalId={DELETE_MODAL_ID}
                     user={this.state.userToDelete}
-                    handleClick={this.deleteuser} />
-                <UserEditModal 
+                    handleClick={this.deleteUser} />
+                {/* <UserEditModal 
                     modalId={EDIT_MODAL_ID}
                     formId={FORM_EDIT_ID}
                     user={this.state.userToEdit}
                     formDataChanged={this.handleFormDataChanged}
-                    handleSubmit={this.saveuser} /> */}
+                    handleSubmit={this.saveuser} /> */} 
                 <UserRestoreModal 
                     modalId={RESTORE_MODAL_ID}
                     user={this.state.userToRestore}

@@ -20,9 +20,9 @@ class UsersService {
         return api.patch(`/users/${userId}/restore?trashed=1`);
     }
 
-    // static delete(categoryId) {
-    //     return api.delete(`/users/${categoryId}`);
-    // }
+    static delete(userId) {
+        return api.delete(`/users/${userId}`);
+    }
 
     // static save(category) {
     //     let method = 'post';
