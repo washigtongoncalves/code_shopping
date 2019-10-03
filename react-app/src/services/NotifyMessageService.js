@@ -1,4 +1,6 @@
 import PNotify from 'pnotify/dist/es/PNotify';
+
+// eslint-disable-next-line
 import PNotifyButtons from 'pnotify/dist/es/PNotifyButtons';
 import 'pnotify/dist/PNotifyBrightTheme.css';
 
@@ -17,7 +19,6 @@ class NotifyMessageService {
   }
 
   get pnotify() {
-    // PNotifyButtons;
     return PNotify;
   }
 }
