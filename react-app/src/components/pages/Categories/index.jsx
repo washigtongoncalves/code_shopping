@@ -22,16 +22,17 @@ const INITIAL_SATE = {
     search: '',
     pagination: {}
 };
+const DELETE_MODAL_ID = 'category-delete-modal';
+const EDIT_MODAL_ID   = 'category-edit-modal';
+const FORM_EDIT_ID    = 'category-edit-form';
 
 class Categories extends Component {
 
     constructor(props) {
         super(props);
-        this.modalDelete = null;
-        this.modalEdit = null;
-        this.formEdit = null;
-        this.notify = new NotifyMessageService();
         this.state = INITIAL_SATE;
+        this.modalDelete = this.modalEdit = this.formEdit = null;
+        this.notify = new NotifyMessageService();
     }
 
     componentWillMount = () => {
@@ -39,9 +40,9 @@ class Categories extends Component {
     }
 
     componentDidMount = () => {
-        this.modalDelete = $("#category-delete-modal");
-        this.modalEdit = $("#category-edit-modal");
-        this.formEdit = $("#category-edit-form");
+        this.modalDelete = $(`#${DELETE_MODAL_ID}`);
+        this.modalEdit   = $(`#${EDIT_MODAL_ID}`);
+        this.formEdit    = $(`#${FORM_EDIT_ID}`);
     }
 
     getCategories = async (paramns = {}) => {
@@ -219,12 +220,12 @@ class Categories extends Component {
                         navigate={this.navigate} />
                 </div>
                 <CategoryDeleteModal 
-                    modalId="category-delete-modal"
+                    modalId={DELETE_MODAL_ID}
                     category={this.state.categoryToDelete}
                     handleClick={this.deleteCategory} />
                 <CategoryEditModal 
-                    modalId="category-edit-modal"
-                    formId="category-edit-form"
+                    modalId={EDIT_MODAL_ID}
+                    formId={FORM_EDIT_ID}
                     category={this.state.categoryToEdit}
                     handleSubmit={this.saveCategory} />
             </div>

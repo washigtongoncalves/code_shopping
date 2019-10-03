@@ -15,7 +15,7 @@ function CategoryForm(props) {
                     maxLength="30"
                     defaultValue={category && category.name ? category.name : ''}
                     placeholder="Informe um nome para a categoria"
-                     />
+                    required />
                 <input type="hidden" 
                     name="id" 
                     defaultValue={category && category.id ? category.id : ''} />
