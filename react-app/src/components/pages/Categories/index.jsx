@@ -29,6 +29,7 @@ class Categories extends Component {
         super(props);
         this.modalDelete = null;
         this.modalEdit = null;
+        this.formEdit = null;
         this.notify = new NotifyMessageService();
         this.state = INITIAL_SATE;
     }
@@ -40,6 +41,7 @@ class Categories extends Component {
     componentDidMount = () => {
         this.modalDelete = $("#category-delete-modal");
         this.modalEdit = $("#category-edit-modal");
+        this.formEdit = $("#category-edit-form");
     }
 
     getCategories = async (paramns = {}) => {
@@ -89,6 +91,32 @@ class Categories extends Component {
     showModalEdit = (category = {}) => {
         this.setState(state => state.categoryToEdit = category);
         this.modalEdit.modal('show');
+    }
+
+    saveCategory = (e) => {
+        e.preventDefault();
+        const category = this.getFormData();
+        CategoriesService.save(category)
+        .then(resp => {
+            this.modalEdit.modal('hide');
+            this.setState(state => state.categoryToEdit = null);
+            this.getCategories();
+            this.notify.success(`Categoria ${category.name} salva com sucesso.`);
+        }, error => {
+            this.notify.error(`Ocorreu um erro ao tentar salvar a categoria ${category.name}.`);
+        });
+    }
+
+    getFormData = () => {
+        const formData = this.formEdit.serializeArray();
+        const category = {};
+        formData.forEach(field => category[field.name] = field.value);
+        if (category.active && category.active === 'on') category.active = 1 
+        else category.active = 0;
+        if (!category.id) {
+            delete category.id;
+        }
+        return category;
     }
 
     renderRows = () => {
@@ -196,7 +224,9 @@ class Categories extends Component {
                     handleClick={this.deleteCategory} />
                 <CategoryEditModal 
                     modalId="category-edit-modal"
-                    category={this.state.categoryToEdit} />
+                    formId="category-edit-form"
+                    category={this.state.categoryToEdit}
+                    handleSubmit={this.saveCategory} />
             </div>
         );
     }

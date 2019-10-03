@@ -17,5 +17,15 @@ class CategoriesService {
     static delete(categoryId) {
         return api.delete(`/categories/${categoryId}`);
     }
+
+    static save(category) {
+        let method = 'post';
+        let url = '/categories';
+        if (category && category.id) {
+            method = 'put';
+            url += `/${category.id}`;
+        }
+        return api[method](url, category);
+    }
 }
 export default CategoriesService;

@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
 import Modal from '../../../template/Modal';
+import CategoryForm from '../CategoryForm';
 
 function ModalFooter(props) {
     return (
@@ -21,11 +22,13 @@ function CategoryEditModal(props) {
     const category = props.category;
     const acao = category && category.id ? 'Editar' : 'Nova';
     return (
-        <form onSubmit={props.handleSubmit}>
+        <form onSubmit={props.handleSubmit} id={props.formId}>
             <Modal
                 modalId={props.modalId} 
                 title={`${acao} categoria`}
-                body={`Deseja ${acao} a categoria ${category && category.name ? category.name : ''}?`}
+                body={
+                    <CategoryForm category={category} />
+                }
                 footer={
                     <ModalFooter category={category} acao={acao} />
                 }
