@@ -17,6 +17,7 @@ const INITIAL_SATE = {
     userToDelete: null,
     userToEdit: null,
     userToRestore: null,
+    onlyTrashed: 0,
     sort: { 
         column: 'id',
         order: 'ASC' 
@@ -129,6 +130,15 @@ class Users extends Component {
     //     this.setState(state => state.userToEdit = user);
     // }
 
+    changeOnlyTrashed = () => {
+        const onlyTrashed = !this.state.onlyTrashed;
+        this.setState(state => {
+            state.onlyTrashed = onlyTrashed;
+            return state;
+        });
+        this.getUsers({ onlyTrashed });
+    }
+
     renderRows = () => {
 
         if (!this.state.users.length) {
@@ -185,7 +195,7 @@ class Users extends Component {
                                 </button>
                                 &nbsp;
                                 <label>
-                                    <input type="checkbox" name="active" />
+                                    <input type="checkbox" name="active" onChange={this.changeOnlyTrashed} />
                                     &nbsp;Somente excluídos?
                                 </label>
                             </td>

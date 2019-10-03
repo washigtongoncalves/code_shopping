@@ -3,7 +3,9 @@ import api from './api';
 class UsersService {
 
     static list(params) {
-        let url = '/users?page=' + (params.page ? params.page : 1);
+        const page = params.page ? params.page : 1;
+        const trashed = params.onlyTrashed ? 1 : 0;
+        let url = `/users?page=${page}&=trashed=${trashed}`;
         if (params.sort && params.sort.column) {
             const order = params.sort.order && params.sort.order === 'DESC' ? '-' : '+'; 
             url += `&sort=${order}${params.sort.column}`;
