@@ -6,7 +6,7 @@ import SearchForm from '../../template/SearchForm';
 import PaginationControls from '../../template/PaginationControls';
 // import UserDeleteModal from './UserDeleteModal';
 // import UserEditModal from './UserEditModal';
-// import UserRestoreModal from './UserRestoreModal';
+import UserRestoreModal from './UserRestoreModal';
 import { dateFormatBr } from '../../../functions/formater';
 
 import UsersService from '../../../services/UsersService';
@@ -99,6 +99,19 @@ class Users extends Component {
     //     this.modalEdit.modal('show');
     // }
 
+    showModalRestore = (user) => {
+        this.setState(state => state.userToRestore = user);
+        this.modalRestore.modal('show');
+    }
+
+    restoreUser = async (user) => {
+        await UsersService.restore(user.id);
+        this.modalRestore.modal('hide');
+        this.setState(state => state.userToRestore = null);
+        this.getUsers({ onlyTrashed: 1 });
+        this.notify.success(`Usuário ${user.name} restaurado com sucesso.`);
+    }
+
     // saveuser = (e) => {
     //     e.preventDefault();
     //     const user = this.getFormData();
@@ -166,16 +179,26 @@ class Users extends Component {
                     {dateFormatBr(user.created_at.date)}
                 </td>
                 <td data-title="Ações: ">
-                    <button type="button" className="btn btn-sm btn-success btn-actions" 
-                       title={`Editar o usuário ${user.name}`}
-                       onClick={() => this.showModalEdit(user)}>
-                       <i className="fa fa-edit"></i>
-                    </button>
-                    <button type="button" className="btn btn-sm btn-danger btn-actions" 
-                       title={`Excluir o usuário ${user.name}`}
-                       onClick={() => this.showModalDelete(user)}>
-                       <i className="fa fa-trash-o"></i>
-                    </button>
+                    {this.state.onlyTrashed ? (
+                        <button type="button" className="btn btn-sm btn-primary btn-actions"
+                            title="Restaurar usuário"
+                            onClick={() => this.showModalRestore(user)}>
+                            <i className="fa fa-thumbs-up"></i>
+                        </button>
+                    ) : (
+                        <span>
+                            <button type="button" className="btn btn-sm btn-success btn-actions" 
+                                title={`Editar o usuário ${user.name}`}
+                                onClick={() => this.showModalEdit(user)}>
+                                <i className="fa fa-edit"></i>
+                            </button>
+                            <button type="button" className="btn btn-sm btn-danger btn-actions" 
+                                title={`Excluir o usuário ${user.name}`}
+                                onClick={() => this.showModalDelete(user)}>
+                                <i className="fa fa-trash-o"></i>
+                            </button>
+                        </span>
+                    )}
                 </td>
             </tr>
         ));
@@ -250,16 +273,20 @@ class Users extends Component {
                         {...this.state.pagination} 
                         navigate={this.navigate} />
                 </div>
-                {/* <userDeleteModal 
+                {/* <UserDeleteModal 
                     modalId={DELETE_MODAL_ID}
                     user={this.state.userToDelete}
                     handleClick={this.deleteuser} />
-                <userEditModal 
+                <UserEditModal 
                     modalId={EDIT_MODAL_ID}
                     formId={FORM_EDIT_ID}
                     user={this.state.userToEdit}
                     formDataChanged={this.handleFormDataChanged}
                     handleSubmit={this.saveuser} /> */}
+                <UserRestoreModal 
+                    modalId={RESTORE_MODAL_ID}
+                    user={this.state.userToRestore}
+                    handleClick={this.restoreUser} />
             </div>
         );
     }
