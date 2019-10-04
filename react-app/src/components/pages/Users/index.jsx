@@ -17,6 +17,7 @@ const INITIAL_SATE = {
     userToDelete: null,
     userToEdit: null,
     userToRestore: null,
+    page: 1,
     onlyTrashed: 0,
     sort: { 
         column: 'id',
@@ -50,8 +51,14 @@ class Users extends Component {
         this.formEdit     = $(`#${FORM_EDIT_ID}`);
     }
 
-    getUsers = async (paramns = {}) => {
-        const { data }   = await UsersService.list(paramns);
+    getUsers = async () => {
+        const params = {
+            page: this.state.page,
+            sort: this.state.sort,
+            search: this.state.search,
+            onlyTrashed: this.state.onlyTrashed
+        }; 
+        const { data } = await UsersService.list(params);
         const users = data.data;
         const pagination = data.meta;
         this.setState(state => { 
@@ -63,11 +70,12 @@ class Users extends Component {
 
     sortChange = (sort) => {
         this.setState(state => state.sort = sort);
-        this.getUsers({ page: 1, sort, search: this.state.search });
+        this.getUsers();
     }
 
-    navigate = (page) => {
-        this.getUsers({ page });
+    navigate = (page = 1) => {
+        this.setState(state => state.page = page);
+        this.getUsers();
     }
 
     handleChange = (e) => {
@@ -77,8 +85,8 @@ class Users extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const search = this.state.search;
-        this.getUsers({ page: 1, search});
+        this.setState(state => state.page = 1);
+        this.getUsers();
     }
 
     deleteUser = async (user) => {
@@ -108,7 +116,7 @@ class Users extends Component {
         await UsersService.restore(user.id);
         this.modalRestore.modal('hide');
         this.setState(state => state.userToRestore = null);
-        this.getUsers({ onlyTrashed: 1 });
+        this.getUsers();
         this.notify.success(`Usuário ${user.name} restaurado com sucesso.`);
     }
 
@@ -146,8 +154,7 @@ class Users extends Component {
         this.setState(state => {
             state.onlyTrashed = onlyTrashed;
             return state;
-        });
-        this.getUsers({ onlyTrashed });
+        }, this.getUsers);
     }
 
     renderRows = () => {
