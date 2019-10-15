@@ -69,13 +69,17 @@ class Users extends Component {
     }
 
     sortChange = (sort) => {
-        this.setState(state => state.sort = sort);
-        this.getUsers();
+        this.setState(
+            state => state.sort = sort,
+            this.getUsers
+        );
     }
 
     navigate = (page = 1) => {
-        this.setState(state => state.page = page);
-        this.getUsers();
+        this.setState(
+            state => state.page = page,
+            this.getUsers
+        );
     }
 
     handleChange = (e) => {
@@ -85,39 +89,55 @@ class Users extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.setState(state => state.page = 1);
-        this.getUsers();
+        this.setState(
+            state => state.page = 1,
+            this.getUsers
+        );
     }
 
     deleteUser = async (user) => {
         await UsersService.delete(user.id);
         this.modalDelete.modal('hide');
-        this.setState(state => state.userToDelete = null);
-        this.getUsers();
-        this.notify.success(`Usuário ${user.name} excluído com sucesso.`);
+        this.setState(
+            state => state.userToDelete = null,
+            () => {
+                this.getUsers();
+                this.notify.success(`Usuário ${user.name} excluído com sucesso.`);
+            }
+        );
     }
 
     showModalDelete = (user) => {
-        this.setState(state => state.userToDelete = user);
-        this.modalDelete.modal('show');
+        this.setState(
+            state => state.userToDelete = user,
+            () => this.modalDelete.modal('show')
+        );
     }
 
     showModalEdit = (user = {}) => {
-        this.setState(state => state.userToEdit = user);
-        this.modalEdit.modal('show');
+        this.setState(
+            state => state.userToEdit = user,
+            () => this.modalEdit.modal('show')
+        );
     }
 
     showModalRestore = (user) => {
-        this.setState(state => state.userToRestore = user);
-        this.modalRestore.modal('show');
+        this.setState(
+            state => state.userToRestore = user,
+            () => this.modalRestore.modal('show') 
+        );
     }
 
     restoreUser = async (user) => {
         await UsersService.restore(user.id);
         this.modalRestore.modal('hide');
-        this.setState(state => state.userToRestore = null);
-        this.getUsers();
-        this.notify.success(`Usuário ${user.name} restaurado com sucesso.`);
+        this.setState(
+            state => state.userToRestore = null,
+            () => {
+                this.getUsers();
+                this.notify.success(`Usuário ${user.name} restaurado com sucesso.`);
+            }
+        );
     }
 
     saveUser = (e) => {
@@ -126,9 +146,13 @@ class Users extends Component {
         UsersService.save(user)
         .then(resp => {
             this.modalEdit.modal('hide');
-            this.setState(state => state.userToEdit = null);
-            this.getUsers();
-            this.notify.success(`Usuário ${user.name} salvo com sucesso.`);
+            this.setState(
+                state => state.userToEdit = null,
+                () => {
+                    this.getUsers();
+                    this.notify.success(`Usuário ${user.name} salvo com sucesso.`);
+                }
+            );
         }, error => {
             this.notify.error(`Ocorreu um erro ao tentar salvar o usuário ${user.name}.`);
         });
