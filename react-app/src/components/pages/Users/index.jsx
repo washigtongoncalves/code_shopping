@@ -287,7 +287,7 @@ class Users extends Component {
                                     column="created_at"
                                     showIcon={this.state.sort.column === "created_at"} 
                                     sortChange={this.sortChange}>
-                                    Criada em
+                                    Criado em
                                 </SortColumn>
                             </th>
                             <th style={{ width: "15%" }}>Ações</th>
