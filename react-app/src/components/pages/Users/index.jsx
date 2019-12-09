@@ -12,7 +12,7 @@ import { dateFormatBr } from '../../../functions/formater';
 import UsersService from '../../../services/UsersService';
 import NotifyMessageService from '../../../services/NotifyMessageService';
 
-const INITIAL_SATE = {
+const INITIAL_STATE = {
     users: [],
     userToDelete: null,
     userToEdit: null,
@@ -35,7 +35,7 @@ class Users extends Component {
 
     constructor(props) {
         super(props);
-        this.state = INITIAL_SATE;
+        this.state = INITIAL_STATE;
         this.modalDelete = this.modalEdit = this.modalRestore = this.formEdit = null;
         this.notify = new NotifyMessageService();
     }

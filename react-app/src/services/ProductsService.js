@@ -15,5 +15,13 @@ class ProductsService {
         }
         return api.get(url);
     }
+
+    static restore(productId) {
+        return api.patch(`/products/${productId}/restore?trashed=1`);
+    }
+
+    static delete(productId) {
+        return api.delete(`/products/${productId}`);
+    }
 }
 export default ProductsService;
