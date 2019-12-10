@@ -95,7 +95,7 @@ class Products extends Component {
                 <td data-title="ID:">
                     {product.id}
                 </td>
-                <td data-title="Nome:">
+                <td data-title="Nome:" title={product.description}>
                     {product.name}
                 </td>
                 <td data-title="Ativo:">
