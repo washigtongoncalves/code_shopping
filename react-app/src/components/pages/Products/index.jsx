@@ -7,6 +7,7 @@ import PaginationControls from '../../template/PaginationControls';
 import NotifyMessageService from '../../../services/NotifyMessageService';
 import ProductsService from '../../../services/ProductsService';
 import ProductDeleteModal from './ProductDeleteModal';
+import ProductRestoreModal from './ProductRestoreModal';
 import { dateFormatBr, numberFormatBr } from '../../../functions/formater';
 
 const INITIAL_STATE = {
@@ -22,7 +23,9 @@ const INITIAL_STATE = {
     pagination: {}
 };
 const DELETE_MODAL_ID  = 'product-delete-modal';
-
+const EDIT_MODAL_ID    = 'product-edit-modal';
+const RESTORE_MODAL_ID = 'product-restore-modal';
+const FORM_EDIT_ID     = 'product-edit-form';
 class Products extends Component {
 
     constructor(props) {
@@ -38,9 +41,9 @@ class Products extends Component {
 
     componentDidMount = () => {
         this.modalDelete  = $(`#${DELETE_MODAL_ID}`);
-        // this.modalEdit    = $(`#${EDIT_MODAL_ID}`);
-        // this.modalRestore = $(`#${RESTORE_MODAL_ID}`);
-        // this.formEdit     = $(`#${FORM_EDIT_ID}`);
+        this.modalEdit    = $(`#${EDIT_MODAL_ID}`);
+        this.modalRestore = $(`#${RESTORE_MODAL_ID}`);
+        this.formEdit     = $(`#${FORM_EDIT_ID}`);
     }
 
     getProducts = async () => {
@@ -108,12 +111,31 @@ class Products extends Component {
         );
     }
 
+    showModalRestore = (product) => {
+        this.setState(
+            state => state.productToRestore = product,
+            () => this.modalRestore.modal('show') 
+        );
+    }
+
+    restoreProduct = async (product) => {
+        await ProductsService.restore(product.id);
+        this.modalRestore.modal('hide');
+        this.setState(
+            state => state.productToRestore = null,
+            () => {
+                this.getProducts();
+                this.notify.success(`Produto ${product.name} restaurado com sucesso.`);
+            }
+        );
+    }
+
     renderRows = () => {
 
         if (!this.state.products.length) {
             return (
                 <tr key={0}>
-                    <td colSpan="7">
+                    <td colSpan="6">
                         Nada a exibir por enquanto :(
                     </td>
                 </tr>
@@ -128,24 +150,21 @@ class Products extends Component {
                 <td data-title="Nome:">
                     {product.name}
                 </td>
-                <td data-title="Ativo:">
-                    <i className={`fa fa-${product.active ? 'check' : 'times'}`}></i>
-                </td>
                 <td data-title="Criado em:">
                     {dateFormatBr(product.created_at.date)}
                 </td>
                 <td data-title="Estoque:">
-                    <span class="float-lg-right float-xl-right">
+                    <span className="float-lg-right float-xl-right">
                         {product.stock}
                     </span>
                 </td>
                 <td data-title="Preço:">
-                    <span class="float-lg-right float-xl-right">
+                    <span className="float-lg-right float-xl-right">
                         R${numberFormatBr(product.price)}
                     </span>
                 </td>
                 <td data-title="Ações: ">
-                    <span class="float-lg-right float-xl-right">
+                    <span className="float-lg-right float-xl-right">
                         {this.state.onlyTrashed ? (
                             <button type="button" className="btn btn-sm btn-primary btn-actions"
                                 title="Restaurar produto"
@@ -179,7 +198,7 @@ class Products extends Component {
                 <table className="table table-striped table-hover table-sm">
                     <thead>
                         <tr>
-                            <td colSpan="5">
+                            <td colSpan="4">
                                 <button className="btn btn-primary" 
                                     onClick={() => this.showModalEdit()}>
                                     Novo produto
@@ -214,9 +233,6 @@ class Products extends Component {
                                 </SortColumn>
                             </th>
                             <th style={{ width: "10%" }}>
-                                Ativo?
-                            </th>
-                            <th style={{ width: "10%" }}>
                                 <SortColumn 
                                     column="created_at"
                                     showIcon={this.state.sort.column === "created_at"} 
@@ -224,8 +240,8 @@ class Products extends Component {
                                     Criado em
                                 </SortColumn>
                             </th>
-                            <th style={{ width: "10%" }}>
-                                <span class="float-lg-right float-xl-right">
+                            <th style={{ width: "15%" }}>
+                                <span className="float-lg-right float-xl-right">
                                     <SortColumn 
                                         column="stock"
                                         showIcon={this.state.sort.column === "stock"} 
@@ -234,8 +250,8 @@ class Products extends Component {
                                     </SortColumn>
                                 </span>
                             </th>
-                            <th style={{ width: "10%" }}>
-                                <span class="float-lg-right float-xl-right">
+                            <th style={{ width: "15%" }}>
+                                <span className="float-lg-right float-xl-right">
                                     <SortColumn 
                                         column="price"
                                         showIcon={this.state.sort.column === "price"} 
@@ -245,7 +261,7 @@ class Products extends Component {
                                 </span>
                             </th>
                             <th style={{ width: "20%" }}>
-                                <span class="float-lg-right float-xl-right">
+                                <span className="float-lg-right float-xl-right">
                                     Ações    
                                 </span>
                             </th>
@@ -264,6 +280,16 @@ class Products extends Component {
                     modalId={DELETE_MODAL_ID}
                     product={this.state.productToDelete}
                     handleClick={this.deleteProduct} />
+                {/* <UserEditModal 
+                    modalId={EDIT_MODAL_ID}
+                    formId={FORM_EDIT_ID}
+                    user={this.state.userToEdit}
+                    formDataChanged={this.handleFormDataChanged}
+                    handleSubmit={this.saveUser} /> */}
+                <ProductRestoreModal 
+                    modalId={RESTORE_MODAL_ID}
+                    product={this.state.productToRestore}
+                    handleClick={this.restoreProduct} />
             </div>
         );
     }
