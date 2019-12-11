@@ -162,6 +162,8 @@ class Products extends Component {
         const formData = this.formEdit.serializeArray();
         const product = {};
         formData.forEach(field => product[field.name] = field.value);
+        if (product.active && product.active === 'on') product.active = 1 
+        else product.active = 0;
         if (!product.id) {
             delete product.id;
         }
@@ -178,7 +180,7 @@ class Products extends Component {
         if (!this.state.products.length) {
             return (
                 <tr key={0}>
-                    <td colSpan="6">
+                    <td colSpan="7">
                         Nada a exibir por enquanto :(
                     </td>
                 </tr>
@@ -192,6 +194,9 @@ class Products extends Component {
                 </td>
                 <td data-title="Nome:" title={product.description}>
                     {product.name}
+                </td>
+                <td data-title="Ativo:">
+                    <i className={`fa fa-${product.active ? 'check' : 'times'}`}></i>
                 </td>
                 <td data-title="Criado em:">
                     {dateFormatBr(product.created_at.date)}
@@ -241,7 +246,7 @@ class Products extends Component {
                 <table className="table table-striped table-hover table-sm">
                     <thead>
                         <tr>
-                            <td colSpan="4">
+                            <td colSpan="5">
                                 <button className="btn btn-primary" 
                                     onClick={() => this.showModalEdit()}>
                                     Novo produto
@@ -275,6 +280,7 @@ class Products extends Component {
                                     Nome
                                 </SortColumn>
                             </th>
+                            <th style={{ width: "10%" }}>Ativo?</th>
                             <th style={{ width: "10%" }}>
                                 <SortColumn 
                                     column="created_at"
@@ -283,7 +289,7 @@ class Products extends Component {
                                     Criado em
                                 </SortColumn>
                             </th>
-                            <th style={{ width: "15%" }}>
+                            <th style={{ width: "10%" }}>
                                 <span className="float-lg-right float-xl-right">
                                     <SortColumn 
                                         column="stock"
@@ -293,7 +299,7 @@ class Products extends Component {
                                     </SortColumn>
                                 </span>
                             </th>
-                            <th style={{ width: "15%" }}>
+                            <th style={{ width: "10%" }}>
                                 <span className="float-lg-right float-xl-right">
                                     <SortColumn 
                                         column="price"

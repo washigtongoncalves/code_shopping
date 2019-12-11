@@ -45,7 +45,7 @@ function ProductForm(props) {
                     min="0.01" 
                     step="0.01"
                     onChange={() => props.formDataChanged()}
-                    defaultValue={product && product.price ? product.price : 1} />
+                    value={product && product.price ? product.price : 1} />
             </div>
             <div className="form-group form-check">
                 <input type="checkbox"
@@ -53,7 +53,6 @@ function ProductForm(props) {
                     name="active" 
                     className="form-check-input"
                     checked={!product || product.active}
-                    defaultValue={product && product.active ? 1 : 0}
                     onChange={() => props.formDataChanged()} />
                 <label htmlFor="active">
                     Ativo?
