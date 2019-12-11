@@ -23,5 +23,15 @@ class ProductsService {
     static delete(productId) {
         return api.delete(`/products/${productId}`);
     }
+
+    static save(product) {
+        let method = 'post';
+        let url = '/products';
+        if (product && product.id) {
+            method = 'put';
+            url += `/${product.id}`;
+        }
+        return api[method](url, product);
+    }
 }
 export default ProductsService;

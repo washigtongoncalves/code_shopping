@@ -8,11 +8,14 @@ import NotifyMessageService from '../../../services/NotifyMessageService';
 import ProductsService from '../../../services/ProductsService';
 import ProductDeleteModal from './ProductDeleteModal';
 import ProductRestoreModal from './ProductRestoreModal';
+import ProductEditModal from './ProductEditModal';
 import { dateFormatBr, numberFormatBr } from '../../../functions/formater';
 
 const INITIAL_STATE = {
     products: [],
     productToDelete: null,
+    productToEdit: null,
+    productToRestore: null,
     page: 1,
     onlyTrashed: 0,
     sort: { 
@@ -128,6 +131,46 @@ class Products extends Component {
                 this.notify.success(`Produto ${product.name} restaurado com sucesso.`);
             }
         );
+    }
+
+    showModalEdit = (product = {}) => {
+        this.setState(
+            state => state.productToEdit = product,
+            () => this.modalEdit.modal('show')
+        );
+    }
+
+    saveProduct = (e) => {
+        e.preventDefault();
+        const product = this.getFormData();
+        ProductsService.save(product)
+        .then(resp => {
+            this.modalEdit.modal('hide');
+            this.setState(
+                state => state.productToEdit = null,
+                () => {
+                    this.getProducts();
+                    this.notify.success(`Produto ${product.name} salvo com sucesso.`);
+                }
+            );
+        }, error => {
+            this.notify.error(`Ocorreu um erro ao tentar salvar o produto ${product.name}.`);
+        });
+    }
+    
+    getFormData = () => {
+        const formData = this.formEdit.serializeArray();
+        const product = {};
+        formData.forEach(field => product[field.name] = field.value);
+        if (!product.id) {
+            delete product.id;
+        }
+        return product;
+    }
+
+    handleFormDataChanged = () => {
+        const product = this.getFormData();
+        this.setState(state => state.productToEdit = product);
     }
 
     renderRows = () => {
@@ -280,12 +323,12 @@ class Products extends Component {
                     modalId={DELETE_MODAL_ID}
                     product={this.state.productToDelete}
                     handleClick={this.deleteProduct} />
-                {/* <UserEditModal 
+                <ProductEditModal 
                     modalId={EDIT_MODAL_ID}
                     formId={FORM_EDIT_ID}
-                    user={this.state.userToEdit}
+                    product={this.state.productToEdit}
                     formDataChanged={this.handleFormDataChanged}
-                    handleSubmit={this.saveUser} /> */}
+                    handleSubmit={this.saveProduct} />
                 <ProductRestoreModal 
                     modalId={RESTORE_MODAL_ID}
                     product={this.state.productToRestore}
