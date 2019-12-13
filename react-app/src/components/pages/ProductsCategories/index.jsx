@@ -5,19 +5,21 @@ import $ from 'jquery';
 import NotifyMessageService from '../../../services/NotifyMessageService';
 import ProductsCategoriesServices from '../../../services/ProductsCategoriesServices';
 import ProductCategoryUnlinkModal from './ProductCategoryUnlinkModal';
+import ProductCategoriesLinkModal from './ProductCategoriesLinkModal';
 import { dateFormatBr } from '../../../functions/formater';
 
 const INITIAL_STATE = {
     product: [],
     categories: []
 };
-const UNLINK_MODAL_ID  = 'unlink-category-modal';
+const UNLINK_MODAL_ID = 'unlink-category-modal';
+const LINK_MODAL_ID = 'link-categories-modal';
 class ProductsCategories extends Component {
 
     constructor(props) {
         super(props);
         this.state  = INITIAL_STATE;
-        this.modalUnlink = this.categoryToUnlink = null;
+        this.modalUnlink = this.modaLink = this.categoryToUnlink = null;
         this.notify = new NotifyMessageService();
         this.productId = props.match.params.id;
     }
@@ -28,6 +30,7 @@ class ProductsCategories extends Component {
 
     componentDidMount = () => {
         this.modalUnlink = $(`#${UNLINK_MODAL_ID}`);
+        this.modalLink   = $(`#${LINK_MODAL_ID}`);
     }
 
     getCategories = async () => {
@@ -107,7 +110,8 @@ class ProductsCategories extends Component {
                     <thead>
                         <tr>
                             <td colSpan="5">
-                                <button className="btn btn-primary">
+                                <button className="btn btn-primary" 
+                                    onClick={() => this.modalLink.modal('show')}>
                                     Vincular
                                 </button>
                                 <Link to="/products/list">
@@ -134,6 +138,10 @@ class ProductsCategories extends Component {
                     product={this.state.product}
                     category={this.state.categoryToUnlink}
                     handleClick={this.unlinkCategory} />
+                <ProductCategoriesLinkModal 
+                    modalId={LINK_MODAL_ID}
+                    product={this.state.product}
+                    handleClick={this.linkCategories} />
             </div>
         );
     }
