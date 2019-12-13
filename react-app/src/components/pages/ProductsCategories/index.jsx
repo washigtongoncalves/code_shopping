@@ -1,26 +1,33 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import $ from 'jquery';
 
 import NotifyMessageService from '../../../services/NotifyMessageService';
 import ProductsCategoriesServices from '../../../services/ProductsCategoriesServices';
+import ProductCategoryUnlinkModal from './ProductCategoryUnlinkModal';
 import { dateFormatBr } from '../../../functions/formater';
 
 const INITIAL_STATE = {
     product: [],
     categories: []
 };
-
+const UNLINK_MODAL_ID  = 'unlink-category-modal';
 class ProductsCategories extends Component {
 
     constructor(props) {
         super(props);
         this.state  = INITIAL_STATE;
+        this.modalUnlink = this.categoryToUnlink = null;
         this.notify = new NotifyMessageService();
         this.productId = props.match.params.id;
     }
 
     componentWillMount() {
         this.getCategories();
+    }
+
+    componentDidMount = () => {
+        this.modalUnlink = $(`#${UNLINK_MODAL_ID}`);
     }
 
     getCategories = async () => {
@@ -31,6 +38,25 @@ class ProductsCategories extends Component {
             state.categories = categories;
             return state;
         });
+    }
+
+    showModalUnlink = (category) => {
+        this.setState(
+            state => state.categoryToUnlink = category,
+            () => this.modalUnlink.modal('show')
+        );
+    }
+
+    unlinkCategory = async (product, category) => {
+        await ProductsCategoriesServices.delete(product.id, category.id);
+        this.modalUnlink.modal('hide');
+        this.setState(
+            state => state.categoryToUnlink = null,
+            () => {
+                this.getCategories();
+                this.notify.success('Sucesso ao desvincular a categoria.');
+            }
+        );
     }
 
     renderRows() {
@@ -52,7 +78,7 @@ class ProductsCategories extends Component {
                 <td data-title="ID:">
                   {category.id}
                 </td>
-                <td data-title="Nome:">
+                <td data-title="Categoria:">
                     {category.name}
                 </td>
                 <td data-title="Ativa:">
@@ -64,7 +90,7 @@ class ProductsCategories extends Component {
                 <td data-title="Ações: ">
                     <button type="button" className="btn btn-sm btn-danger btn-actions" 
                         title={`Desvincular do produto ${product.name}`}
-                        onClick={() => this.showModalDelete(product)}>
+                        onClick={() => this.showModalUnlink(category)}>
                         <i className="fa fa-trash-o"></i>
                     </button>
                 </td>
@@ -93,7 +119,7 @@ class ProductsCategories extends Component {
                         </tr>
                         <tr>
                             <th style={{ width: "5%"  }}>ID</th>
-                            <th style={{ width: "30%" }}>Nome</th>
+                            <th style={{ width: "30%" }}>Categoria</th>
                             <th style={{ width: "15%" }}>Ativa?</th>
                             <th style={{ width: "25%" }}>Criada em</th>
                             <th style={{ width: "25%" }}>Ações</th>
@@ -103,6 +129,11 @@ class ProductsCategories extends Component {
                        {this.renderRows()} 
                     </tbody>
                 </table>
+                <ProductCategoryUnlinkModal 
+                    modalId={UNLINK_MODAL_ID}
+                    product={this.state.product}
+                    category={this.state.categoryToUnlink}
+                    handleClick={this.unlinkCategory} />
             </div>
         );
     }
