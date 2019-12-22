@@ -73,7 +73,10 @@ class ProductsCategories extends Component {
     }
 
     linkCategories = async (categories) => {
-        console.log(categories);
+        await ProductsCategoriesServices.create(this.state.productId, categories);
+        this.modalLink.modal('hide');
+        this.getCategories();
+        this.notify.success('Sucesso ao vincular as categorias.');
     }
 
     renderRows() {

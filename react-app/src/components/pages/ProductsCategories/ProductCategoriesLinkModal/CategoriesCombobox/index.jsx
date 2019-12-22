@@ -44,6 +44,7 @@ class CategoriesCombobox extends Component {
             if (!state.selectedCategories.includes(category)) {
                 state.selectedCategories.push(category);
             }
+            this.props.syncState(state); // Envia o estado para o componente pai
             return state;
         });
     }

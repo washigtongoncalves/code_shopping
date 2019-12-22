@@ -11,5 +11,10 @@ class ProductsCategoriesService {
         let url = `/products/${productId}/categories/${categoryId}`;
         return api.delete(url);
     }
+
+    static create(productId, categories) {
+        let url = `/products/${productId}/categories/`;
+        return api.post(url, { categories });
+    }
 }
 export default ProductsCategoriesService;
