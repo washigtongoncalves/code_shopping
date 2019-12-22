@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 
 import Modal from '../../../template/Modal';
+import CategoriesCombobox from './CategoriesCombobox';
 
 function ModalFooter(props) {
     const { product } = props;
@@ -21,12 +22,15 @@ function ModalFooter(props) {
 }
 
 function ProductCategoriesLinkModal(props) {
-    const { product } = props;
+    const { product, categories } = props;
     return (
         <Modal
             modalId={props.modalId} 
             title={`Vincular categorias ao produto ${product ? product.name : ''}`}
-            body={null}
+            body={
+                <CategoriesCombobox 
+                    selectedCategories={categories} />
+            }
             footer={
                 <ModalFooter 
                     product={product} 

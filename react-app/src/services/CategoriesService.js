@@ -14,6 +14,11 @@ class CategoriesService {
         return api.get(url);
     }
 
+    static getAllCategories() {
+        let url = '/categories?all=1&sort=+name';
+        return api.get(url);
+    }
+
     static delete(categoryId) {
         return api.delete(`/categories/${categoryId}`);
     }

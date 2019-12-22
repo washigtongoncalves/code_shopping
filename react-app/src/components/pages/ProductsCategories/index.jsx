@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import BlockUi from 'react-block-ui';
+import 'react-block-ui/style.css';
 import $ from 'jquery';
 
 import NotifyMessageService from '../../../services/NotifyMessageService';
@@ -9,6 +11,8 @@ import ProductCategoriesLinkModal from './ProductCategoriesLinkModal';
 import { dateFormatBr } from '../../../functions/formater';
 
 const INITIAL_STATE = {
+    blocking: true,
+    productId: null,
     product: [],
     categories: []
 };
@@ -18,10 +22,10 @@ class ProductsCategories extends Component {
 
     constructor(props) {
         super(props);
-        this.state  = INITIAL_STATE;
+        this.state = INITIAL_STATE;
         this.modalUnlink = this.modaLink = this.categoryToUnlink = null;
         this.notify = new NotifyMessageService();
-        this.productId = props.match.params.id;
+        this.state.productId = props.match.params.id;
     }
 
     componentWillMount() {
@@ -33,14 +37,20 @@ class ProductsCategories extends Component {
         this.modalLink   = $(`#${LINK_MODAL_ID}`);
     }
 
-    getCategories = async () => {
-        const { data } = await ProductsCategoriesServices.getCategories(this.productId);
-        const { product, categories } = data.data;
-        this.setState(state => {
-            state.product = product;
-            state.categories = categories;
-            return state;
-        });
+    getCategories = () => {
+        this.setState(
+            state => state.blocking = true,
+            async () => {
+                const { data } = await ProductsCategoriesServices.getCategories(this.state.productId);
+                const { product, categories } = data.data;
+                this.setState(state => {
+                    state.product = product;
+                    state.categories = categories;
+                    state.blocking = false;
+                    return state;
+                });
+            } 
+        );
     }
 
     showModalUnlink = (category) => {
@@ -60,6 +70,10 @@ class ProductsCategories extends Component {
                 this.notify.success('Sucesso ao desvincular a categoria.');
             }
         );
+    }
+
+    linkCategories = async (categories) => {
+        console.log(categories);
     }
 
     renderRows() {
@@ -104,7 +118,7 @@ class ProductsCategories extends Component {
     render() {
         const { product } = this.state;
         return (
-            <div className="row" id="no-more-tables">
+            <BlockUi tag="div" blocking={this.state.blocking} className="row" id="no-more-tables">
                 <h3>Categorias do produto {product.name}</h3>
                 <table className="table table-striped table-hover table-sm">
                     <thead>
@@ -130,7 +144,7 @@ class ProductsCategories extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                       {this.renderRows()} 
+                    {this.renderRows()} 
                     </tbody>
                 </table>
                 <ProductCategoryUnlinkModal 
@@ -141,8 +155,9 @@ class ProductsCategories extends Component {
                 <ProductCategoriesLinkModal 
                     modalId={LINK_MODAL_ID}
                     product={this.state.product}
+                    categories={this.state.categories}
                     handleClick={this.linkCategories} />
-            </div>
+            </BlockUi>
         );
     }
 }
