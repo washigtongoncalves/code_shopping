@@ -227,34 +227,18 @@ class Products extends Component {
                                     onClick={() => this.showModalEdit(product)}>
                                     <i className="fa fa-edit"></i>
                                 </button>
+                                <Link to={`/products/${product.id}/photos/list`}>
+                                    <button type="button" className="btn btn-sm btn-success btn-actions" 
+                                        title={`Gerenciar as fotos vinculadas ao produto ${product.name}`}>
+                                        <i className="fa fa-image"></i>
+                                    </button>
+                                </Link>
                                 <Link to={`/products/${product.id}/categories/list`}>
                                     <button type="button" className="btn btn-sm btn-success btn-actions" 
                                         title={`Configurar categorias vinculadas ao produto ${product.name}`}>
                                         <i className="fa fa-link"></i>
                                     </button>
                                 </Link>
-                                {/* &nbsp;
-                                <a [routerLink]="['/products', product.id, 'inputs', 'list']" 
-                                    title="Registrar entrada de produto {{product.name}}">
-                                    <i class="fas fa-plus-square"></i>
-                                </a>
-                                &nbsp;
-                                <a [routerLink]="['/products', product.id, 'outputs', 'list']" 
-                                    title="Registrar saída de produto {{product.name}}">
-                                    <i class="fas fa-minus-square"></i>
-                                </a>
-                                &nbsp;
-                                <a [routerLink]="['/products', product.id, 'categories', 'list']" 
-                                    title="Configurar categorias vinculadas ao produto {{product.name}}">
-                                    <i class="fas fa-box-open"></i>
-                                </a>
-                                &nbsp;
-                                <a [routerLink]="['/products', product.id, 'photos', 'list']" 
-                                    title="Gerenciar as fotos vinculadas ao produto {{product.name}}">
-                                    <i class="fas fa-images"></i>
-                                </a>
-                                &nbsp;
-                             */}
                                 <button type="button" className="btn btn-sm btn-danger btn-actions" 
                                     title={`Excluir o produto ${product.name}`}
                                     onClick={() => this.showModalDelete(product)}>
