@@ -16,6 +16,11 @@ class ProductsService {
         return api.get(url);
     }
 
+    static getAllProducts() {
+        let url = '/products?all=1&sort=+name';
+        return api.get(url);
+    }
+
     static restore(productId) {
         return api.patch(`/products/${productId}/restore?trashed=1`);
     }

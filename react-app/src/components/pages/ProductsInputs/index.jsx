@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import $ from 'jquery';
 
 import SortColumn from '../../template/SortColumn';
 import SearchForm from '../../template/SearchForm';
@@ -7,8 +8,9 @@ import { dateFormatBr } from '../../../functions/formater';
 
 import ProductsInputsService from '../../../services/ProductsInputsService';
 import NotifyMessageService from '../../../services/NotifyMessageService';
+import ProductInputModal from './ProductInputModal';
 
-const INITIAL_SATE = {
+const INITIAL_STATE = {
     inputs: [],
     sort: { 
         column: 'id',
@@ -17,17 +19,22 @@ const INITIAL_SATE = {
     search: '',
     pagination: {}
 };
-
+const NEW_INPUT_MODAL_ID = 'new-product-input-modal';
 class ProductsInputs extends Component {
 
     constructor(props) {
         super(props);
-        this.state  = INITIAL_SATE;
+        this.state  = INITIAL_STATE;
+        this.modalInput = null;
         this.notify = new NotifyMessageService();
     }
 
     componentWillMount = () => {
         this.getInputs();
+    }
+
+    componentDidMount = () => {
+        this.modalInput = $(`#${NEW_INPUT_MODAL_ID}`);
     }
 
     getInputs = async (paramns = {}) => {
@@ -59,6 +66,21 @@ class ProductsInputs extends Component {
         e.preventDefault();
         const search = this.state.search;
         this.getInputs({ page: 1, search});
+    }
+
+    showModalNewProductInput = () => {
+        this.modalInput.modal('show');
+    }
+
+    saveNewProductInput = data => {
+        ProductsInputsService.store(data.product_id, data)
+        .then(resp => {
+            this.modalInput.modal('hide');
+            this.getInputs();
+            this.notify.success('Entrada de produto registrada com sucesso.');
+        }, error => {
+            this.notify.error('Ocorreu um erro ao tentar registrar a entrada do produto.');
+        });
     }
     
     renderRows = () => {
@@ -99,7 +121,10 @@ class ProductsInputs extends Component {
                     <thead>
                         <tr>
                             <td colSpan="2">
-                                &nbsp;
+                                <button className="btn btn-primary" 
+                                    onClick={() => this.showModalNewProductInput()}>
+                                    Registrar Entrada
+                                </button>
                             </td>
                             <td colSpan="2">
                                 <SearchForm 
@@ -151,6 +176,9 @@ class ProductsInputs extends Component {
                         {...this.state.pagination} 
                         navigate={this.navigate} />
                 </div>
+                <ProductInputModal 
+                    modalId={NEW_INPUT_MODAL_ID}
+                    saveNewProductInput={this.saveNewProductInput} />
             </div>
         );
     }

@@ -13,5 +13,10 @@ class ProductsInputsService {
         }
         return api.get(url);
     }
+
+    static store(productId, data) {
+        let url = `/products/${productId}/inputs`;
+        return api.post(url, data);
+    }
 }
 export default ProductsInputsService;
