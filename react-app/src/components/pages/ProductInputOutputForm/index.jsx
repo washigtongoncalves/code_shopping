@@ -1,10 +1,10 @@
 import React, { Fragment, Component } from 'react';
-import ProductsService from '../../../../services/ProductsService';
+import ProductsService from '../../../services/ProductsService';
 
 const INITIAL_STATE = {
     allProducts: []
 };
-class ProductInputForm extends Component {
+class ProductInputOutputForm extends Component {
 
     constructor(props) {
         super(props);
@@ -26,19 +26,19 @@ class ProductInputForm extends Component {
 
     render() {
         const { allProducts } = this.state;
-        const { productInput, amountInput } = this.props;
+        const { product, amount } = this.props;
         return (
             <Fragment>
                 <div className="form-group">
                     <label htmlFor="product">
                         Produto
                     </label>
-                    <select className="form-control" ref={productInput}>
-                        {allProducts && allProducts.map((product, index) => (
+                    <select className="form-control" ref={product}>
+                        {allProducts && allProducts.map((p, index) => (
                             <option 
-                                value={product.id} 
-                                key={product.id}>
-                                {product.name}
+                                value={p.id} 
+                                key={p.id}>
+                                {p.name}
                             </option>
                         ))}
                     </select>
@@ -52,10 +52,10 @@ class ProductInputForm extends Component {
                         min="1" 
                         step="1"
                         defaultValue="1"
-                        ref={amountInput} />
+                        ref={amount} />
                 </div>
             </Fragment>
         );
     }
 }
-export default ProductInputForm;
+export default ProductInputOutputForm;

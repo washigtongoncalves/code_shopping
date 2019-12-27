@@ -1,7 +1,7 @@
 import React, { Fragment, Component } from 'react';
 
 import Modal from '../../../template/Modal';
-import ProductInputForm from '../ProductInputForm';
+import ProductInputOutputForm from '../../ProductInputOutputForm';
 
 function ModalFooter(props) {
     return (
@@ -43,9 +43,9 @@ class ProductInputModal extends Component {
                     modalId={modalId} 
                     title="Registrar entrada de produto"
                     body={
-                        <ProductInputForm
-                            productInput={this.productInput}
-                            amountInput={this.amountInput} />
+                        <ProductInputOutputForm
+                            product={this.productInput}
+                            amount={this.amountInput} />
                     }
                     footer={
                         <ModalFooter />
