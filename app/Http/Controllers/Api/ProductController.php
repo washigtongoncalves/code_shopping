@@ -20,7 +20,7 @@ class ProductController extends Controller
         $query  = Product::query(); 
         $query  = $this->onlyTrashedIfRequested($query);
         $filterQuery = $query->filtered($filter);
-        $products = $filter->hasFilterParameter() ? $filterQuery->get() : $filterQuery->paginate(10);
+        $products = $filter->hasFilterParameter() || $request->has('all') ? $filterQuery->get() : $filterQuery->paginate(10);
         return ProductResource::collection($products);
     }
 
