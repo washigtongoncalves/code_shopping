@@ -13,5 +13,10 @@ class ProductsOutputsService {
         }
         return api.get(url);
     }
+
+    static store(productId, data) {
+        let url = `/products/${productId}/outputs`;
+        return api.post(url, data);
+    }
 }
 export default ProductsOutputsService;

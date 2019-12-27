@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import $ from 'jquery';
 
 import SortColumn from '../../template/SortColumn';
 import SearchForm from '../../template/SearchForm';
@@ -7,8 +8,9 @@ import { dateFormatBr } from '../../../functions/formater';
 
 import ProductsOutputsService from '../../../services/ProductsOutputsService';
 import NotifyMessageService from '../../../services/NotifyMessageService';
+import ProductOutputModal from './ProductOutputModal';
 
-const INITIAL_SATE = {
+const INITIAL_STATE = {
     outputs: [],
     sort: { 
         column: 'id',
@@ -17,17 +19,22 @@ const INITIAL_SATE = {
     search: '',
     pagination: {}
 };
-
+const NEW_OUTPUT_MODAL_ID = 'new-product-output-modal';
 class ProductsOutputs extends Component {
 
     constructor(props) {
         super(props);
-        this.state  = INITIAL_SATE;
+        this.state  = INITIAL_STATE;
+        this.modalOutput = null;
         this.notify = new NotifyMessageService();
     }
 
     componentWillMount = () => {
         this.getOutputs();
+    }
+
+    componentDidMount = () => {
+        this.modalOutput = $(`#${NEW_OUTPUT_MODAL_ID}`);
     }
 
     getOutputs = async (paramns = {}) => {
@@ -59,6 +66,21 @@ class ProductsOutputs extends Component {
         e.preventDefault();
         const search = this.state.search;
         this.getOutputs({ page: 1, search});
+    }
+
+    showModalNewProductOutput = () => {
+        this.modalOutput.modal('show');
+    }
+
+    saveNewProductOutput = data => {
+        ProductsOutputsService.store(data.product_id, data)
+        .then(resp => {
+            this.modalOutput.modal('hide');
+            this.getOutputs();
+            this.notify.success('Saída de produto registrada com sucesso.');
+        }, error => {
+            this.notify.error('Ocorreu um erro ao tentar registrar a saída do produto.');
+        });
     }
     
     renderRows = () => {
@@ -99,7 +121,10 @@ class ProductsOutputs extends Component {
                     <thead>
                         <tr>
                             <td colSpan="2">
-                                &nbsp;
+                                <button className="btn btn-primary" 
+                                    onClick={() => this.showModalNewProductOutput()}>
+                                    Registrar Saída
+                                </button>
                             </td>
                             <td colSpan="2">
                                 <SearchForm 
@@ -151,6 +176,9 @@ class ProductsOutputs extends Component {
                         {...this.state.pagination} 
                         navigate={this.navigate} />
                 </div>
+                <ProductOutputModal 
+                    modalId={NEW_OUTPUT_MODAL_ID}
+                    saveNewProductOutput={this.saveNewProductOutput} />
             </div>
         );
     }
