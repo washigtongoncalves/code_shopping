@@ -21,34 +21,31 @@ function ModalFooter(props) {
     );
 }
 
-const INITIAL_STATE = {
-    selectedCategories: []
-};
 class ProductCategoriesLinkModal extends Component {
 
     constructor(props) {
         super(props);
-        this.state = INITIAL_STATE;
-    }
-
-    syncState = (s) => {
-        this.setState(state => state.selectedCategories = s.selectedCategories);
+        this.input = React.createRef();
     }
 
     handleClick = () => {
-        this.props.handleClick(this.state.selectedCategories);
+        const selectedCategories = [];
+        const selected = this.input.current.selectedOptions;
+        Array.from(selected).forEach(element => selectedCategories.push(element.value));
+        if (selectedCategories.length) {
+            this.props.handleClick(selectedCategories);
+        }
     }
 
     render() {
-        const { product, categories } = this.props;
+        const { product } = this.props;
         return (
             <Modal
                 modalId={this.props.modalId} 
                 title={`Vincular categorias ao produto ${product ? product.name : ''}`}
                 body={
                     <CategoriesCombobox 
-                        selectedCategories={categories}
-                        syncState={this.syncState} />
+                        input={this.input} />
                 }
                 footer={
                     <ModalFooter 

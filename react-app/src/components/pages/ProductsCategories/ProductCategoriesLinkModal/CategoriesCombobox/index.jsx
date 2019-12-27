@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 import CategoriesService from '../../../../../services/CategoriesService';
 
 const INITIAL_STATE = {
-    allCategories: [],
-    selectedCategories: []
+    allCategories: []
 };
 class CategoriesCombobox extends Component {
 
@@ -17,18 +16,6 @@ class CategoriesCombobox extends Component {
         this.getAllCategories();
     }
 
-    componentDidUpdate() {
-        if (
-            this.state.selectedCategories.length === 0 && 
-            this.props.selectedCategories.length > 0
-        ) {
-            const selectedCategories = this.props.selectedCategories.map((category, index) => {
-                return category.id;
-            });
-            this.setState(state => state.selectedCategories = selectedCategories);
-        }
-    }
-
     getAllCategories = async() => {
         const { data } = await CategoriesService.getAllCategories();
         const allCategories = data.data;
@@ -38,32 +25,20 @@ class CategoriesCombobox extends Component {
         });
     }
 
-    handleChange = (event) => {
-        const category = Number(event.target.value);
-        this.setState(state => {
-            if (!state.selectedCategories.includes(category)) {
-                state.selectedCategories.push(category);
-            }
-            this.props.syncState(state); // Envia o estado para o componente pai
-            return state;
-        });
-    }
-
     render() {
-        const { allCategories, selectedCategories } = this.state;
+        const { allCategories } = this.state;
+        const { input } = this.props;
         return (
-            <select name="categories[]"  
-                className="form-control"
-                multiple={true}
-                value={selectedCategories}
-                onChange={this.handleChange}>
-                    {allCategories && allCategories.map((category, index) => (
-                        <option 
-                            value={category.id} 
-                            key={category.id}>
-                            {category.name}
-                        </option>
-                    ))}
+            <select className="form-control" 
+                multiple={true} 
+                ref={input}> 
+                {allCategories && allCategories.map((category, index) => (
+                    <option 
+                        value={category.id} 
+                        key={category.id}>
+                        {category.name}
+                    </option>
+                ))}
             </select>
         );
     }
