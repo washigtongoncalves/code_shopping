@@ -6,7 +6,7 @@ function PhotoCard(props) {
         <div className="card text-center" 
              style={{ width: '18rem' }}>
                 <img className="card-img-top" 
-                    src={photo.photo_url} 
+                    src={photo.photo_url}
                     alt={`Foto não carregada`} />
                 <div className="card-body">
                     <button className="btn btn-sm btn-danger" 

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import BlockUi from 'react-block-ui';
 import 'react-block-ui/style.css';
 import $ from 'jquery';
@@ -70,29 +69,42 @@ class ProductsPhotos extends Component {
         );
     }
 
+    uploadPhotos = (e) => {
+        const files = e.target.files;
+        if (files.length) {
+            ProductsPhotosService.create(this.state.productId, files).then(() => {
+                this.getPhotos();
+                this.notify.success('Fotos cadastradas com sucesso.');
+                $('#photo').val('');
+            });
+        }
+    }
+
     render() {
         const { product } = this.state;
         return (
             <BlockUi tag="div" blocking={this.state.blocking} className="row" id="no-more-tables">
                 <h3>Fotos do produto {product.name}</h3>
-                <div className="col-md-12" style={{ marginBottom: '10px' }}>
-                    <button className="btn btn-primary" 
-                        onClick={() => this.modalLink.modal('show')}>
-                        Enviar foto
-                    </button>
-                    <Link to="/products/list">
-                        <button className="btn">
-                            Voltar
-                        </button>
-                    </Link>
+                <div className="col-md-12 form-group" style={{ marginBottom: '10px' }}>
+                    <label htmlFor="photo">
+                        Subir foto
+                    </label>
+                    <input type="file" 
+                        className="form-control-file" 
+                        id="photo" 
+                        multiple
+                        onChange={this.uploadPhotos} />
                 </div>
                 <div className="col-md-12">
-                    {this.state.photos.map(photo => (
-                        <PhotoCard 
-                            photo={photo} 
-                            key={photo.id}
-                            handleClick={this.showModalDelete} />
-                    ))}
+                    <div className="row">
+                        {this.state.photos.map(photo => (
+                            <div className="col" key={photo.id}>
+                                <PhotoCard 
+                                    photo={photo} 
+                                    handleClick={this.showModalDelete} />
+                            </div>
+                        ))}
+                    </div>
                 </div>
                 <PhotoDeleteModal 
                     modalId={DELETE_MODAL_ID}
