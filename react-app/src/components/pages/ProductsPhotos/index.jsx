@@ -86,25 +86,31 @@ class ProductsPhotos extends Component {
             <BlockUi tag="div" blocking={this.state.blocking} className="row" id="no-more-tables">
                 <h3>Fotos do produto {product.name}</h3>
                 <div className="col-md-12 form-group" style={{ marginBottom: '10px' }}>
-                    <label htmlFor="photo">
-                        Subir foto
-                    </label>
-                    <input type="file" 
-                        className="form-control-file" 
-                        id="photo" 
-                        multiple
-                        onChange={this.uploadPhotos} />
+                    <div className="input-group mb-3">
+                        <div className="input-group-prepend">
+                            <span className="input-group-text" id="inputGroupFileAddon01">
+                                Subir foto
+                            </span>
+                        </div>
+                        <div className="custom-file">
+                            <input type="file" 
+                                className="custom-file-input" 
+                                id="photo" 
+                                multiple
+                                onChange={this.uploadPhotos} />
+                            <label className="custom-file-label" htmlFor="inputGroupFile01">
+                                Selecione fotos
+                            </label>
+                        </div>
+                    </div>
                 </div>
                 <div className="col-md-12">
-                    <div className="row">
-                        {this.state.photos.map(photo => (
-                            <div className="col" key={photo.id}>
-                                <PhotoCard 
-                                    photo={photo} 
-                                    handleClick={this.showModalDelete} />
-                            </div>
-                        ))}
-                    </div>
+                    {this.state.photos.map(photo => (
+                        <PhotoCard 
+                            photo={photo}
+                            key={photo.id} 
+                            handleClick={this.showModalDelete} />
+                    ))}
                 </div>
                 <PhotoDeleteModal 
                     modalId={DELETE_MODAL_ID}
