@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import BlockUi from 'react-block-ui';
 import 'react-block-ui/style.css';
 import $ from 'jquery';
@@ -83,34 +84,49 @@ class ProductsPhotos extends Component {
     render() {
         const { product } = this.state;
         return (
-            <BlockUi tag="div" blocking={this.state.blocking} className="row" id="no-more-tables">
+            <BlockUi tag="div" blocking={this.state.blocking} id="no-more-tables">
                 <h3>Fotos do produto {product.name}</h3>
-                <div className="col-md-12" style={{ marginBottom: '10px' }}>
-                    <div className="input-group mb-3">
-                        <div className="input-group-prepend">
-                            <span className="input-group-text">
-                                Subir foto
-                            </span>
+                <div className="row">
+                    <div className="col-md-6" style={{ marginBottom: '10px' }}>
+                        <div className="alert alert-info">
+                            <p>
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+                                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+                                when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
+                                It has survived not only five centuries, but also the leap into electronic typesetting ...
+                            </p>
                         </div>
-                        <div className="custom-file">
-                            <input type="file" 
-                                className="custom-file-input" 
-                                id="photo" 
-                                multiple
-                                onChange={this.uploadPhotos} />
-                            <label className="custom-file-label" htmlFor="photo">
-                                Selecione fotos
-                            </label>
+                        <div className="input-group mb-3">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text">
+                                    Subir foto
+                                </span>
+                            </div>
+                            <div className="custom-file">
+                                <input type="file" 
+                                    className="custom-file-input" 
+                                    id="photo" 
+                                    multiple
+                                    onChange={this.uploadPhotos} />
+                                <label className="custom-file-label" htmlFor="photo">
+                                    Selecione fotos
+                                </label>
+                            </div>
                         </div>
+                        <Link to="/products/list">
+                            <button className="btn">
+                                Voltar
+                            </button>
+                        </Link>
                     </div>
-                </div>
-                <div className="col-md-12">
-                    {this.state.photos.map(photo => (
-                        <PhotoCard 
-                            photo={photo}
-                            key={photo.id} 
-                            handleClick={this.showModalDelete} />
-                    ))}
+                    <div className="col-md-6">
+                        {this.state.photos.map(photo => (
+                            <PhotoCard 
+                                photo={photo}
+                                key={photo.id} 
+                                handleClick={this.showModalDelete} />
+                        ))}
+                    </div>
                 </div>
                 <PhotoDeleteModal 
                     modalId={DELETE_MODAL_ID}
