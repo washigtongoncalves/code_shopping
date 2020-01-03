@@ -85,10 +85,10 @@ class ProductsPhotos extends Component {
         return (
             <BlockUi tag="div" blocking={this.state.blocking} className="row" id="no-more-tables">
                 <h3>Fotos do produto {product.name}</h3>
-                <div className="col-md-12 form-group" style={{ marginBottom: '10px' }}>
+                <div className="col-md-12" style={{ marginBottom: '10px' }}>
                     <div className="input-group mb-3">
                         <div className="input-group-prepend">
-                            <span className="input-group-text" id="inputGroupFileAddon01">
+                            <span className="input-group-text">
                                 Subir foto
                             </span>
                         </div>
@@ -98,7 +98,7 @@ class ProductsPhotos extends Component {
                                 id="photo" 
                                 multiple
                                 onChange={this.uploadPhotos} />
-                            <label className="custom-file-label" htmlFor="inputGroupFile01">
+                            <label className="custom-file-label" htmlFor="photo">
                                 Selecione fotos
                             </label>
                         </div>
