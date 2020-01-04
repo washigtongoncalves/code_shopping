@@ -7,6 +7,7 @@ function SearchForm(props) {
                 <input type="search" 
                     className="form-control" 
                     name="search" 
+                    value={props.term}
                     placeholder="Digite sua busca"
                     onChange={props.handleChange} />
             </div>

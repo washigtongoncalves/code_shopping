@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import $ from 'jquery';
 
 import SortColumn from '../../template/SortColumn';
@@ -6,37 +8,35 @@ import SearchForm from '../../template/SearchForm';
 import PaginationControls from '../../template/PaginationControls';
 import CategoryDeleteModal from './CategoryDeleteModal';
 import CategoryEditModal from './CategoryEditModal';
-import { dateFormatBr } from '../../../functions/formater';
 
 import CategoriesService from '../../../services/CategoriesService';
 import NotifyMessageService from '../../../services/NotifyMessageService';
 
-const INITIAL_SATE = {
-    categories: [],
+import { dateFormatBr } from '../../../functions/formater';
+import * as categoriesActions from '../../../actions/categories';
+
+const INITIAL_STATE = {
     categoryToDelete: null,
-    categoryToEdit: null,
-    sort: { 
-        column: 'id',
-        order: 'ASC' 
-    },
-    search: '',
-    pagination: {}
+    categoryToEdit: null
 };
 const DELETE_MODAL_ID = 'category-delete-modal';
 const EDIT_MODAL_ID   = 'category-edit-modal';
 const FORM_EDIT_ID    = 'category-edit-form';
-
 class Categories extends Component {
 
     constructor(props) {
         super(props);
-        this.state = INITIAL_SATE;
+        this.state = INITIAL_STATE;
         this.modalDelete = this.modalEdit = this.formEdit = null;
         this.notify = new NotifyMessageService();
     }
 
     componentWillMount = () => {
-        this.getCategories();
+        this.props.getCategories({ 
+            page: 1, 
+            sort:   this.props.sort, 
+            search: this.props.search 
+        });
     }
 
     componentDidMount = () => {
@@ -45,42 +45,45 @@ class Categories extends Component {
         this.formEdit    = $(`#${FORM_EDIT_ID}`);
     }
 
-    getCategories = async (paramns = {}) => {
-        const { data }   = await CategoriesService.list(paramns);
-        const categories = data.data;
-        const pagination = data.meta;
-        this.setState(state => { 
-            state.categories = categories;
-            state.pagination = pagination;
-            return state;
+    sortChange = (sort) => {
+        this.props.sortChange(sort);
+        this.props.getCategories({ 
+            page: 1, 
+            sort, 
+            search: this.props.search 
         });
     }
 
-    sortChange = (sort) => {
-        this.setState(state => state.sort = sort);
-        this.getCategories({ page: 1, sort, search: this.state.search });
-    }
-
     navigate = (page) => {
-        this.getCategories({ page });
+        this.props.getCategories({ 
+            page, 
+            sort:   this.props.sort, 
+            search: this.props.search 
+        });
     }
 
     handleChange = (e) => {
-        const search = e.target.value;
-        this.setState(state => state.search = search);
+        this.props.changeSearchTerm(e.target.value);
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const search = this.state.search;
-        this.getCategories({ page: 1, search});
+        this.props.getCategories({ 
+            page: 1, 
+            sort:   this.props.sort, 
+            search: this.props.search
+        });
     }
 
     deleteCategory = async (category) => {
         await CategoriesService.delete(category.id);
         this.modalDelete.modal('hide');
         this.setState(state => state.categoryToDelete = null);
-        this.getCategories();
+        this.props.getCategories({ 
+            page: 1, 
+            sort:   this.props.sort, 
+            search: this.props.search
+        });
         this.notify.success(`Categoria ${category.name} excluída com sucesso.`);
     }
 
@@ -101,7 +104,11 @@ class Categories extends Component {
         .then(resp => {
             this.modalEdit.modal('hide');
             this.setState(state => state.categoryToEdit = null);
-            this.getCategories();
+            this.props.getCategories({ 
+                page: 1, 
+                sort:   this.props.sort, 
+                search: this.props.search
+            });
             this.notify.success(`Categoria ${category.name} salva com sucesso.`);
         }, error => {
             this.notify.error(`Ocorreu um erro ao tentar salvar a categoria ${category.name}.`);
@@ -127,7 +134,7 @@ class Categories extends Component {
 
     renderRows = () => {
 
-        if (!this.state.categories.length) {
+        if (!this.props.categories.length) {
             return (
                 <tr key={0}>
                     <td colSpan="5">
@@ -137,7 +144,7 @@ class Categories extends Component {
             );
         }
 
-        return this.state.categories.map(category => (
+        return this.props.categories.map(category => (
             <tr key={category.id}>
                 <td data-title="ID:">
                     {category.id}
@@ -182,6 +189,7 @@ class Categories extends Component {
                             </td>
                             <td colSpan="2">
                                 <SearchForm 
+                                    term={this.props.search}
                                     handleChange={this.handleChange}
                                     handleSubmit={this.handleSubmit} />
                             </td>
@@ -190,7 +198,7 @@ class Categories extends Component {
                             <th style={{ width: "5%" }}>
                                 <SortColumn 
                                     column="id"
-                                    showIcon={this.state.sort.column === "id"} 
+                                    showIcon={this.props.sort.column === "id"} 
                                     sortChange={this.sortChange}>
                                     ID
                                 </SortColumn>
@@ -199,7 +207,7 @@ class Categories extends Component {
                                 <SortColumn 
                                     column="name" 
                                     sortChange={this.sortChange}
-                                    showIcon={this.state.sort.column === "name"}>
+                                    showIcon={this.props.sort.column === "name"}>
                                     Nome
                                 </SortColumn>
                             </th>
@@ -207,7 +215,7 @@ class Categories extends Component {
                             <th style={{ width: "15%" }}>
                                 <SortColumn 
                                     column="created_at"
-                                    showIcon={this.state.sort.column === "created_at"} 
+                                    showIcon={this.props.sort.column === "created_at"} 
                                     sortChange={this.sortChange}>
                                     Criada em
                                 </SortColumn>
@@ -221,7 +229,7 @@ class Categories extends Component {
                 </table>
                 <div style={{ width: "100%" }}>
                     <PaginationControls
-                        {...this.state.pagination} 
+                        {...this.props.pagination} 
                         navigate={this.navigate} />
                 </div>
                 <CategoryDeleteModal 
@@ -238,4 +246,7 @@ class Categories extends Component {
         );
     }
 }
-export default Categories;
+
+const mapDispatchToProps = dispatch => bindActionCreators(categoriesActions, dispatch);
+const mapStateToProps = state => state.categories;
+export default connect(mapStateToProps, mapDispatchToProps)(Categories);
