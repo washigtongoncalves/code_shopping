@@ -1,30 +1,26 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import $ from 'jquery';
 
 import SortColumn from '../../template/SortColumn';
 import SearchForm from '../../template/SearchForm';
 import PaginationControls from '../../template/PaginationControls';
-import NotifyMessageService from '../../../services/NotifyMessageService';
-import ProductsService from '../../../services/ProductsService';
 import ProductDeleteModal from './ProductDeleteModal';
 import ProductRestoreModal from './ProductRestoreModal';
 import ProductEditModal from './ProductEditModal';
+
+import NotifyMessageService from '../../../services/NotifyMessageService';
+import ProductsService from '../../../services/ProductsService';
+
 import { dateFormatBr, numberFormatBr } from '../../../functions/formater';
+import * as productsActions from '../../../actions/products';
 
 const INITIAL_STATE = {
-    products: [],
     productToDelete: null,
     productToEdit: null,
-    productToRestore: null,
-    page: 1,
-    onlyTrashed: 0,
-    sort: { 
-        column: 'id',
-        order: 'ASC' 
-    },
-    search: '',
-    pagination: {}
+    productToRestore: null
 };
 const DELETE_MODAL_ID  = 'product-delete-modal';
 const EDIT_MODAL_ID    = 'product-edit-modal';
@@ -40,7 +36,12 @@ class Products extends Component {
     }
 
     componentWillMount = () => {
-        this.getProducts();
+        this.props.getProducts({ 
+            page: 1, 
+            sort:   this.props.sort, 
+            search: this.props.search,
+            onlyTrashed: this.props.onlyTrashed 
+        });
     }
 
     componentDidMount = () => {
@@ -50,50 +51,48 @@ class Products extends Component {
         this.formEdit     = $(`#${FORM_EDIT_ID}`);
     }
 
-    getProducts = async () => {
-        const params = {
-            page: this.state.page,
-            sort: this.state.sort,
-            search: this.state.search,
-            onlyTrashed: this.state.onlyTrashed
-        }; 
-        const { data } = await ProductsService.list(params);
-        const products = data.data;
-        const pagination = data.meta;
-        this.setState(state => { 
-            state.products = products;
-            state.pagination = pagination;
-            return state;
+    sortChange = (sort) => {
+        this.props.sortChange(sort);
+        this.props.getProducts({ 
+            page: 1, 
+            sort, 
+            search: this.props.search,
+            onlyTrashed: this.props.onlyTrashed 
         });
     }
 
-    sortChange = (sort) => {
-        this.setState(state => state.sort = sort);
-        this.getProducts();
-    }
-
     navigate = (page = 1) => {
-        this.setState(state => state.page = page);
-        this.getProducts();
+        this.props.getProducts({ 
+            page, 
+            sort:   this.props.sort, 
+            search: this.props.search,
+            onlyTrashed: this.props.onlyTrashed 
+        });
     }
 
     handleChange = (e) => {
-        const search = e.target.value;
-        this.setState(state => state.search = search);
+        this.props.changeSearchTerm(e.target.value);
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.setState(state => state.page = 1);
-        this.getProducts();
+        this.props.getProducts({ 
+            page:   1, 
+            sort:   this.props.sort, 
+            search: this.props.search,
+            onlyTrashed: this.props.onlyTrashed 
+        });
     }
 
     changeOnlyTrashed = () => {
-        const onlyTrashed = !this.state.onlyTrashed;
-        this.setState(state => {
-            state.onlyTrashed = onlyTrashed;
-            return state;
-        }, this.getProducts);
+        const onlyTrashed  = !this.props.onlyTrashed;
+        this.props.changeOnlyTrashed(onlyTrashed);
+        this.props.getProducts({ 
+            page:   1, 
+            sort:   this.props.sort, 
+            search: this.props.search,
+            onlyTrashed 
+        });
     }
 
     deleteProduct = async (product) => {
@@ -102,7 +101,12 @@ class Products extends Component {
         this.setState(
             state => state.productToDelete = null,
             () => {
-                this.getProducts();
+                this.props.getProducts({ 
+                    page:   1, 
+                    sort:   this.props.sort, 
+                    search: this.props.search,
+                    onlyTrashed: this.props.onlyTrashed 
+                });
                 this.notify.success(`Produto ${product.name} excluído com sucesso.`);
             }
         );
@@ -128,7 +132,12 @@ class Products extends Component {
         this.setState(
             state => state.productToRestore = null,
             () => {
-                this.getProducts();
+                this.props.getProducts({ 
+                    page:   1, 
+                    sort:   this.props.sort, 
+                    search: this.props.search,
+                    onlyTrashed: this.props.onlyTrashed 
+                });
                 this.notify.success(`Produto ${product.name} restaurado com sucesso.`);
             }
         );
@@ -150,7 +159,12 @@ class Products extends Component {
             this.setState(
                 state => state.productToEdit = null,
                 () => {
-                    this.getProducts();
+                    this.props.getProducts({ 
+                        page:   1, 
+                        sort:   this.props.sort, 
+                        search: this.props.search,
+                        onlyTrashed: this.props.onlyTrashed 
+                    });
                     this.notify.success(`Produto ${product.name} salvo com sucesso.`);
                 }
             );
@@ -178,7 +192,7 @@ class Products extends Component {
 
     renderRows = () => {
 
-        if (!this.state.products.length) {
+        if (!this.props.products.length) {
             return (
                 <tr key={0}>
                     <td colSpan="7">
@@ -188,7 +202,7 @@ class Products extends Component {
             );
         }
 
-        return this.state.products.map(product => (
+        return this.props.products.map(product => (
             <tr key={product.id}>
                 <td data-title="ID:">
                     {product.id}
@@ -214,7 +228,7 @@ class Products extends Component {
                 </td>
                 <td data-title="Ações: ">
                     <span className="float-lg-right float-xl-right">
-                        {this.state.onlyTrashed ? (
+                        {this.props.onlyTrashed ? (
                             <button type="button" className="btn btn-sm btn-primary btn-actions"
                                 title="Restaurar produto"
                                 onClick={() => this.showModalRestore(product)}>
@@ -266,12 +280,18 @@ class Products extends Component {
                                 </button>
                                 &nbsp;
                                 <label>
-                                    <input type="checkbox" name="active" onChange={this.changeOnlyTrashed} />
+                                    <input 
+                                        type="checkbox" 
+                                        name="active"
+                                        checked={this.props.onlyTrashed} 
+                                        onChange={this.changeOnlyTrashed} 
+                                    />
                                     &nbsp;Somente excluídos?
                                 </label>
                             </td>
                             <td colSpan="2">
-                                <SearchForm 
+                                <SearchForm
+                                    term={this.props.search} 
                                     handleChange={this.handleChange}
                                     handleSubmit={this.handleSubmit} />
                             </td>
@@ -280,7 +300,7 @@ class Products extends Component {
                             <th style={{ width: "5%" }}>
                                 <SortColumn 
                                     column="id"
-                                    showIcon={this.state.sort.column === "id"} 
+                                    showIcon={this.props.sort.column === "id"} 
                                     sortChange={this.sortChange}>
                                     ID
                                 </SortColumn>
@@ -288,7 +308,7 @@ class Products extends Component {
                             <th style={{ width: "35%" }}>
                                 <SortColumn 
                                     column="name"
-                                    showIcon={this.state.sort.column === "name"} 
+                                    showIcon={this.props.sort.column === "name"} 
                                     sortChange={this.sortChange}>
                                     Nome
                                 </SortColumn>
@@ -297,7 +317,7 @@ class Products extends Component {
                             <th style={{ width: "10%" }}>
                                 <SortColumn 
                                     column="created_at"
-                                    showIcon={this.state.sort.column === "created_at"} 
+                                    showIcon={this.props.sort.column === "created_at"} 
                                     sortChange={this.sortChange}>
                                     Criado em
                                 </SortColumn>
@@ -306,7 +326,7 @@ class Products extends Component {
                                 <span className="float-lg-right float-xl-right">
                                     <SortColumn 
                                         column="stock"
-                                        showIcon={this.state.sort.column === "stock"} 
+                                        showIcon={this.props.sort.column === "stock"} 
                                         sortChange={this.sortChange}>
                                         Estoque
                                     </SortColumn>
@@ -316,7 +336,7 @@ class Products extends Component {
                                 <span className="float-lg-right float-xl-right">
                                     <SortColumn 
                                         column="price"
-                                        showIcon={this.state.sort.column === "price"} 
+                                        showIcon={this.props.sort.column === "price"} 
                                         sortChange={this.sortChange}>
                                         Preço
                                     </SortColumn>
@@ -335,7 +355,7 @@ class Products extends Component {
                 </table>
                 <div style={{ width: "100%" }}>
                     <PaginationControls
-                        {...this.state.pagination} 
+                        {...this.props.pagination} 
                         navigate={this.navigate} />
                 </div>
                 <ProductDeleteModal 
@@ -356,4 +376,7 @@ class Products extends Component {
         );
     }
 }
-export default Products;
+
+const mapDispatchToProps = dispatch => bindActionCreators(productsActions, dispatch);
+const mapStateToProps = state => state.products;
+export default connect(mapStateToProps, mapDispatchToProps)(Products);
