@@ -126,6 +126,13 @@ class Products extends Component {
         );
     }
 
+    showModalEdit = (product = {}) => {
+        this.setState(
+            state => state.productToEdit = product,
+            () => this.modalEdit.modal('show')
+        );
+    }
+
     restoreProduct = async (product) => {
         await ProductsService.restore(product.id);
         this.modalRestore.modal('hide');
@@ -140,13 +147,6 @@ class Products extends Component {
                 });
                 this.notify.success(`Produto ${product.name} restaurado com sucesso.`);
             }
-        );
-    }
-
-    showModalEdit = (product = {}) => {
-        this.setState(
-            state => state.productToEdit = product,
-            () => this.modalEdit.modal('show')
         );
     }
 

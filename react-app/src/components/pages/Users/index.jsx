@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import $ from 'jquery';
 
 import SortColumn from '../../template/SortColumn';
@@ -7,30 +9,22 @@ import PaginationControls from '../../template/PaginationControls';
 import UserDeleteModal from './UserDeleteModal';
 import UserEditModal from './UserEditModal';
 import UserRestoreModal from './UserRestoreModal';
-import { dateFormatBr } from '../../../functions/formater';
 
 import UsersService from '../../../services/UsersService';
 import NotifyMessageService from '../../../services/NotifyMessageService';
 
+import { dateFormatBr } from '../../../functions/formater';
+import * as usersActions from '../../../actions/users';
+
 const INITIAL_STATE = {
-    users: [],
     userToDelete: null,
     userToEdit: null,
-    userToRestore: null,
-    page: 1,
-    onlyTrashed: 0,
-    sort: { 
-        column: 'id',
-        order: 'ASC' 
-    },
-    search: '',
-    pagination: {}
+    userToRestore: null
 };
 const DELETE_MODAL_ID  = 'user-delete-modal';
 const EDIT_MODAL_ID    = 'user-edit-modal';
 const RESTORE_MODAL_ID = 'user-restore-modal';
 const FORM_EDIT_ID     = 'user-edit-form';
-
 class Users extends Component {
 
     constructor(props) {
@@ -41,7 +35,12 @@ class Users extends Component {
     }
 
     componentWillMount = () => {
-        this.getUsers();
+        this.props.getUsers({ 
+            page: 1, 
+            sort:   this.props.sort, 
+            search: this.props.search,
+            onlyTrashed: this.props.onlyTrashed 
+        });
     }
 
     componentDidMount = () => {
@@ -51,48 +50,48 @@ class Users extends Component {
         this.formEdit     = $(`#${FORM_EDIT_ID}`);
     }
 
-    getUsers = async () => {
-        const params = {
-            page: this.state.page,
-            sort: this.state.sort,
-            search: this.state.search,
-            onlyTrashed: this.state.onlyTrashed
-        }; 
-        const { data } = await UsersService.list(params);
-        const users = data.data;
-        const pagination = data.meta;
-        this.setState(state => { 
-            state.users = users;
-            state.pagination = pagination;
-            return state;
+    sortChange = (sort) => {
+        this.props.sortChange(sort);
+        this.props.getUsers({ 
+            page: 1, 
+            sort, 
+            search: this.props.search,
+            onlyTrashed: this.props.onlyTrashed 
         });
     }
 
-    sortChange = (sort) => {
-        this.setState(
-            state => state.sort = sort,
-            this.getUsers
-        );
-    }
-
     navigate = (page = 1) => {
-        this.setState(
-            state => state.page = page,
-            this.getUsers
-        );
+        this.props.getUsers({ 
+            page, 
+            sort:   this.props.sort, 
+            search: this.props.search,
+            onlyTrashed: this.props.onlyTrashed 
+        });
     }
 
     handleChange = (e) => {
-        const search = e.target.value;
-        this.setState(state => state.search = search);
+        this.props.changeSearchTerm(e.target.value);
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.setState(
-            state => state.page = 1,
-            this.getUsers
-        );
+        this.props.getUsers({ 
+            page:   1, 
+            sort:   this.props.sort, 
+            search: this.props.search,
+            onlyTrashed: this.props.onlyTrashed 
+        });
+    }
+
+    changeOnlyTrashed = () => {
+        const onlyTrashed  = !this.props.onlyTrashed;
+        this.props.changeOnlyTrashed(onlyTrashed);
+        this.props.getUsers({ 
+            page:   1, 
+            sort:   this.props.sort, 
+            search: this.props.search,
+            onlyTrashed 
+        });
     }
 
     deleteUser = async (user) => {
@@ -101,7 +100,12 @@ class Users extends Component {
         this.setState(
             state => state.userToDelete = null,
             () => {
-                this.getUsers();
+                this.props.getUsers({ 
+                    page:   1, 
+                    sort:   this.props.sort, 
+                    search: this.props.search,
+                    onlyTrashed: this.props.onlyTrashed 
+                });
                 this.notify.success(`Usuário ${user.name} excluído com sucesso.`);
             }
         );
@@ -114,17 +118,17 @@ class Users extends Component {
         );
     }
 
-    showModalEdit = (user = {}) => {
-        this.setState(
-            state => state.userToEdit = user,
-            () => this.modalEdit.modal('show')
-        );
-    }
-
     showModalRestore = (user) => {
         this.setState(
             state => state.userToRestore = user,
             () => this.modalRestore.modal('show') 
+        );
+    }
+
+    showModalEdit = (user = {}) => {
+        this.setState(
+            state => state.userToEdit = user,
+            () => this.modalEdit.modal('show')
         );
     }
 
@@ -134,7 +138,12 @@ class Users extends Component {
         this.setState(
             state => state.userToRestore = null,
             () => {
-                this.getUsers();
+                this.props.getUsers({ 
+                    page:   1, 
+                    sort:   this.props.sort, 
+                    search: this.props.search,
+                    onlyTrashed: this.props.onlyTrashed 
+                });
                 this.notify.success(`Usuário ${user.name} restaurado com sucesso.`);
             }
         );
@@ -149,7 +158,12 @@ class Users extends Component {
             this.setState(
                 state => state.userToEdit = null,
                 () => {
-                    this.getUsers();
+                    this.props.getUsers({ 
+                        page:   1, 
+                        sort:   this.props.sort, 
+                        search: this.props.search,
+                        onlyTrashed: this.props.onlyTrashed 
+                    });
                     this.notify.success(`Usuário ${user.name} salvo com sucesso.`);
                 }
             );
@@ -173,17 +187,9 @@ class Users extends Component {
         this.setState(state => state.userToEdit = user);
     }
 
-    changeOnlyTrashed = () => {
-        const onlyTrashed = !this.state.onlyTrashed;
-        this.setState(state => {
-            state.onlyTrashed = onlyTrashed;
-            return state;
-        }, this.getUsers);
-    }
-
     renderRows = () => {
 
-        if (!this.state.users.length) {
+        if (!this.props.users.length) {
             return (
                 <tr key={0}>
                     <td colSpan="5">
@@ -193,7 +199,7 @@ class Users extends Component {
             );
         }
 
-        return this.state.users.map(user => (
+        return this.props.users.map(user => (
             <tr key={user.id}>
                 <td data-title="ID:">
                     {user.id}
@@ -208,7 +214,7 @@ class Users extends Component {
                     {dateFormatBr(user.created_at.date)}
                 </td>
                 <td data-title="Ações: ">
-                    {this.state.onlyTrashed ? (
+                    {this.props.onlyTrashed ? (
                         <button type="button" className="btn btn-sm btn-primary btn-actions"
                             title="Restaurar usuário"
                             onClick={() => this.showModalRestore(user)}>
@@ -247,12 +253,18 @@ class Users extends Component {
                                 </button>
                                 &nbsp;
                                 <label>
-                                    <input type="checkbox" name="active" onChange={this.changeOnlyTrashed} />
+                                    <input 
+                                        type="checkbox" 
+                                        name="active"
+                                        checked={this.props.onlyTrashed} 
+                                        onChange={this.changeOnlyTrashed} 
+                                    />
                                     &nbsp;Somente excluídos?
                                 </label>
                             </td>
                             <td colSpan="2">
                                 <SearchForm 
+                                    term={this.props.search}
                                     handleChange={this.handleChange}
                                     handleSubmit={this.handleSubmit} />
                             </td>
@@ -261,7 +273,7 @@ class Users extends Component {
                             <th style={{ width: "5%" }}>
                                 <SortColumn 
                                     column="id"
-                                    showIcon={this.state.sort.column === "id"} 
+                                    showIcon={this.props.sort.column === "id"} 
                                     sortChange={this.sortChange}>
                                     ID
                                 </SortColumn>
@@ -270,7 +282,7 @@ class Users extends Component {
                                 <SortColumn 
                                     column="name" 
                                     sortChange={this.sortChange}
-                                    showIcon={this.state.sort.column === "name"}>
+                                    showIcon={this.props.sort.column === "name"}>
                                     Nome
                                 </SortColumn>
                             </th>
@@ -278,14 +290,14 @@ class Users extends Component {
                                 <SortColumn 
                                     column="email" 
                                     sortChange={this.sortChange}
-                                    showIcon={this.state.sort.column === "email"}>
+                                    showIcon={this.props.sort.column === "email"}>
                                     E-mail
                                 </SortColumn>
                             </th>
                             <th style={{ width: "25%" }}>
                                 <SortColumn 
                                     column="created_at"
-                                    showIcon={this.state.sort.column === "created_at"} 
+                                    showIcon={this.props.sort.column === "created_at"} 
                                     sortChange={this.sortChange}>
                                     Criado em
                                 </SortColumn>
@@ -299,7 +311,7 @@ class Users extends Component {
                 </table>
                 <div style={{ width: "100%" }}>
                     <PaginationControls
-                        {...this.state.pagination} 
+                        {...this.props.pagination} 
                         navigate={this.navigate} />
                 </div>
                 <UserDeleteModal 
@@ -320,4 +332,7 @@ class Users extends Component {
         );
     }
 }
-export default Users;
+
+const mapDispatchToProps = dispatch => bindActionCreators(usersActions, dispatch);
+const mapStateToProps = state => state.users;
+export default connect(mapStateToProps, mapDispatchToProps)(Users);
