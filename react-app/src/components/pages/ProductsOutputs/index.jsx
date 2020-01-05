@@ -1,71 +1,68 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import $ from 'jquery';
 
 import SortColumn from '../../template/SortColumn';
 import SearchForm from '../../template/SearchForm';
 import PaginationControls from '../../template/PaginationControls';
-import { dateFormatBr } from '../../../functions/formater';
 
 import ProductsOutputsService from '../../../services/ProductsOutputsService';
 import NotifyMessageService from '../../../services/NotifyMessageService';
 import ProductOutputModal from './ProductOutputModal';
 
-const INITIAL_STATE = {
-    outputs: [],
-    sort: { 
-        column: 'id',
-        order: 'ASC' 
-    },
-    search: '',
-    pagination: {}
-};
+import { dateFormatBr } from '../../../functions/formater';
+import * as productsOutputsActions from '../../../actions/productsOutputs';
+
 const NEW_OUTPUT_MODAL_ID = 'new-product-output-modal';
 class ProductsOutputs extends Component {
 
     constructor(props) {
         super(props);
-        this.state  = INITIAL_STATE;
         this.modalOutput = null;
         this.notify = new NotifyMessageService();
     }
 
     componentWillMount = () => {
-        this.getOutputs();
+        this.props.getOutputs({ 
+            page: 1, 
+            sort:   this.props.sort, 
+            search: this.props.search 
+        });
     }
 
     componentDidMount = () => {
         this.modalOutput = $(`#${NEW_OUTPUT_MODAL_ID}`);
     }
 
-    getOutputs = async (paramns = {}) => {
-        const { data } = await ProductsOutputsService.list(paramns);
-        const outputs = data.data;
-        const pagination = data.meta;
-        this.setState(state => { 
-            state.outputs = outputs;
-            state.pagination = pagination;
-            return state;
+    sortChange = (sort) => {
+        this.props.sortChange(sort);
+        this.props.getOutputs({ 
+            page: 1, 
+            sort, 
+            search: this.props.search 
         });
     }
 
-    sortChange = (sort) => {
-        this.setState(state => state.sort = sort);
-        this.getOutputs({ page: 1, sort, search: this.state.search });
-    }
-
     navigate = (page) => {
-        this.getOutputs({ page });
+        this.props.getOutputs({ 
+            page, 
+            sort:   this.props.sort, 
+            search: this.props.search 
+        });
     }
 
     handleChange = (e) => {
-        const search = e.target.value;
-        this.setState(state => state.search = search);
+        this.props.changeSearchTerm(e.target.value);
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const search = this.state.search;
-        this.getOutputs({ page: 1, search});
+        this.props.getOutputs({ 
+            page: 1, 
+            sort:   this.props.sort,
+            search: this.props.search
+        });
     }
 
     showModalNewProductOutput = () => {
@@ -76,7 +73,11 @@ class ProductsOutputs extends Component {
         ProductsOutputsService.store(data.product_id, data)
         .then(resp => {
             this.modalOutput.modal('hide');
-            this.getOutputs();
+            this.props.getOutputs({ 
+                page: 1, 
+                sort:   this.props.sort,
+                search: this.props.search
+            });
             this.notify.success('Saída de produto registrada com sucesso.');
         }, error => {
             this.notify.error('Ocorreu um erro ao tentar registrar a saída do produto.');
@@ -85,7 +86,7 @@ class ProductsOutputs extends Component {
     
     renderRows = () => {
 
-        if (!this.state.outputs.length) {
+        if (!this.props.outputs.length) {
             return (
                 <tr key={0}>
                     <td colSpan="4">
@@ -95,7 +96,7 @@ class ProductsOutputs extends Component {
             );
         }
 
-        return this.state.outputs.map(output => (
+        return this.props.outputs.map(output => (
             <tr key={output.id}>
                 <td data-title="ID:">
                     {output.id}
@@ -128,6 +129,7 @@ class ProductsOutputs extends Component {
                             </td>
                             <td colSpan="2">
                                 <SearchForm 
+                                    term={this.props.search}
                                     handleChange={this.handleChange}
                                     handleSubmit={this.handleSubmit} />
                             </td>
@@ -136,7 +138,7 @@ class ProductsOutputs extends Component {
                             <th style={{ width: "5%" }}>
                                 <SortColumn 
                                     column="id"
-                                    showIcon={this.state.sort.column === "id"} 
+                                    showIcon={this.props.sort.column === "id"} 
                                     sortChange={this.sortChange}>
                                     ID
                                 </SortColumn>
@@ -145,7 +147,7 @@ class ProductsOutputs extends Component {
                                 <SortColumn 
                                     column="product_name" 
                                     sortChange={this.sortChange}
-                                    showIcon={this.state.sort.column === "product_name"}>
+                                    showIcon={this.props.sort.column === "product_name"}>
                                     Produto
                                 </SortColumn>
                             </th>
@@ -153,14 +155,14 @@ class ProductsOutputs extends Component {
                                 <SortColumn 
                                     column="amount" 
                                     sortChange={this.sortChange}
-                                    showIcon={this.state.sort.column === "amount"}>
+                                    showIcon={this.props.sort.column === "amount"}>
                                     Quantidade
                                 </SortColumn>
                             </th>
                             <th style={{ width: "25%" }}>
                                 <SortColumn 
                                     column="created_at"
-                                    showIcon={this.state.sort.column === "created_at"} 
+                                    showIcon={this.props.sort.column === "created_at"} 
                                     sortChange={this.sortChange}>
                                     Criada em
                                 </SortColumn>
@@ -173,7 +175,7 @@ class ProductsOutputs extends Component {
                 </table>
                 <div style={{ width: "100%" }}>
                     <PaginationControls
-                        {...this.state.pagination} 
+                        {...this.props.pagination} 
                         navigate={this.navigate} />
                 </div>
                 <ProductOutputModal 
@@ -183,4 +185,7 @@ class ProductsOutputs extends Component {
         );
     }
 }
-export default ProductsOutputs;
+
+const mapDispatchToProps = dispatch => bindActionCreators(productsOutputsActions, dispatch);
+const mapStateToProps = state => state.outputs;
+export default connect(mapStateToProps, mapDispatchToProps)(ProductsOutputs);
