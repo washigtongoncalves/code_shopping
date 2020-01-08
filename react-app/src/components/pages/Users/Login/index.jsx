@@ -1,24 +1,19 @@
 import React, { Component } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 
 import './floating-label.css';
 
-class Login extends Component {
+const SignupSchema = Yup.object().shape({
+    email: Yup.string()
+       .email('E-mail inválido')
+       .required('Informe seu e-mail'),
+    password: Yup.string()
+       .trim()
+       .required('Informe sua senha'),
+  });
 
-    validate = values => {
-        const errors = {};
-        if (!values.email) {
-            errors.email = 'E-mail é obrigatório';
-        } else if (
-            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-        ) {
-            errors.email = 'Informe um e-mail válido';
-        }
-        if (!values.password) {
-            errors.password = 'A senha é obrigatória';
-        } 
-        return errors;
-    }
+class Login extends Component {
 
     submit = (values, { setSubmitting }) => {
         setTimeout(() => {
@@ -32,10 +27,10 @@ class Login extends Component {
             <div>
                 <Formik
                     initialValues={{ email: '', password: '' }}
-                    validate={this.validate}
+                    validationSchema={SignupSchema}
                     onSubmit={this.submit}
                 >
-                    {({ isSubmitting }) => (
+                    {({ isSubmitting, isValid }) => (
                         <Form className="form-signin">
                             <div className="text-center mb-4">
                                 <h1 className="h3 mb-3 font-weight-normal">
@@ -69,7 +64,7 @@ class Login extends Component {
                                     Sua senha
                                 </label>
                             </div>
-                            <button  className="btn btn-lg btn-primary btn-block" type="submit" disabled={isSubmitting}>
+                            <button  className="btn btn-lg btn-primary btn-block" type="submit" disabled={isSubmitting || !isValid}>
                                 <i className="fa fa-sign-in"></i> Acessar
                             </button>
                         </Form>
